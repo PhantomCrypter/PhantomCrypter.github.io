@@ -20,7 +20,7 @@ tags:
 
 ![](/assets/images/Crawler-stat/wc.png)
 
-En este proyecto, me aventuré en el fascinante mundo del web scraping utilizando Python y Beautiful Soup. El objetivo principal fue extraer información de una página web estática de manera automatizada, lo que me permitió recopilar datos relevantes para su posterior análisis o uso.
+En este proyecto, me aventuré en el fascinante mundo del `web scraping` utilizando `Python` y [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/). El objetivo principal fue extraer información de una página web estática de manera automatizada, lo que me permitió recopilar datos relevantes para su posterior análisis o uso.
 
 Al emplear Python como lenguaje de programación principal y Beautiful Soup como biblioteca de análisis HTML, pude desarrollar un crawler eficiente y poderoso. El proceso implicaba navegar por el código HTML de la página objetivo, identificar y extraer los elementos deseados, como texto, enlaces o imágenes, y luego procesar esa información según mis necesidades específicas.
 
@@ -36,11 +36,11 @@ Un `crawler`, también conocido como "rastreador web" o "araña web", es un prog
 
 Los crawlers enfrentan algunas desventajas al tratar con páginas que no son estáticas:
 
-    Dificultad para rastrear cambios dinámicos: Los crawlers pueden tener dificultades para detectar cambios en el contenido de las páginas dinámicas, ya que estas se generan mediante scripts o consultas a bases de datos en tiempo real. Esto significa que los cambios en el contenido pueden no ser capturados de manera oportuna o precisa.
+* **Dificultad para rastrear cambios dinámicos:** Los crawlers pueden tener dificultades para detectar cambios en el contenido de las páginas dinámicas, ya que estas se generan mediante scripts o consultas a bases de datos en tiempo real. Esto significa que los cambios en el contenido pueden no ser capturados de manera oportuna o precisa.
 
-    Posibilidad de rastrear información irrelevante o duplicada: Debido a la naturaleza dinámica del contenido, los crawlers pueden encontrarse con dificultades para distinguir entre contenido relevante y contenido redundante o irrelevante que se genera dinámicamente. Esto puede resultar en la indexación de información duplicada o poco útil.
+* **Posibilidad de rastrear información irrelevante o duplicada:** Debido a la naturaleza dinámica del contenido, los crawlers pueden encontrarse con dificultades para distinguir entre contenido relevante y contenido redundante o irrelevante que se genera dinámicamente. Esto puede resultar en la indexación de información duplicada o poco útil.
 
-    Necesidad de actualización constante: Los crawlers deben adaptarse continuamente a los cambios en la estructura y el comportamiento de las páginas dinámicas para garantizar un rastreo efectivo. Esto puede requerir una inversión adicional en desarrollo y mantenimiento de software para mantener el crawler actualizado.
+* **Necesidad de actualización constante:** Los crawlers deben adaptarse continuamente a los cambios en la estructura y el comportamiento de las páginas dinámicas para garantizar un rastreo efectivo. Esto puede requerir una inversión adicional en desarrollo y mantenimiento de software para mantener el crawler actualizado.
 
 Por esta razón, para este proyecto he decidido utilizar una página web estática para así asegurar que este proyecto sea 100% funcional y que pueda servir de base para otros futuros proyectos.
 
@@ -134,16 +134,16 @@ for job_element in Request_job_elements:
 ```
 Este código realiza lo siguiente:
 
-    1. Realiza una solicitud HTTP a una página web.
+* Realiza una solicitud HTTP a una página web. 
 
-    2. Utiliza BeautifulSoup para analizar el contenido HTML de la página.
+* Utiliza BeautifulSoup para analizar el contenido HTML de la página.
 
-    3. Encuentra elementos específicos en la página web.
+* Encuentra elementos específicos en la página web.
 
-    4. Interactúa con el usuario para obtener información sobre el trabajo de interés.
+* Interactúa con el usuario para obtener información sobre el trabajo de interés.
 
-    5. Filtra los trabajos que coinciden con el tema de interés.
+* Filtra los trabajos que coinciden con el tema de interés.
 
-    6. Muestra información relevante sobre los trabajos encontrados, incluidos títulos, empresas, ubicaciones y enlaces para aplicar.
+* Muestra información relevante sobre los trabajos encontrados, incluidos títulos, empresas, ubicaciones y enlaces para aplicar.
 
 
