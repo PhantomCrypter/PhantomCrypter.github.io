@@ -1,3 +1,4 @@
+---
 layout: single
 title: Crawler En Página Estática
 excerpt: "En este proyecto, exploré el web scraping utilizando Python y Beautiful Soup para extraer información de una página web estática de manera automatizada. Utilizando Python y Beautiful Soup, desarrollé un crawler eficiente que me permitió recopilar datos relevantes de la página objetivo. A lo largo de esta breve introducción, compartiré mi experiencia y los resultados obtenidos."
