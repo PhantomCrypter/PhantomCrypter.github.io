@@ -15,7 +15,7 @@ remote_theme             : "mmistakes/minimal-mistakes@4.15.1"
 minimal_mistakes_skin    : "haxor" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
-locale                   : "en-US"
+locale                   : "es-MX"
 title                    : "PhantomCrypter"
 title_separator          : "-"
 name                     : "PhantomCrypter"
@@ -23,7 +23,7 @@ description              : "Posts about security"
 url                      : "https://phantomcrypter.github.io/" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : "PhantomCrypter/PhantomCrypter.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
-logo                     : "/assets/images/masthead.png" #Logo de arriba azul, se debe de cambiar
+logo                     : #"/assets/images/masthead.png" #Logo de arriba azul, se debe de cambiar
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 breadcrumbs              : true # true, false (default)
 words_per_minute         : 200
@@ -103,7 +103,7 @@ analytics:
 author:
   name             : "PhantomCrypter"
   avatar           : "/assets/images/ihih.jpg"
-  bio              : "Cybersecurity enthusiast focused on the red team"
+  bio              : "Entusiasta de la Ciberseguridad"
   location         : "Costa Rica"
   email            :
   uri              :
@@ -117,20 +117,20 @@ author:
   github           : "PhantomCrypter"
   gitlab           :
   google_plus      :
-  keybase          : "PhantomCrypter"
+  keybase          : #"PhantomCrypter"
   instagram        :
   lastfm           :
-  linkedin         : # "john-doe-12345678" (the last part of your profile url, e.g. https://www.linkedin.com/in/john-doe-12345678)
+  linkedin         : "gabrielpérez-959645213" # (the last part of your profile url, e.g. https://www.linkedin.com/in/john-doe-12345678)
   pinterest        :
   soundcloud       :
   stackoverflow    : # "123456/username" (the last part of your profile url, e.g. https://stackoverflow.com/users/123456/username)
   steam            : # "steamId" (the last part of your profile url, e.g. https://steamcommunity.com/id/steamId/)
   tumblr           :
-  twitter          : #"snowscan"
+  twitter          : #"not yet"
   vine             :
   weibo            :
   xing             :
-  youtube          : # "https://youtube.com/c/MichaelRoseDesign"
+  youtube          : # "not yet"
 
 
 # Reading Files
