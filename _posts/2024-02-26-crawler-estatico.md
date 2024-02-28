@@ -100,7 +100,7 @@ from bs4 import BeautifulSoup
 Después de importar los módulos, lo primero que se debe hacer es definir la `URL` de la página que se va a analizar. Luego, se realiza una solicitud `HTTP` a la página web y se almacena su contenido en una variable
 
 
-````python
+```python
 
 URL = "https://realpython.github.io/fake-jobs/"
 page = requests.get(URL)
@@ -124,7 +124,7 @@ results = soup.find(id="ResultsContainer")
 En este caso, el crawler consulta al usuario sobre el puesto de trabajo en el que está interesado. Se crea la variable 'tema' para realizar esta consulta y luego la variable 'minus' convierte el tema ingresado a minúsculas para una comparación que no distingue entre mayúsculas y minúsculas:
 
 
-```pyhton
+```python
 
 tema = input("En cuál trabajo se encuentra interesado?:  ")
 minus = tema.lower()
@@ -152,6 +152,8 @@ Request_jobs = results.find_all("h2", string=lambda text: "energy" in text.lower
 
 
 ```
+
+
 
 **Nota:** El valor agregado debe de ser escrito simpre en minúscula.
 
