@@ -46,13 +46,13 @@ Por esta razón, para este proyecto he decidido utilizar una página web estáti
 
 ## Reconocimiento
 
-Paso 1:
+**Paso 1**:
 
 Antes de empezar con nuestro Crawler, primero tenemos que escoger la página objetivo. Yo usé la página de [Real Python](https://realpython.com), usando el siguiente link: [https://realpython.github.io/fake-jobs/](https://realpython.github.io/fake-jobs/)
 
 En este ejemplo usé esta página ya que a como se muestra en los entrenamientos de [Real Python](https://realpython.com), esta es la mejor forma de aprender ya que la página es 100% estática por lo que no va a haber ningún cambio futuro que afecte el desempeño del Crawler.
 
-Paso 2:
+**Paso 2:**
 
 Una vez dentro se debe de identificar la información en la cual estamos interesados:
 
@@ -60,11 +60,11 @@ Una vez dentro se debe de identificar la información en la cual estamos interes
 ![](/assets/images/Crawler-stat/p2.png)
 
 
-Paso 3:
+**Paso 3:**
 
 Cuando ya tenemos nuestros objetivos identificados, se procede a buscarlos en el HTML haciendo uso de la secuencia de teclas CTRL + SHIFT + I
 
-Paso 4:
+**Paso 4:**
 
 Explorando las Herramientas para el Desarrollador podemos notar que la información que necesitamos se encuentra en las etiquetas de encabezado <h2>, <h3> y <p>.
 
@@ -74,14 +74,193 @@ Explorando las Herramientas para el Desarrollador podemos notar que la informaci
 
 ## Desarrollo
 
+**Paso 1**
+
+Primero, se deben de importar las paqueterías esenciales para este proyecto:
+
+
+```python
+
+pip install requests beautifulsoup4
+
+```
+
+**Paso 2**
+
+Una vez importadas las bibliotecas necesarias, se procede a trabajar en el código:
+
+
+```python
+
+import requests
+from bs4 import BeautifulSoup
+
+```
+
+Después de importar los módulos, lo primero que se debe hacer es definir la `URL` de la página que se va a analizar. Luego, se realiza una solicitud `HTTP` a la página web y se almacena su contenido en una variable
+
+
+````python
+
+URL = "https://realpython.github.io/fake-jobs/"
+page = requests.get(URL)
+
+```
+
+**Paso 3**
+
+Se crea un objeto `BeautifulSoup` para analizar el contenido `HTML` de la página. A continuación, se busca el elemento en la página con el ID **'ResultsContainer'**.
+
+
+```python
+
+soup = BeautifulSoup(page.content, "html.parser")
+results = soup.find(id="ResultsContainer")
+
+```
+
+**Paso 4**
+
+En este caso, el crawler consulta al usuario sobre el puesto de trabajo en el que está interesado. Se crea la variable 'tema' para realizar esta consulta y luego la variable 'minus' convierte el tema ingresado a minúsculas para una comparación que no distingue entre mayúsculas y minúsculas:
+
+
+```pyhton
+
+tema = input("En cuál trabajo se encuentra interesado?:  ")
+minus = tema.lower()
+
+```
+
+**Paso 5**
+
+Ahora indicamos al programa que debe encontrar todos los elementos <h2> que contienen el `tema` ingresado, junto con sus elementos padres:
+
+
+```python
+
+Request_jobs = results.find_all("h2", string=lambda text: minus in text.lower())
+Request_job_elements = [h2_element.parent.parent.parent for h2_element in Request_jobs]
+
+```
+
+En caso de que desee que el programa busque los resultados de forma predeterminada en lugar de ingresarlos manualmente, simplemente debe **comentar** las variables `tema` y `minus`. Luego, en la línea de `Request_jobs`, cambie `minus` por el término que desee que el programa busque. Por ejemplo:
+
+
+```python
+
+Request_jobs = results.find_all("h2", string=lambda text: "energy" in text.lower())
+
+
+```
+
+**Nota:** El valor agregado debe de ser escrito simpre en minúscula.
+
+
+**Paso 6:**
+
+Finalmente, vamos a iterar sobre los elementos de trabajo encontrados y mostrar la información relevante
+
+
+```Python
+
+for job_element in Request_job_elements:
+    title_element = job_element.find("h2", class_="title")
+    company_element = job_element.find("h3", class_="company")
+    location_element = job_element.find("p", class_="location")
+    print(title_element.text.strip())
+    print(company_element.text.strip())
+    print(location_element.text.strip())
+    link_url = job_element.find_all("a")[1]["href"]
+    print(f"Apply here: {link_url}\n")
+    print()
+
+```
+
+**Nota:** La línea `link_url = job_element.find_all("a")[1]["href"]` se encarga de obtener el enlace del trabajo, lo que nos permite aplicar al trabajo en caso de que lo deseemos.
+
+
 
 ## Conclusión
+
+Para finalizar con este código vamos a agrgegarlas cosas estéticas para darle un poco más de cuerpo al programa.
+
+
+En este caso, he agregado una variable llamada `titulo` que se encargará de imprimir los trabajos en los que estoy interesado. Además, en el comando `print`, he añadido separadores **'-'** para que el título parezca estar subrayado y se ajuste a lo largo de nuestro título dependiendo del número de caracteres:
+
+
+```python
+
+titulo = "Trabajos en " + tema
+print("\n" + titulo + "\n" + "-" * len(titulo) + "\n")
+
+```
+
+**Nota:** Recuerde que si ha comentado la variable 'tema' para ejecutar una búsqueda de trabajos predeterminada, también debe hacer el cambio en la variable 'titulo' y colocar los trabajos predeterminados seleccionados para que no afecte a la estética.
+
+
+Por último, me gustó la idea de agregar un comando 'print' que me muestre cuántos trabajos relacionados a la búsqueda ha encontrado:
+
+
+```python
+
+print("[*] Búsquedas relacionadas " + str(len(Request_jobs)) + "\n")
+
+```
+
+**Resultado final del código**
+
+
+```python
+
+import requests
+from bs4 import BeautifulSoup
+
+
+URL = "https://realpython.github.io/fake-jobs/"
+page = requests.get(URL)
+
+soup = BeautifulSoup(page.content, "html.parser")
+results = soup.find(id="ResultsContainer")
+
+tema = input("En cual trabajo se enceuntra interesado?:  ")
+titulo = "Trabajos en " + tema
+minus = tema.lower()
+
+print("\n" + titulo + "\n" + "-" * len(titulo) + "\n")
+Request_jobs = results.find_all(
+    "h2", string=lambda text: minus in text.lower()
+)
+Request_job_elements = [
+    h2_element.parent.parent.parent for h2_element in Request_jobs
+]
+
+print("[*] Búsquedas relacionadas " + str(len(Request_jobs)) + "\n")
+for job_element in Request_job_elements:
+    title_element = job_element.find("h2", class_="title")
+    company_element = job_element.find("h3", class_="company")
+    location_element = job_element.find("p", class_="location")
+    print(title_element.text.strip())
+    print(company_element.text.strip())
+    print(location_element.text.strip())
+    link_url = job_element.find_all("a")[1]["href"]
+    print(f"Apply here: {link_url}\n")
+    print()
+
+```
+
+**Resultado del programa**
+
+
+![](/assets/images/Crawler-stat/re.png)
 
 
 ## Código Documentado
 
 
-```
+```python
+
+#!/usr/bin/python3
+
 # Importación de módulos necesarios
 import requests
 from bs4 import BeautifulSoup
