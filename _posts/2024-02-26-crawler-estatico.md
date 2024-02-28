@@ -161,7 +161,7 @@ Request_jobs = results.find_all("h2", string=lambda text: "energy" in text.lower
 Finalmente, vamos a iterar sobre los elementos de trabajo encontrados y mostrar la información relevante
 
 
-```Python
+```python
 
 for job_element in Request_job_elements:
     title_element = job_element.find("h2", class_="title")
@@ -207,7 +207,7 @@ print("[*] Búsquedas relacionadas " + str(len(Request_jobs)) + "\n")
 
 ```
 
-**Resultado final del código**
+**Código final**
 
 
 ```python
