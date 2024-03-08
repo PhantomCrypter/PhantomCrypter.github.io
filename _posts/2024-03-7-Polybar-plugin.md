@@ -193,6 +193,6 @@ fi
 * **Muestra 3:**
 
 
-![](/assets/images/plug-ant/S2.jepg)
+![](/assets/images/plug-ant/S2.jpeg)
 
 
