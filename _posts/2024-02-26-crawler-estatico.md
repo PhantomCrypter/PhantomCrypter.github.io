@@ -5,7 +5,7 @@ excerpt: "En este proyecto, exploré el web scraping utilizando Python y Beautif
 date: 2024-02-26
 classes: wide
 header:
-  teaser: /assets/images/Crawler-stat/wc.png
+  teaser: /assets/images/Crawler-stat/wc2.jpeg
   teaser_home_page: true
   icon: 
 categories:
