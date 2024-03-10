@@ -19,9 +19,12 @@ tags:
 ---
 
 
+![](/assets/images/plug-ant/S2.jpeg)
+
+
 Un día, por curiosidad, decidí tomar el curso de personalización de Linux de [S4vitar](https://hack4u.io/cursos/personalizacion-de-entorno-en-linux/). Principalmente, quería entender cómo funciona la personalización en esta tecnología. Realizar este ejercicio me ayudó a comprender aún más las jerarquías y dependencias de Linux.
 
-Llegué a una parte del curso en la que se estaban agregando banners a la polybar del sistema. Sin embargo, al eliminar algunas cosas en las que no estaba interesado, noté que quedaba espacio libre en el lado derecho de la barra. Empecé a reflexionar sobre cómo podría aprovechar ese espacio.
+Llegué a una parte del curso en la que se estaban agregando banners a la [polybar](https://github.com/polybar/polybar) del sistema. Sin embargo, al eliminar algunas cosas en las que no estaba interesado, noté que quedaba espacio libre en el lado derecho de la barra. Empecé a reflexionar sobre cómo podría aprovechar ese espacio.
 
 En aquel momento, estaba practicando varios ataques a dispositivos WiFi, lo que significaba que necesitaba usar regularmente dos interfaces de red. Debía deshabilitarlas y habilitarlas o cambiarlas del modo `managed` a `monitor`.
 
@@ -176,23 +179,5 @@ fi
 ```
 
 
-## Visualización del resultado
-
-* **Muestra 1:**
-
-
-![](/assets/images/plug-ant/S.png)
-
-
-* **Muestra 2:**
-
-
-![](/assets/images/plug-ant/S1.png)
-
-
-* **Muestra 3:**
-
-
-![](/assets/images/plug-ant/S2.jpeg)
 
 
