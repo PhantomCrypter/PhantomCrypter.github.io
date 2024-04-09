@@ -1,6 +1,6 @@
 ---
 layout: single
-title: Plugin de Wlans para la Polybar
+title: Plugin de Wlans para la Polybar <sub>(v2.0.0)</Sub>
 excerpt: "En este nuevo proyecto se basa en un banner adicional diseñado para la Polybar, que proporciona información en tiempo real sobre el estado de las tarjetas de red WLANs. Este componente adicional será una extensión útil para monitorear y gestionar conexiones inalámbricas de manera eficiente. Con esta herramienta, se podrá mantener informado sobre la conectividad de sus redes WLANs de forma rápida y sencilla, mejorando así su experiencia de usuario en sistemas Linux que utilicen Polybar"
 date: 2024-03-07
 classes: wide
@@ -146,14 +146,20 @@ Una vez creados los archivos, procedemos a agregar el código. En este código, 
 
 #!/bin/sh
  
-IFACE=$(/usr/sbin/ifconfig | grep wlan1 | awk '{print $1}' | tr -d ':')
+IFACE=$(/usr/sbin/iwconfig wlan1 2>&1 | grep "No such device")
  
-if [ "$IFACE" = "wlan1" ]; then
-    echo "%{F#ff7c00}󱙝 %{F#ffffff} Mode: Managed"
-elif [ "$IFACE" = "wlan1mon" ]; then
-    echo "%{F#ff7c00}󰊠 %{F#ffffff} Mode: Monitor"
-else
+if [ -n "$IFACE" ]; then
     echo "%{F#ff7c00}󱙜 %{F#ffffff} Disconnected"
+else
+    IFACE_MODE=$(/usr/sbin/iwconfig wlan1 | grep "Mode:" | awk '{print $1, $4}')
+ 
+    if [ "$IFACE_MODE" = "Mode:Managed Not-Associated" ]; then
+        echo "%{F#ff7c00}󱙝 %{F#ffffff} Mode: Managed"
+    elif [ "$IFACE_MODE" = "wlan1 Mode:Monitor" ]; then
+        echo "%{F#ff7c00}󰊠 %{F#ffffff} Mode: Monitor"
+    else
+        echo "%{F#ff7c00}󱙜 %{F#ffffff} Disconnected"
+    fi
 fi
 
 ```
@@ -166,14 +172,20 @@ fi
 
 #!/bin/sh
  
-IFACE=$(/usr/sbin/ifconfig | grep wlan0 | awk '{print $1}' | tr -d ':')
+IFACE=$(/usr/sbin/iwconfig wlan0 2>&1 | grep "No such device")
  
-if [ "$IFACE" = "wlan0" ]; then
-    echo "%{F#ff0000}󱙝 %{F#ffffff} Mode: Managed"
-elif [ "$IFACE" = "wlan0mon" ]; then
-    echo "%{F#ff0000}󰊠 %{F#ffffff} Mode: Monitor"
-else
+if [ -n "$IFACE" ]; then
     echo "%{F#ff0000}󱙜 %{F#ffffff} Disconnected"
+else
+    IFACE_MODE=$(/usr/sbin/iwconfig wlan0 | grep "Mode:" | awk '{print $1, $4}')
+ 
+    if [ "$IFACE_MODE" = "Mode:Managed Not-Associated" ]; then
+        echo "%{F#ff0000}󱙝 %{F#ffffff} Mode: Managed"
+    elif [ "$IFACE_MODE" = "wlan0 Mode:Monitor" ]; then
+        echo "%{F#ff0000}󰊠 %{F#ffffff} Mode: Monitor"
+    else
+        echo "%{F#ff0000}󱙜 %{F#ffffff} Disconnected"
+    fi
 fi
 
 ```
