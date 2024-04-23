@@ -1,8 +1,8 @@
 ---
 layout: single
-title: Plugin de Wlans para la Polybar <sub>(v2.0.0)</Sub>
+title: Plugin de Wlans para la Polybar <sub>(v2.0)</Sub>
 excerpt: "En este nuevo proyecto se basa en un banner adicional diseñado para la Polybar, que proporciona información en tiempo real sobre el estado de las tarjetas de red WLANs. Este componente adicional será una extensión útil para monitorear y gestionar conexiones inalámbricas de manera eficiente. Con esta herramienta, se podrá mantener informado sobre la conectividad de sus redes WLANs de forma rápida y sencilla, mejorando así su experiencia de usuario en sistemas Linux que utilicen Polybar"
-date: 2024-0-0
+date: 2024-3-07
 classes: wide
 header:
   teaser: /assets/images/plug-ant/f.jpeg
@@ -19,7 +19,7 @@ tags:
 ---
 
 
-![](/assets/images/plug-ant/S2.jpeg)
+![](/assets/images/plug-ant/S3.jpeg)
 
 
 Un día, por curiosidad, decidí tomar el curso de personalización de Linux de [S4vitar](https://hack4u.io/cursos/personalizacion-de-entorno-en-linux/). Principalmente, quería entender cómo funciona la personalización en esta tecnología. Realizar este ejercicio me ayudó a comprender aún más las jerarquías y dependencias de Linux.
