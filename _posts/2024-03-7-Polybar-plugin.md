@@ -19,7 +19,7 @@ tags:
 ---
 
 
-![](/assets/images/plug-ant/S3.jpeg)
+![](/assets/images/plug-ant/S3.png)
 
 
 Un día, por curiosidad, decidí tomar el curso de personalización de Linux de [S4vitar](https://hack4u.io/cursos/personalizacion-de-entorno-en-linux/). Principalmente, quería entender cómo funciona la personalización en esta tecnología. Realizar este ejercicio me ayudó a comprender aún más las jerarquías y dependencias de Linux.
