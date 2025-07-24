@@ -1,0 +1,542 @@
+body {
+  background-image: url("/assets/img/grafiti-style.png");
+  background-size: cover;        /* Ajusta la imagen para cubrir toda la pantalla */
+  background-position: center;   /* Centra la imagen */
+  background-repeat: no-repeat;  /* Evita repeticiones */
+  background-attachment: fixed;  /* Fija el fondo al hacer scroll */
+  margin: 0;
+  padding: 0;
+  font-family: 'Fira Code', monospace;
+  color: #f8f8f2;
+}
+
+
+h1, h2, h3 {
+  color: #ff0000;
+  font-family: 'Press Start 2P', monospace;
+  margin-top: 0;
+  text-shadow: 2px 2px #000;
+}
+
+a {
+  color: #00ffff;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: #ccff00;
+  text-shadow: 1px 1px #000;
+}
+
+nav {
+  background-color: #111;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #00ffff;
+  box-shadow: 0 4px 8px rgba(0, 255, 255, 0.1);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  font-weight: bold;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  text-shadow: 1px 1px #000;
+}
+
+nav ul li a:hover {
+  color: #ff0000;
+  text-shadow: 2px 2px #000;
+}
+
+.intro-index {
+  max-width: 850px;
+  margin: auto;
+  padding: 2rem;
+  line-height: 1.7;
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 20px rgba(0, 174, 255, 0.2);
+  font-family: var(--font-code);
+}
+
+.intro-index h2 {
+  color: var(--cyan);
+  font-family: var(--font-glitch);
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px #000;
+}
+
+.intro-index p {
+  color: #ccc;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.intro-index a.btn {
+  display: inline-block;
+  color: var(--green);
+  border: 2px solid var(--cyan);
+  padding: 0.6rem 1rem;
+  font-weight: bold;
+  background-color: #000;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px #000;
+}
+
+.intro-index a.btn:hover {
+  background-color: var(--magenta);
+  color: #000;
+  box-shadow: 0 0 10px var(--cyan);
+  border-color: var(--magenta);
+}
+
+.about, .contacto {
+  max-width: 800px;
+  margin: auto;
+  padding: 1rem;
+  line-height: 1.6;
+  background: #060606;
+  border: 2px solid #cafc7f;
+  box-shadow: inset 0 0 20px rgba(204, 255, 0, 0.1);
+}
+
+.about h1, .about h2,
+.contacto h1, .contacto h2 {
+  color: #ccff00;
+  margin-bottom: 0.5rem;
+}
+
+.about ul, .contact-list {
+  list-style: '>> ';
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.about p, .contacto p {
+  margin-bottom: 1rem;
+}
+
+.recomendaciones, .contact-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.recomendaciones li, .contact-list li {
+  margin-bottom: 1.5rem;
+  background-color: #111;
+  padding: 1rem;
+  border-left: 4px solid #ccff00;
+  box-shadow: 0 0 6px rgba(204, 255, 0, 0.3);
+  font-size: 1.1rem;
+}
+
+.recomendaciones a, .contact-list a {
+  color: #00ffff;
+  font-weight: bold;
+}
+
+.recomendaciones a:hover, .contact-list a:hover {
+  color: #ccff00;
+  text-decoration: underline;
+}
+
+.proyecto {
+  border: 2px dashed #ff0066;
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: #1a1a1a;
+  box-shadow: 0 0 8px rgba(255, 0, 102, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.proyecto:hover {
+  transform: scale(1.02);
+}
+
+.proyecto h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #ff0066;
+}
+
+.proyecto small {
+  display: block;
+  font-size: 0.9rem;
+  color: #999;
+  margin-bottom: 1rem;
+}
+
+.proyecto p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.proyecto a {
+  display: inline-block;
+  color: #00ffff;
+  font-weight: bold;
+}
+
+.proyecto a:hover {
+  color: #ccff00;
+  text-decoration: underline;
+}
+
+.projects-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.project-card {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  height: 250px;
+  border: 2px solid #ff5555;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px #ff00ff44;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  align-items: end;
+}
+
+.project-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px #ff00ffaa, 0 0 30px #00ffcc88;
+}
+
+.project-content {
+  background-color: rgba(0, 0, 0, 0.75);
+  padding: 1rem;
+  color: #f8f8f2;
+  font-family: 'Fira Code', monospace;
+  width: 100%;
+}
+
+.project-content h2 {
+  margin: 0 0 0.5rem;
+  color: #ff5555;
+}
+
+.project-content p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.project-link {
+  color: #50fa7b;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s;
+}
+
+.project-link:hover {
+  color: #8be9fd;
+}
+
+
+/* Efecto Glitch básico */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.glitch {
+  animation: glitch 0.4s infinite;
+  color: #ff0066;
+  text-shadow: 2px 0 #00ffff, -2px 0 #ccff00;
+}
+
+/* Paleta definida en root para fácil uso futuro */
+:root {
+  --bg: #000;
+  --text: #fff;
+  --magenta: #ff0066;
+  --green: #ccff00;
+  --cyan: #00ffff;
+  --purple: #c600ff;
+  --gray-dark: #111;
+  --gray-border: #333;
+  --font-glitch: 'Press Start 2P', monospace;
+  --font-code: 'VT323', monospace;
+}
+
+
+
+.contacto {
+  background-image: url('../img/c1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid var(--purple);
+  box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.2);
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  backdrop-filter: brightness(0.9);
+  position: relative;
+  z-index: 1;
+}
+
+.contacto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* oscurece para legibilidad */
+  z-index: -1;
+}
+
+.terminal-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.terminal-text {
+  position: absolute;
+  font-family: 'VT323', monospace;
+  font-size: 1rem;
+  color: rgba(0, 255, 0, 0.08);
+  white-space: pre;
+  animation: scrollText 20s linear forwards;
+  will-change: transform, opacity;
+  user-select: none;
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateY(100vh) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(30vh) scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20vh) scale(1);
+    opacity: 0.05;
+  }
+}
+
+#bsod-fake {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #0000aa;
+  color: #ffffff;
+  font-family: 'Fira Code', monospace;
+  font-size: 1rem;
+  padding: 4rem 2rem;
+  line-height: 1.6;
+  z-index: 99999;
+  display: none;
+  white-space: pre-wrap;
+  text-shadow: 0 0 2px #fff;
+}
+
+.glitch-bsod {
+  position: relative;
+  color: white;
+}
+
+.glitch-bsod::before,
+.glitch-bsod::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  color: white;
+  background: transparent;
+  clip: rect(0, 900px, 0, 0);
+}
+
+.glitch-bsod::before {
+  animation: glitchTop 1s infinite linear alternate-reverse;
+  color: #0ff;
+}
+
+.glitch-bsod::after {
+  animation: glitchBottom 1s infinite linear alternate-reverse;
+  color: #f0f;
+}
+
+@keyframes glitchTop {
+  0% { clip: rect(0, 9999px, 0, 0); transform: translate(-2px, -2px); }
+  5% { clip: rect(5px, 9999px, 20px, 0); }
+  10% { clip: rect(10px, 9999px, 30px, 0); transform: translate(2px, -1px); }
+  15% { clip: rect(15px, 9999px, 35px, 0); transform: translate(-1px, 1px); }
+  100% { clip: rect(0, 9999px, 0, 0); }
+}
+
+@keyframes glitchBottom {
+  0% { clip: rect(0, 9999px, 0, 0); transform: translate(2px, 2px); }
+  5% { clip: rect(30px, 9999px, 45px, 0); }
+  10% { clip: rect(40px, 9999px, 55px, 0); transform: translate(-2px, 1px); }
+  15% { clip: rect(45px, 9999px, 60px, 0); transform: translate(1px, -1px); }
+  100% { clip: rect(0, 9999px, 0, 0); }
+}
+
+.filter-btn {
+  background-color: #111;
+  color: var(--cyan);
+  border: 2px solid var(--magenta);
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  font-family: var(--font-code);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: var(--magenta);
+  color: #000;
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+/* publicaciones de blog*/
+
+/* Estética coherente para página proyecto/blog */
+.proyecto {
+  padding: 2rem;
+  background-color: #000; /* Asegura fondo oscuro uniforme */
+}
+
+.proyecto h1, .proyecto h2, .proyecto h3, .proyecto h4 {
+  color: var(--magenta);
+  text-shadow: 2px 2px #000;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.proyecto h4 {
+  color: var(--green);
+  font-size: 1.1rem;
+}
+
+.proyecto p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.proyecto ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.proyecto ul li {
+  margin-bottom: 1rem;
+}
+
+/* Imágenes dentro del artículo */
+.proyecto img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 10px rgba(255, 0, 102, 0.4);
+}
+
+.terminal-box img,
+.blog-post img,
+.glitch-article img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border: 1px solid #00ff00;
+  border-radius: 4px;
+}
+
+
+/* Contenedor de blog */
+.contenido-blog {
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+}
+
+/* Bloques de código */
+pre code {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  display: block;
+  padding: 1rem;
+  background-color: #0d0d0d;
+  border: 1px solid var(--gray-border);
+  overflow-x: auto;
+  border-radius: 4px;
+}
+
+.terminal-box {
+  background-color: #000;
+  color: #00ff00;
+  font-family: 'Fira Code', monospace;
+  padding: 2rem;
+  margin: 2rem auto;
+  border: 2px solid #00ff00;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00ff00;
+  max-width: 1300px;
+}
+
+/* tablas*/
+
+table {
+  width: auto;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-family: 'Fira Code', monospace;
+  background-color: #0d0d0d;
+  color: #00ff00;
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 10px #00ffdd;
+}
+
+table th, table td {
+  padding: 0.75rem;
+  border: 1px solid #00ffff;
+  text-align: left;
+}
+
+table th {
+  background-color: #111;
+  color: #ff00ff;
+}
+
+table tr:nth-child(even) {
+  background-color: #1a1a1a;
+}
+
+
+/* Animación flicker tipo terminal glitch */
+@keyframes flicker {
+  0% { opacity: 1; text-shadow: 0 0 5px #0f0, 0 0 10px #0f0; }
+  100% { opacity: 0.8; text-shadow: 0 0 2px #0f0, 0 0 5px #0f0; }
+}
+

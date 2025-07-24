@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Writeups</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <!-- <li><a href="writeups.html">Writeups</a></li> -->
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section style="text-align: center; margin: 2rem;">
+      <h1 class="glitch">Writeups Técnicos</h1>
+      <p>Guías paso a paso para resolver retos de seguridad informática (Hack The Box, TryHackMe, CTFs).</p>
+      <div>
+        <button class="filter-btn" onclick="filterWriteups('all')">Todos</button>
+        <button class="filter-btn" onclick="filterWriteups('linux')">Linux</button>
+        <button class="filter-btn" onclick="filterWriteups('windows')">Windows</button>
+      </div>
+    </section>
+
+    <section class="projects-container" id="writeups-list">
+      <!-- Tarjeta 1 -->
+      <div class="project-card linux" style="background-image: url('../assets/img/placeholder1.jpg');">
+        <div class="project-content">
+          <h2>Writeup</h2>
+          <p>Introducción general al enfoque de resolución de retos paso a paso.</p>
+          <a class="project-link" href="writeup.html">Leer más</a>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2 -->
+      <div class="project-card linux" style="background-image: url('../assets/img/placeholder2.jpg');">
+        <div class="project-content">
+          <h2>SteamCloud</h2>
+          <p>Análisis de una máquina con vulnerabilidades en servicios compartidos.</p>
+          <a class="project-link" href="steamcloud.html">Leer más</a>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3 -->
+      <div class="project-card windows" style="background-image: url('../assets/img/placeholder3.jpg');">
+        <div class="project-content">
+          <h2>Paper</h2>
+          <p>Explotación basada en Samba sobre entorno Windows.</p>
+          <a class="project-link" href="paper.html">Leer más</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function filterWriteups(category) {
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(card => {
+        if (category === 'all') {
+          card.style.display = 'flex';
+        } else if (!card.classList.contains(category)) {
+          card.style.display = 'none';
+        } else {
+          card.style.display = 'flex';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

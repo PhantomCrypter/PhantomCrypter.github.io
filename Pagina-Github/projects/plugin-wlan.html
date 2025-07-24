@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto | Plugin-wlan</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../projects.html">← Volver a los proyectos</a>
+        <h1></h1>
+            <h1>Plugin de Wlans para la Polybar</h1>
+            <img src="../assets/img/s3.png" alt="Demostración" class="project-thumbnail">
+        <article>
+          
+        <p>
+            Un día, por curiosidad, decidí tomar el curso de personalización de Linux de <strong><a href="https://hack4u.io/cursos/personalizacion-de-entorno-en-linux/" target="_blank">S4vitar</a></strong>. 
+            Principalmente, quería entender cómo funciona la 
+            personalización en esta tecnología. Realizar este ejercicio me ayudó a comprender aún más las jerarquías y dependencias de Linux.
+        </p>
+        <p>
+            Llegué a una parte del curso en la que se estaban agregando banners a la <strong><a href="https://github.com/polybar/polybar" target="_blank">polybar</a></strong> del sistema. 
+            Sin embargo, al eliminar algunas cosas en las que no estaba 
+            interesado, noté que quedaba espacio libre en el lado derecho de la barra. Empecé a reflexionar sobre cómo podría aprovechar ese espacio.
+        </p>
+        <p>
+            En aquel momento, estaba practicando varios ataques a dispositivos WiFi, lo que significaba que necesitaba usar regularmente dos interfaces de red. Debía deshabilitarlas 
+            y habilitarlas o cambiarlas del modo <strong>managed</strong> a <strong>monitor</strong>.
+        </p>
+        <p>
+            El problema era que me resultaba bastante tedioso ejecutar el comando <strong>iwconfig</strong> cada cierto tiempo para realizar estas consultas. Entonces, se me ocurrió la idea de crear
+             un banner que mostrara esta información cada vez que lo necesitara
+        </p>
+        <br>
+        <h2>Creación de los módulos requeridos</h2>
+
+        <h3>Paso 1:</h3>
+
+        <p>
+            El primer paso que yo ejecuté fue crear el o los módulos de la polybar desde el archivo de configuración <strong>~/.config/polybar/current.ini</strong>:
+        </p>
+        
+        <pre><code class="language-bash">
+            [bar/antena_bar]
+            inherit = bar/main
+            width = 10%
+            height = 40
+            offset-x = 86%
+            offset-y = 15
+            background = ${color.bg}
+            foreground = ${color.white}
+            bottom = false
+            padding = 1
+            ;padding-top = 2
+            module-margin-left = 0
+            module-margin-right = 0
+            ;modules-left = date sep mpd
+            modules-center = antena_status
+            wm-restack = bspwm
+
+            [bar/monitor_bar]
+            inherit = bar/main
+            width = 10%
+            height = 40
+            offset-x = 75.7%
+            offset-y = 15
+            background = ${color.bg}
+            foreground = ${color.white}
+            bottom = false
+            padding = 1
+            ;padding-top = 2
+            module-margin-left = 0
+            module-margin-right = 0
+            ;modules-left = date sep mpd
+            modules-center = monitor_status
+            wm-restack = bspwm
+        </code></pre>
+
+        <h3>Paso 2:</h3>
+        <p>Ahora, en el mismo archivo <strong>~/.config/polybar/current.ini</strong>, vamos a dirigirnos a la sección de "módulos" que se encuentra más abajo.</p>
+
+        <img src="../assets/img/M.png" alt="Modules">
+
+        <p>
+            Una vez ahí escogeremos un espacio para finalizar con la configuración de los módulos, yo recomiendo el final para así tener todo lo personalizado de una forma más ordenada:
+        </p>
+        <pre><code class="language-bash">
+            [module/antena_status]
+            type = custom/script
+
+            interval = 2
+            exec = ~/.config/bin/antena_status.sh
+
+            [module/monitor_status]
+            type = custom/script
+
+            interval = 2
+            exec = ~/.config/bin/monitor_status.sh
+        </code></pre>
+<br>
+        <h2>Reconocimiento de módulos</h2>
+
+        <p>
+            Ahora, debemos agregar las siguientes líneas al archivo <strong>~/.config/polybar/launch.shv</strong> para que el módulo recién creado sea reconocido. Es importante 
+            observar que <strong>"cada línea corresponde a cada módulo"</strong>, por lo que si solo colocó un módulo, solo debe agregar una línea específica con la ruta:
+        </p>
+
+        <pre><code class="language-bash">
+            polybar antena_bar -c ~/.config/polybar/current.ini &
+            polybar monitor_bar -c ~/.config/polybar/current.ini &
+        </code></pre>
+        <p>
+            Si solo agregaste un módulo, entonces solo necesitas agregar una línea similar a la anterior con la ruta del script correspondiente al módulo que creaste.
+        </p>
+        <p>
+            <strong>Nota:</strong> Debemos tener cuidado al verificar los nombres de los módulos para asegurarnos de que el programa encuentre la ruta correcta. 
+            Por ejemplo, si mi módulo se llama "Antena_bar", se especifica "Antena_bar" en la ruta.
+        </p>
+<br>
+        <h2>Paso Final</h2>
+        <p>
+            Como paso final, una vez que hemos configurado todo, es hora de crear el script que se encargará de mostrar la información que deseamos.
+        </p>
+        <p>
+            Para ello, vamos a dirigirnos al directorio <strong>~/.config/bin/</strong> o al archivo en el que estés guardando tus binarios de configuración personalizada.
+        </p>
+        <img src="../assets/img/l.png" alt="Muestra de directorios">
+        <p>
+            Como pueden observar, se deben crear los archivos de configuración exactamente con el mismo nombre de los módulos creados anteriormente y con la extensión <strong>.sh</strong> 
+            para indicar que es un archivo de <strong>script bash</strong>.
+        </p>
+        <p>
+            Una vez creados los archivos, procedemos a agregar el código. En este código, como podemos observar, no hice uso del comando <strong>iwconfig</strong> como sería lo habitual, 
+            sino que utilicé <strong>ifconfig</strong>. Esto se debe a que al brindarme información del estado de las interfaces de red, el comando <strong>iwconfig</strong> no me estaba proporcionando 
+            los datos correctos. Por lo tanto, tuve que utilizar <strong>ifconfig</strong> para obtener la información correcta y reflejarla en los módulos, que al fin y al cabo, es lo que se necesita.
+        </p>
+        <br>
+         C:\>
+        <h2>
+            File: monitor_status.sh:
+        </h2>
+        <pre><code class="language-bash">
+            #!/bin/sh
+ 
+            IFACE=$(/usr/sbin/iwconfig wlan1 2>&1 | grep "No such device")
+            
+            if [ -n "$IFACE" ]; then
+                echo "%{F#ff7c00}󱙜 %{F#ffffff} Disconnected"
+            else
+                IFACE_MODE=$(/usr/sbin/iwconfig wlan1 | grep "Mode:" | awk '{print $1, $4}')
+            
+                if [ "$IFACE_MODE" = "Mode:Managed Not-Associated" ]; then
+                    echo "%{F#ff7c00}󱙝 %{F#ffffff} Mode: Managed"
+                elif [ "$IFACE_MODE" = "wlan1 Mode:Monitor" ]; then
+                    echo "%{F#ff7c00}󰊠 %{F#ffffff} Mode: Monitor"
+                else
+                    echo "%{F#ff7c00}󱙜 %{F#ffffff} Disconnected"
+                fi
+            fi
+        </code></pre>
+        <br>
+        C:\>
+        <h2>
+            File: antena_status.sh:
+        </h2>
+        <pre><code class="language-bash">
+            #!/bin/sh
+ 
+            IFACE=$(/usr/sbin/iwconfig wlan0 2>&1 | grep "No such device")
+            
+            if [ -n "$IFACE" ]; then
+                echo "%{F#ff0000}󱙜 %{F#ffffff} Disconnected"
+            else
+                IFACE_MODE=$(/usr/sbin/iwconfig wlan0 | grep "Mode:" | awk '{print $1, $4}')
+            
+                if [ "$IFACE_MODE" = "Mode:Managed Not-Associated" ]; then
+                    echo "%{F#ff0000}󱙝 %{F#ffffff} Mode: Managed"
+                elif [ "$IFACE_MODE" = "wlan0 Mode:Monitor" ]; then
+                    echo "%{F#ff0000}󰊠 %{F#ffffff} Mode: Monitor"
+                else
+                    echo "%{F#ff0000}󱙜 %{F#ffffff} Disconnected"
+                fi
+            fi
+        </code></pre>
+
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <!-- <li><a href="writeups.html">Writeups</a></li> -->
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <header style="text-align: center;">
+    <h1 class="glitch" data-text="Blog">Publicaciones</h1>
+    <p>Explora artículos técnicos y consejos de hacking, redes y Linux.</p>
+  </header>
+
+  <!-- Filtros -->
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <button class="filter-btn" data-category="all">Todos</button>
+    <button class="filter-btn" data-category="Hacking">Hacking</button>
+    <button class="filter-btn" data-category="Redes">Redes</button>
+    <button class="filter-btn" data-category="Linux">Linux</button>
+  </div>
+
+  <section class="projects-container">
+
+    <!-- Artículo 1 -->
+    <div class="project-card" data-category="Hacking" style="background-image: url('/assets/img/teminals.png');">
+      <div class="project-content">
+        <h2>¿Cómo sanitizas tus terminales?</h2>
+        <p>Buenas prácticas para mantener tus terminales limpias y seguras.</p>
+        <a class="project-link" href="blog/san-tem.html">Leer más →</a>
+      </div>
+    </div>
+
+    <!-- Artículo 2 -->
+    <div class="project-card" data-category="Redes" style="background-image: url('/assets/img/IMAP-POP.png');">
+      <div class="project-content">
+        <h2>IMAP vs POP</h2>
+        <p>Diferencias clave entre estos dos protocolos de correo electrónico.</p>
+        <a class="project-link" href="blog/imapvspop.html">Leer más →</a>
+      </div>
+    </div>
+
+    <!-- Artículo 3 -->
+    <div class="project-card" data-category="Linux" style="background-image: url('assets/img/linux-perm.png');" >
+      <div class="project-content">
+        <h2>Permisos en Linux</h2>
+        <p>Domina la gestión de permisos para mejorar tu seguridad y control.</p>
+        <a class="project-link" href="blog/permisos-linux.html">Leer más →</a>
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.category;
+
+        cards.forEach(card => {
+          const match = category === 'all' || card.dataset.category === category;
+          card.style.display = match ? 'flex' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
