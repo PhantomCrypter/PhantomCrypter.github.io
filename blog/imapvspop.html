@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SMTP, POP e IMAP</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="terminal-box glitch-bg">
+    <a href="../blog.html" class="back-link">&larr; Volver al blog</a>
+    <article class="blog-post">
+        <h1></h1>
+      <h1 class="post-title">SMTP, POP e IMAP: Cómo funciona el correo electrónico</h1>
+
+      <p><strong>SMTP</strong> (Protocolo Simple de Transferencia de Correo) se utiliza para la gestión del envío de correos.</p>
+
+      <p>Para soportar los servicios de correo electrónico, se requieren al menos dos protocolos: <strong>SMTP</strong> y <strong>POP/IMAP</strong>. Juntos permiten el envío y recepción de correos.</p>
+
+      <h3>Funciones básicas del servidor SMTP:</h3>
+      <ul>
+        <li>Verifica quién está enviando los correos a través del servidor SMTP.</li>
+        <li>Envía los correos salientes.</li>
+        <li>Si el correo no se puede enviar, retorna un mensaje de error al remitente.</li>
+      </ul>
+
+<br>  
+<br>
+      <h2>POP e IMAP</h2>
+      <p>Ambos permiten que programas como Outlook, Thunderbird o apps de correo móvil se comuniquen con el servidor donde llegan los mensajes.</p>
+<br>
+      <h3>📮 POP (Post Office Protocol)</h3>
+      <ul>
+        <li>Descarga los correos del servidor al dispositivo y luego los elimina (salvo que se configure lo contrario).</li>
+        <li>Los correos se guardan solo en el dispositivo donde se descargaron.</li>
+        <li>No se sincroniza con otros dispositivos.</li>
+        <li>Permite leer sin conexión, pero los cambios no se reflejan en otros dispositivos.</li>
+      </ul>
+      <p><strong>Ejemplo:</strong> POP es como sacar todas las cartas del buzón y llevárselas. El buzón (servidor) queda vacío, y otros dispositivos no verán nada.</p>
+<br>
+      <h3>🗂 IMAP (Internet Message Access Protocol)</h3>
+      <ul>
+        <li>Los correos se mantienen en el servidor; solo se descarga una copia temporal para mostrar en el dispositivo.</li>
+        <li>Permite sincronización total entre todos los dispositivos.</li>
+        <li>Ideal para acceder al correo desde múltiples lugares.</li>
+        <li>Requiere conexión a Internet para mayor funcionalidad.</li>
+      </ul>
+      <p><strong>Ejemplo:</strong> IMAP es como abrir el buzón, leer las cartas, marcarlas o moverlas directamente ahí. Si accedes desde otro dispositivo, todo estará igual.</p>
+
+      
+<br>
+<br>
+      <h2>⚙️ Proceso de envío con SMTP</h2>
+      <ol>
+        <li>El agente de usuario (cliente o programa externo) se conecta al servidor SMTP (por ejemplo, <code>smtp.google.com</code>) a través del puerto 25.</li>
+        <li>Se inicia la sesión SMTP tras validar la conexión.</li>
+        <li>El cliente envía las direcciones del remitente y destinatario, el cuerpo del mensaje y adjuntos.</li>
+        <li>El servidor SMTP verifica si los dominios coinciden.</li>
+        <li>Si no, el servidor SMTP del remitente se conecta al del destinatario. Si no hay conexión, el mensaje se coloca en una cola SMTP.</li>
+        <li>El servidor del destinatario verifica dominio y nombre de usuario, y reenvía al servidor POP o IMAP.</li>
+        <li>Finalmente, el correo aparece en la bandeja de entrada del destinatario.</li>
+      </ol>
+
+      <p>Este proceso es una versión simplificada. Puedes leer más en:  
+        <a href="https://computer.howstuffworks.com/mensajería-de-correo-electrónico/email3.htm" target="_blank">
+          computer.howstuffworks.com (correo electrónico)
+        </a>
+      </p>
+
+      <br>
+      <br>
+
+      <h2>📊 Comparativa POP vs IMAP</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Característica</th>
+            <th>POP</th>
+            <th>IMAP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>¿Dónde se almacenan los correos?</td>
+            <td>En tu dispositivo</td>
+            <td>En el servidor</td>
+          </tr>
+          <tr>
+            <td>¿Se sincroniza con el servidor?</td>
+            <td>No</td>
+            <td>Sí</td>
+          </tr>
+          <tr>
+            <td>¿Depende de conexión a internet?</td>
+            <td>No siempre</td>
+            <td>Casi siempre</td>
+          </tr>
+          <tr>
+            <td>Ideal para...</td>
+            <td>Un solo dispositivo</td>
+            <td>Varios dispositivos</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </article>
+  </main>
+</body>
+</html>

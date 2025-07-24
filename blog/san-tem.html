@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sanitizar Terminal</title>
+  <link rel="stylesheet" href="../assets/css/style.css"> <!-- Asegúrate de usar tu CSS existente -->
+  
+</head>
+<body>
+    <nav>
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+  <main class="terminal-box glitch-bg">
+    <a href="../blog.html" class="back-link">&larr; Volver al blog</a>
+    <article class="blog-post">
+ <h1></h1>
+  <h1>Sanitizar Terminal</h1>
+
+  <p>
+    El problema que yo me encontraba constantemente es la variedad de técnicas que existen para lograr un mismo objetivo,
+    pero me topaba con la situación en la cual no todas las opciones eran funcionales.
+  </p>
+
+  <p>
+    Por eso este post corto me gustaría compartir el método actual utilizado por mí, el cual no solo funciona de manera efectiva
+    sino que actualmente no me ha fallado.
+  </p>
+
+  <ul>
+    <li><code>script /dev/null -c bash</code></li>
+    <li><code>CTRL + Z</code></li>
+  </ul>
+
+  <img src="/assets/img/post/term/image.png" alt="Paso 1"> <!-- Imagen 1 -->
+
+  <ul>
+    <li><code>stty raw -echo; fg</code></li>
+  </ul>
+
+  <img src="/assets/img/post/term/image2.png" alt="Paso 2"> <!-- Imagen 2 -->
+
+  <ul>
+    <li><code>reset xterm</code></li>
+    <li><code>ENTER</code></li>
+  </ul>
+
+  <img src="/assets/img/post/term/image3.png" alt="Paso 3"> <!-- Imagen 3 -->
+<br>
+<br>
+  <h2>1. Solucionar CTRL + L</h2>
+
+  <ul>
+    <li>Confirmar el valor de <code>TERM</code></li>
+    <li><code>echo $TERM</code></li>
+  </ul>
+
+  <p><code>$TERM</code> vale <code>dump</code>, por eso no funciona.</p>
+
+  <img src="/assets/img/post/term/image4.png" alt="Valor de TERM"> <!-- Imagen 4 -->
+
+  <ul>
+    <li><code>export TERM=xterm</code></li>
+    <li><code>export SHELL=/bin/bash</code> <br>
+        (Esto es para operar de forma más cómoda)
+    </li>
+  </ul>
+
+ 
+
+  <img src="/assets/img/post/term/image6.png" alt="Export TERM y SHELL"> <!-- Imagen 5 -->
+ 
+<br>
+<br>
+  <h2>2. Solución de proporciones</h2>
+
+  <p>En una pantalla aparte del PC se confirma las filas y columnas que usamos:</p>
+
+  <ul>
+    <li><code>stty size</code></li>
+  </ul>
+
+  <img src="/assets/img/post/term/image5.png" alt="Tamaño en otra pantalla"> <!-- Imagen 7 -->
+
+  <p>Ahora de vuelta en la PC de la víctima agregamos los datos:</p>
+
+  <ul>
+    <li><code>stty rows 45 columns 184</code></li>
+  </ul>
+    </article>
+  </main>
+
+</body>
+</html>

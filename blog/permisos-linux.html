@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Permisos en Linux</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="terminal-box glitch-bg">
+    <a href="../blog.html" class="back-link">&larr; Volver al blog</a>
+    <article class="blog-post">
+    <h1></h1>
+      <h1 class="post-title">Permisos en Linux: Entender el sistema decimal</h1>
+
+      <p>
+        ¿Alguna vez han pensado en cómo es que los administradores de Linux manipulan de manera rápida y eficiente los archivos o carpetas con la manera decimal?
+      </p>
+
+      <p>
+        Yo antes creía que era una habilidad que se desarrollaba con el tiempo, que llegado a un punto ya uno sabía qué combinación de permisos significaba cada número. Intenté memorizar cada opción, pero como no lo usaba muy seguido, tendía a olvidarlo, lo cual me parecía poco práctico.
+      </p>
+
+      <p>
+        Luego de un tiempo encontré lo que estaba buscando, y es lo que te voy a presentar en este momento:
+      </p>
+<br>
+      <h3>Permisos básicos de Linux</h3>
+      <p>Actualmente, los permisos básicos de Linux hacen lo siguiente:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Read/Leer</th><th>Write/Escribir</th><th>Execute/Ejecutar</th><th>No asignado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>R</td><td>W</td><td>X</td><td>-</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Pero estos permisos se deben dividir en Usuario - Grupo - Otros, por lo que un permiso real se podría ver así:</p>
+      <pre><code>-rwxrw-r--</code></pre>
+<br>
+      <h3>¿Cómo cambiar permisos usando decimales?</h3>
+      <p>
+        Lo que nos importa aquí es cómo cambiar los permisos usando números decimales en vez de r, w o x.
+        Para entenderlo, hay que tener claras dos cosas.
+      </p>
+
+      <h4>1. Permisos en binario</h4>
+      <p>Si un permiso está activo, se representa como <strong>1</strong>; si está desactivado, como <strong>0</strong>:</p>
+      <table>
+        <thead>
+          <tr><th>R</th><th>W</th><th>X</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>0</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <p>Esto da un valor de <strong>r-x</strong> que en decimal es <strong>5</strong>.</p>
+
+      <h4>2. Valores decimales asignados</h4>
+      <p>Cada letra tiene un valor:</p>
+      <table>
+        <thead>
+          <tr><th>R</th><th>W</th><th>X</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>4</td><td>2</td><td>1</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Por lo tanto, <strong>rwx</strong> (4+2+1) equivale a <strong>7</strong>, mientras que <strong>r--</strong> (4+0+0) equivale a <strong>4</strong>.
+      </p>
+
+      <p>El permiso <code>-rwxrw-r--</code> en decimal se traduce como: <strong>764</strong></p>
+
+      <table>
+        <thead>
+          <tr><th>R</th><th>W</th><th>X</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>4</td><td>2</td><td>1</td></tr>
+          <tr><td>4</td><td>2</td><td>0</td></tr>
+          <tr><td>4</td><td>0</td><td>0</td></tr>
+        </tbody>
+      </table>
+
+      <br>
+      <p><strong>Tip:</strong> El número 7 representa todos los permisos activos. El 0 representa la negación total de permisos.</p>
+<br>
+      <h3>Links:</h3>
+
+      <p>Este artículo tambien se encuentra en la cuenta oficial de Instagram: <a href="https://www.instagram.com/p/DL5eXvIOehT/?img_index=1" target="_blank">@kallrizzz</a></p>
+    </article>
+  </main>
+</body>
+</html>
