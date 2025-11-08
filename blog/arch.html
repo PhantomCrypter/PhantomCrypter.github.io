@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto | Instalación y configuración de Arch Linux (con entorno GNOME y VMware)</title>
+
+  <!-- Estilos principales (tu style.css existente) -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  <!-- Nota: CSS extra (borders cyan, placeholders) lo pego por separado si lo querés modular -->
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../blog.html">← Volver al blog</a>
+        <h1>Instalación y configuración de Arch Linux (con entorno GNOME y VMware)</h1>
+
+        <!-- Imagen principal (reemplaza la ruta por la tuya) -->
+        <div class="img-placeholder">
+          <img src="../assets/img/post/arch/.png" alt="Instalación Arch Linux - placeholder">
+          <!-- Reemplaza ../assets/images/arch-instalacion-main.png por tu imagen real -->
+        </div>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Instalación y configuración de máquina virtual === -->
+          <section id="instalacion-vm">
+            <h2>Instalación y configuración de máquina virtual</h2>
+            <br>
+            <h3>• Instalar la ISO de Arch</h3>
+            <p>
+              Primero vamos a instalar la ISO de Arch. Existen varias formas de hacerlo; yo por ejemplo prefiero descargarla directamente desde uno de los mirrors oficiales para evitar el uso de torrents:
+            </p>
+            <p><a href="https://archlinux.org/download/#http-downloads" target="_blank">https://archlinux.org/download/#http-downloads</a></p>
+            <p>
+              Al ingresar a ese link, yo escogí el primer mirror de España y descargué la ISO más reciente: <strong>archlinux-2025.10.01-x86_64.iso</strong>.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/1.png" alt="Descarga ISO Arch Linux - placeholder">
+              <!-- reemplaza por la captura real -->
+            </div>
+
+            <p>
+              A mí me gusta mantener los datos ordenados, así que creo una carpeta llamada <strong>Imágenes</strong> donde guardo todos los ISOs que descargo. Esto me permite tener control sobre las versiones y evitar eliminaciones accidentales.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/2.png" alt="Carpeta de ISOs - placeholder">
+            </div>
+
+            <p>
+              Este hábito me ha ayudado a no borrar por accidente imágenes y tener que volver a descargarlas o perder tiempo buscando versiones.
+            </p>
+
+            <p>
+              Una vez creada la carpeta y movida la ISO dentro de ella, prefiero crear otra carpeta separada que contendrá todos los datos de la Máquina Virtual.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/3.png" alt="Carpeta para máquinas virtuales - placeholder">
+            </div>
+
+            <p>
+              En este ejemplo he creado una carpeta llamada <strong>Prueba</strong> para seguir el flujo de creación de la máquina virtual más fácil.
+            </p>
+            
+            <br>
+            <h3>• Creación de la Máquina Virtual (VMware)</h3>
+            <p>
+              En este caso estoy usando <strong>VMware</strong> porque me ha resultado estable. Dentro del virtualizador hay dos formas de crear una VM:
+            </p>
+            <ol>
+              <li>Dando click en <em>File → New Virtual Machine</em>.</li>
+              <li>Usar el botón principal de “Crear nueva máquina virtual”.</li>
+            </ol>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/4.png" alt="Nuevo Virtual Machine - placeholder">
+            </div>
+
+            <p>
+              Se abrirá una ventana para configurar recursos. Yo suelo seleccionar la opción <strong>simple</strong>, pero son libres de usar la segunda opción si saben como usarla.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/5.png" alt="Selección modo simple - placeholder">
+            </div>
+
+            <p>
+              En la pantalla siguiente elegimos la imagen ISO con <em>Browse…</em> y buscamos la ISO dentro de la carpeta donde la guardamos:
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/6.png" alt="Seleccionar ISO - placeholder">
+            </div>
+
+            <p>
+              Una vez elegida la ISO, confirmamos la selección y continuamos.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/7.png" alt="Confirmar selección - placeholder">
+            </div>
+
+            <p>
+              En la parte donde se nos pide el sistema operativo a virtualizar, Arch no suele aparecer en la lista; seleccionar <strong>Linux → Ubuntu</strong> funciona sin problema.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/8.png" alt="Seleccionar sistema operativo base - placeholder">
+            </div>
+
+            <br>
+            <h4>Nombre y ubicación de la VM</h4>
+            <p>
+              <strong>Nombre:</strong> simplemente es cómo aparece en la biblioteca. No influye en el sistema instalado.  
+            </p>
+            
+            <p>
+              <strong>Ubicación:</strong> aquí se guardará el disco virtual (vmdk/vdi). Yo recomiendo usar un disco externo si no quieres llenar tu disco principal.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/9.png" alt="Nombre y ubicación - placeholder">
+            </div>
+
+            <br>
+            <h4>Tamaño del disco y almacenamiento</h4>
+            <p>
+              El tamaño depende del uso:
+            </p>
+            <ul>
+              <li>Laboratorio rápido: <strong>20 GB</strong>.</li>
+              <li>Uso prolongado (descargas, herramientas): <strong>90 GB</strong>.</li>
+            </ul>
+            <p>
+              Recomiendo usar un solo archivo para el disco virtual por rendimiento, salvo que necesites fragmentarlo por compatibilidad.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/10.png" alt="Tamaño disco - placeholder">
+            </div>
+
+            <p>
+              En la ventana final, podemos ver un breve resumen de la configuración final de nuestra Máquina Virtual. Yo suelo finalizar el asistente y luego editar los ajustes antes de arrancar la VM.
+            </p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/11.png" alt="Resumen VM - placeholder">
+            </div>
+
+            <h4>Ajustes previos al inicio</h4>
+            <p>
+              Antes de iniciar la máquina, recomiendo:
+            </p>
+            <ul>
+              <li>Desactivar la <strong>aceleración gráfica</strong> (opcional); puede causar problemas con la terminal o herramientas como OBS.</li>
+                 <div class="img-placeholder">
+                    <img src="../assets/img/post/arch/11-1.png" alt="Resumen VM - placeholder">
+                 </div>
+              <li>Ajustar la RAM sin exceder el <strong>50–60%</strong> del total del equipo físico.</li>
+                 <div class="img-placeholder">
+                    <img src="../assets/img/post/arch/11-2.png" alt="Resumen VM - placeholder">
+                 </div>
+              <li>Asignar procesadores de forma responsable (ejemplo: 4 procesadores x 2 cores = 8 vCPUs si tu host lo permite).</li>
+                 <div class="img-placeholder">
+                    <img src="../assets/img/post/arch/11-3.png" alt="Resumen VM - placeholder">
+                 </div>
+            </ul>
+            <p>
+                Resultado final:
+            </p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/12.png" alt="Ajustes VM (RAM/CPU) - placeholder">
+            </div>
+
+            <p>Una vez configurado todo, iniciamos la VM para comenzar la instalación.</p>
+          </section>
+          <br>
+
+          <!-- === SEGUNDA SECCIÓN: Configuración de discos === -->
+          <section id="config-discos">
+            <h2>Configuración de discos</h2>
+
+            <p>
+              Cuando la ISO arranca, verás una consola. Lo primero es configurar el teclado y comprobar la red.
+            </p>
+            
+            <br>
+            <h3>Configurar teclado</h3>
+            <p>Listamos los keymaps y cargamos el apropiado (ejemplo: español latino):</p>
+            <pre><code class="language-bash">$ localectl list-keymaps
+$ loadkeys la-latin1</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/13.png" alt="Listar keymaps - placeholder">
+            </div>
+            
+            <br>
+            <h3>Comprobar conexión de red</h3>
+            <p>Hacemos un ping para confirmar conectividad con el exterior:</p>
+            <pre><code class="language-bash">$ ping -c 3 archlinux.org</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/14.png" alt="Ping - placeholder">
+            </div>
+
+            <br>
+            <h3>Particionado con cfdisk</h3>
+            <p>Usaremos <code>cfdisk</code> y crearemos particiones según el uso. Si la interfaz de cfdisk va lenta en la VM, desactiva la aceleración gráfica y vuelve a intentarlo.</p>
+            <pre><code class="language-bash">$ cfdisk</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/15.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>Ahora escogeremos la opción <strong>dos</strong>:</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/16.png" alt="cfdisk - placeholder">
+            </div>
+
+
+            <br>
+            <p>Ejemplo de esquema (para un disco ~90 GB):</p>
+            <ul>
+              <li><strong>/dev/sda1</strong> — 512M — vfat — /boot</li>
+              <li><strong>/dev/sda2</strong> — 85G — ext4 — /</li>
+              <li><strong>/dev/sda3</strong> — 4.5G — swap</li>
+            </ul>
+            <br>
+            <p>Una vez seleccionado le damos a la opción de <strong>New</strong> para crear una nueva partición:</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p1.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>Primero iniciamos con 512M le damos Enter para seleccionar que sea una partición primaria</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p2.png" alt="cfdisk - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p3.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>De vuelta a <strong>Free space</strong>, vamos a crear una nueva  partición:</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p4.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>Y para el total de espacio que quede le vamos a restar 4.5 por ejemplo de 19.5 se agregaría un total de 15</p>
+            <p>En este caso mi espacio total es de 89.5 entonces al restar el 4.5 queda un total de 85. Ese va a ser el total del nuevo disco</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p5.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>Luego lo seleccionamos como partición primaria</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p6.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>Ahora con el espacio restante que serían los 4.5G los vamos a usar como partición primaria la cual va a corresponder al swap</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p7.png" alt="cfdisk - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p8.png" alt="cfdisk - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p9.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <h3>Selección de tipos de particiones</h3>
+            <br>
+            <p>A la partición de 4.5 le vamos a asignar el tipo de swap</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p10.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>Ahora escogemos la opción de swap solaris</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/p11.png" alt="cfdisk - placeholder">
+            </div>
+            <p>Luego de haber seleccionado eso procedemos a darle Write y luego Quit</p>
+            <p>Al darle write le deben de ingresar yes para que los cambios se ejecuten:</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/c1.png" alt="cfdisk - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/c2.png" alt="cfdisk - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/c3.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+            <p>Ahora podemos confirmar los cambios del disco con el comando <strong>lsblk</strong></p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/c4.png" alt="cfdisk - placeholder">
+            </div>
+            <br>
+
+            <h3>Formateo y tipos</h3>
+            <p>Vamos a hacer uso de <strong>mkfs.vfat</strong> para indicar de que queremos formatear una partición en formato vfat:</p>
+            
+            <ul>
+              <li>Hacemos uso de <strong>mkfs.vfat -F 32 /dev/sda1</strong> para hacer uso de la partición primaria de <strong>512M</strong></li>
+              <li>Ahora vamos a hacer lo mismo con el <strong>sda2 mkfs.ext4 /dev/sda2</strong> la cual es la partición más grande</li>
+            </ul>
+           
+
+            <pre><code class="language-bash">$ mkfs.vfat -F 32 /dev/sda1
+$ mkfs.ext4 /dev/sda2</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/vfat1.png" alt="Formateo - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/vfat2.png" alt="Formateo - placeholder">
+            </div>
+            <br>
+            <p>Con mkswap vamos a indicarle la partición correspondiente la cual va a asignar el swap</p>
+            <ul>
+              <li>Recordar que el swap lo dejamos en el <strong>sda3</strong></li>
+              <li>Luego hacemos <strong>swapon</strong> para aplicar los cambios</li>
+            </ul>
+            <pre><code class="language-bash">$ mkswap /dev/sda3
+$ swapon /dev/sda3</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/vfat3.png" alt="Formateo - placeholder">
+            </div>
+            <br>
+
+            <h3>Montaje</h3>
+            <p>Empezamos con el proceso de montado</p>
+            <ul>
+              <li>El primer paso va a ser agregar todo el sda2 a mnt con mount (La partición grande)</li>
+              <li>Luego vamos a crear un directorio llamado boot dentro de mnt</li>
+              <li>Ahora lo que teníamos en sda1 lo vamos a montar en boot</li>
+            </ul>
+            <pre><code class="language-bash">$ mount /dev/sda2 /mnt
+$ mkdir -p /mnt/boot
+$ mount /dev/sda1 /mnt/boot</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/m1.png" alt="Montaje - placeholder">
+            </div>
+             <div class="img-placeholder">
+              <img src="../assets/img/post/arch/m2.png" alt="Montaje - placeholder">
+            </div>
+             <div class="img-placeholder">
+              <img src="../assets/img/post/arch/m3.png" alt="Montaje - placeholder">
+            </div>
+            <br>
+
+            <h3>Instalación base</h3>
+            <p>Instalamos paquetes base y herramientas esenciales:</p>
+            <pre><code class="language-bash">$ pacstrap /mnt linux linux-firmware networkmanager grub wpa_supplicant base base-devel</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/base1.png" alt="Pacstrap - placeholder">
+            </div>
+            <br>
+
+            <h3>Fstab</h3>
+            <p>Generamos el archivo fstab:</p>
+            <pre><code class="language-bash">$ genfstab -U /mnt > /mnt/etc/fstab</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/fstab.png" alt="fstab - placeholder">
+            </div>
+            <br>
+
+            <h3>Definición de usuarios de sistema</h3>
+            <p>Para eso usamos el comando arch-chroot /mnt para ingresar ya a lo que sería el sistema y así poder configurar usuarios, locales y bootloader:</p>
+            <pre><code class="language-bash">$ arch-chroot /mnt</code></pre>
+
+            <br>
+
+            <h3>Usuarios y sudo</h3>
+            <p>Crear usuario, asignar contraseña y darle permisos sudo:</p>
+            <ul>
+              <li>Vamos a usar el comando <strong>passwd</strong> para establecer una nueva contraseña para el usuario root</li>
+              <li>Luego creamos el usuario que vamos a crear como usuario local par aluego asignarle una contraseña</li>
+              <li>Como en Arch todo funciona distinto y no tenemos sudo, necesitamos unir el usuario al grupo <strong>wheel</strong> para permisos sudo</li>
+              <li>También podemos proceder e instalar el paquete sudo y un editor para poder cambiar las configuraciones de los archivos</li>
+            </ul>
+            <pre><code class="language-bash"># Establecer contraseña root
+$ passwd
+
+# Crear usuario y añadir a wheel
+$ useradd -m kallrize
+$ passwd kallrize
+$ usermod -aG wheel kallrize
+
+# Instalar sudo y editores
+$ pacman -S sudo vim nano</code></pre>
+              <p>Al final podemos comprobar que tenemos un home para nuestro usuario</p>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/u2.png" alt="Usuarios y sudo - placeholder">
+            </div>
+            <br>
+            <p>Como en Arch todo funciona distinto y no tenemos sudo, necesitamos unir el usuario al grupo wheel para permisos obtener permisos como sudo</p>
+            <pre><code class="language-bash">usermod -aG wheel kallrize</code></pre>
+            <p>También podemos proceder e instalar el paquete sudo</p>
+            <pre><code class="language-bash">pacman -S sudo</code></pre>
+            <p>Ahora procedemos a abrir el archivo <strong>/etc/sudoers</strong> para editar los permisos</p>
+            <pre><code class="language-bash">nano /etc/sudoers</code></pre>
+            <p>Una vez dentro debemos de encontrar y descomentar esta linea para que siempre pida contraseña al hacer sudo y que se vea de la siguiente forma</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/su1.png" alt="Usuarios y sudo - placeholder">
+            </div>
+            <br>
+
+            <h3>Localización y teclado persistente</h3>
+            <p>Siguiendo como root vamos a tocar las regiones en el <strong>/etc/locale.gen</strong>:</p>
+            <pre><code class="language-bash">$ nano /etc/locale.gen   # descomentar es_ES.UTF-8 o cualquiera que se encuentre cerca de su región</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/region1.png" alt="Localización - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/region2.png" alt="Localización - placeholder">
+            </div>
+            <br>
+            <p>Una vez eso se ha aplicado hacemos un <strong>locale-gen</strong></p>
+            <pre><code class="language-bash">$ locale-gen </code></pre>
+            <br>
+            <p>Para no estar configurando el teclado cada vez que iniciamos vamos a hacerlo persistente de esta forma:</p>
+            <pre><code class="language-bash"># Dentro se coloca KEYMAP=la-latin1
+  nano /etc/vconsole.conf</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/k1.png" alt="Localización - placeholder">
+            </div> 
+            <br></br>
+            <p>Con esto cada vez que se inicie el teclado debería de estar listo con la configuración correcta</p>
+            <br>
+
+            <h3>configuración del boot loader (Se recomienda hacer un snapshot en este punto)</h3>
+            <p>Instalamos y configuramos GRUB:</p>
+            <pre><code class="language-bash">$ grub-install /dev/sda
+$ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/grub1.png" alt="Instalación GRUB - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/grub2.png" alt="Instalación GRUB - placeholder">
+            </div>
+            <br>
+
+            <h3>Hostname y hosts</h3>
+            <p>Si hacemos un cat /etc/hostname se puede ver que el archivo no se encuentra por lo que hay que crearlo para que el pc se llame igual que el usuario o con cualquier otro nombre de elección</p>
+            <pre><code class="language-bash">$ echo atlas > /etc/hostname
+$ nano /etc/hosts
+# agregar:
+127.0.0.1    localhost
+127.0.1.1    atlas.localdomain atlas
+</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/host1.png" alt="Hostname - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/host2.png" alt="Hostname - placeholder">
+            </div>
+            <br>
+
+            <p>Una vez hemos terminado estos pasos, vamos a hacer un reboot del sistema para comprobar que todo se haya ejecutado de manera correcta:</p>
+            <pre><code class="language-bash">$ exit
+$ reboot now</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/reboot.png" alt="Reboot - placeholder">
+            </div>
+            <br>
+          </section>
+
+          <!-- === TERCERA SECCIÓN: Post-instalación y GUI === -->
+          <section id="config-gui">
+            <h2>Configuración de red y entorno gráfico (Se recomienda otro snapshot aquí)</h2>
+            <br>
+            <h3>Activación de red</h3>
+            <p>Si no hay conectividad tras el primer arranque, habilitamos NetworkManager y wpa_supplicant:</p>
+            <pre><code class="language-bash">$ sudo systemctl start NetworkManager.service
+$ sudo systemctl enable NetworkManager.service
+$ sudo systemctl start wpa_supplicant.service
+$ sudo systemctl enable wpa_supplicant.service</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/red1.png" alt="NetworkManager - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/red2.png" alt="NetworkManager - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/red3.png" alt="NetworkManager - placeholder">
+            </div>
+            <br>
+
+            <h3>Acceso a AUR y repositorios BlackArch</h3>
+            <p>Ahora el siguiente paso sería aumentar el alcance de paquetes disponibles en el sistema</p>
+            <p>Para esto la idea es poder acceder a AUR el cual es un sistema de paquetes soportado por la comunidad de Arch</p>
+            <p>Instalamos herramientas para compilar AUR helpers y añadir BlackArch como usuario local por lo que salimos de root usando exit:</p>
+            <pre><code class="language-bash">$ sudo pacman -S git xdg-user-dirs
+$ sudo -u kallrize xdg-user-dirs-update</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/des1.png" alt="AUR/paru - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/des2.png" alt="AUR/paru - placeholder">
+            </div>
+            <br>
+            <p>Posicionandonos en el directorio personal de usuario vamos a crear un directorio nuevo dentro de desktop con nuestro nombre y otro llamado repos donde vamos aguardar los repositorios de paquetes</p>
+            <p>Luego ingresamaos dentro del directorio repos y procedemos a descargar el siguiente repositorio usando git clone:</p>
+            <ul>
+              <li><a href="https://aur.archlinux.org/paru-bin.git">https://aur.archlinux.org/paru-bin.git</a></li>
+            </ul>
+            <pre><code class="language-bash"># En el directorio del usuario
+$ mkdir -p ~/Desktop/kallrize/repos
+$ cd ~/Desktop/kallrize/repos
+$ git clone https://aur.archlinux.org/paru-bin.git
+$ cd paru-bin
+$ makepkg -si</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/paru.png" alt="AUR/paru - placeholder">
+            </div>
+            <br>
+
+            <p>Para agregar BlackArch:</p>
+            <p>Una vez tenemos el AUR listo procedemos con la descarga de los repositorios de blackArch para la descarga de las herramientas de pentest (este paso es totalmente opcional)</p>
+            <p>El directorio blackArch se debe de crear dentro del directorio repos</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/repos.png" alt="AUR/paru - placeholder">
+            </div>
+            <pre><code class="language-bash">$ mkdir blackarch
+$ cd blackarch
+$ curl -O https://blackarch.org/strap.sh
+$ chmod +x ./strap.sh
+$ sudo ./strap.sh
+$ sudo pacman -Sy</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/black1.png" alt="BlackArch strap - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/black2.png" alt="BlackArch strap - placeholder">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/black3.png" alt="BlackArch strap - placeholder">
+            </div>
+            <br>
+
+            <h3>Instalación del entorno gráfico (GNOME)</h3>
+            <p>Instalamos Xorg y GNOME, y habilitamos GDM:</p>
+            <pre><code class="language-bash">$ sudo pacman -S xorg xorg-server # Todo Enter
+$ sudo pacman -S gnome # Todo Enter
+$ sudo systemctl start gdm.service</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/Start.png" alt="Instalación GNOME - placeholder">
+            </div>
+            <br>
+            <p>Como se puede ver, las proporciones no son correctas, por lo que más adelante vamos a reparar esta área</p>
+            <p>Otro problema es que la terminal no es funcional por lo que debemos de regresar al estado de terminal de antes</p>
+            <p>Para esto vamos a usar las teclas <strong>ctrl + alt + f3</strong> y salimos del modo de interfaz gráfica para operar nuevamente  en la terminal</p>
+            <p>Una vez dentro de la terminal, vamos a aprovechar para dejar habilitado el servicio de gdm</p>
+            <pre><code class="language-bash">$ sudo systemctl enable gdm.service</code></pre>
+             <div class="img-placeholder">
+              <img src="../assets/img/post/arch/gdm.png" alt="Instalación GNOME - placeholder">
+            </div>
+            <br>
+            <p>Aprovechando que estamos ahi, vamos a descargar una terminal funcional</p>
+            <p>Para una terminal más estable recomiendo instalar <strong>Kitty</strong>:</p>
+            <pre><code class="language-bash">$ sudo pacman -S kitty</code></pre>
+            <br>
+            <h3>Corrección de proporciones y VMware Tools</h3>
+            <p>Para ajustar el redimensionamiento de pantalla e integración con VMware:</p>
+            <pre><code class="language-bash">$ sudo pacman -S gtkmm open-vm-tools xf86-video-vmware xf86-input-vmmouse
+$ sudo systemctl enable vmtoolsd
+$ sudo reboot now</code></pre>
+
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/sss.png" alt="VMware Tools - placeholder">
+            </div>
+
+            <p>
+              Tras reiniciar verifica que la resolución sea correcta. Como la terminal nativa de GNOME presenta problemas, usa <code>kitty</code> o la que hayas configurado.
+            </p>
+            <p>Es probable que nuevamente el teclado se haya desconfigurado, pero esta vez lo podemos configurar fácilmente desde GUI en el apartado de configuración</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/post/arch/teclado.png" alt="teclado GUI - placeholder">
+            </div>
+
+          </section>
+
+          
+
+          <!-- === SÉPTIMA SECCIÓN: Notas, trucos y cierre === -->
+          <section id="notas-conclusiones">
+            <h2>Notas finales, trucos y conclusión</h2>
+
+            <p>
+              - Evita asignar más del 50–60% de la RAM del host a la VM.  
+              - Para entornos livianos 2–4 GB está bien; para GNOME recomiendo 4–8 GB.  
+              - Para CPUs, asigna recursos sin dejar al host sin margen.  
+              - Usa discos en un solo archivo para mejor rendimiento, salvo que necesites portabilidad.
+            </p>
+
+            <p>
+              - Si experimentas lentitud en cfdisk o entradas lentas, desactiva la aceleración gráfica de la VM antes de usar la consola.  
+              - Para terminal, instalo <strong>kitty</strong> por estabilidad y características.
+            </p>
+
+            <p>
+              Con esto tendrás una instalación funcional de Arch Linux en VMware, lista para personalizar (temas, utilidades, herramientas pentest desde BlackArch/AUR).
+            </p>
+
+            <p class="center neon-text">C:\> Arch instalado correctamente ⚡</p>
+            <p class="center neon-text">C:\> Próximamente capítulo de personaliazción</p>
+          </section>
+
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
