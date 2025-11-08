@@ -199,9 +199,10 @@ nav ul li a:hover {
 
 .projects-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr));
   gap: 2rem;
   padding: 2rem;
+  justify-items: center;
 }
 
 .project-card {
@@ -539,4 +540,5 @@ table tr:nth-child(even) {
   0% { opacity: 1; text-shadow: 0 0 5px #0f0, 0 0 10px #0f0; }
   100% { opacity: 0.8; text-shadow: 0 0 2px #0f0, 0 0 5px #0f0; }
 }
+
 
