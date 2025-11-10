@@ -1,9 +1,13 @@
 body {
   background-image: url("/assets/img/grafiti-style.png");
-  background-size: cover;        /* Ajusta la imagen para cubrir toda la pantalla */
-  background-position: center;   /* Centra la imagen */
-  background-repeat: no-repeat;  /* Evita repeticiones */
-  background-attachment: fixed;  /* Fija el fondo al hacer scroll */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir toda la pantalla */
+  background-position: center;
+  /* Centra la imagen */
+  background-repeat: no-repeat;
+  /* Evita repeticiones */
+  background-attachment: fixed;
+  /* Fija el fondo al hacer scroll */
   margin: 0;
   padding: 0;
   font-family: 'Fira Code', monospace;
@@ -11,7 +15,9 @@ body {
 }
 
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: #ff0000;
   font-family: 'Press Start 2P', monospace;
   margin-top: 0;
@@ -101,7 +107,8 @@ nav ul li a:hover {
   border-color: var(--magenta);
 }
 
-.about, .contacto {
+.about,
+.contacto {
   max-width: 800px;
   margin: auto;
   padding: 1rem;
@@ -111,29 +118,35 @@ nav ul li a:hover {
   box-shadow: inset 0 0 20px rgba(204, 255, 0, 0.1);
 }
 
-.about h1, .about h2,
-.contacto h1, .contacto h2 {
+.about h1,
+.about h2,
+.contacto h1,
+.contacto h2 {
   color: #ccff00;
   margin-bottom: 0.5rem;
 }
 
-.about ul, .contact-list {
+.about ul,
+.contact-list {
   list-style: '>> ';
   padding-left: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
-.about p, .contacto p {
+.about p,
+.contacto p {
   margin-bottom: 1rem;
 }
 
-.recomendaciones, .contact-list {
+.recomendaciones,
+.contact-list {
   list-style: none;
   padding-left: 0;
   margin-top: 1rem;
 }
 
-.recomendaciones li, .contact-list li {
+.recomendaciones li,
+.contact-list li {
   margin-bottom: 1.5rem;
   background-color: #111;
   padding: 1rem;
@@ -142,12 +155,14 @@ nav ul li a:hover {
   font-size: 1.1rem;
 }
 
-.recomendaciones a, .contact-list a {
+.recomendaciones a,
+.contact-list a {
   color: #00ffff;
   font-weight: bold;
 }
 
-.recomendaciones a:hover, .contact-list a:hover {
+.recomendaciones a:hover,
+.contact-list a:hover {
   color: #ccff00;
   text-decoration: underline;
 }
@@ -255,6 +270,13 @@ nav ul li a:hover {
 
 
 /* Efecto Glitch básico */
+
+/* 
+
+- Removed glitch animation causing issues with viewport rendering.
+
+*/
+
 /* @keyframes glitch {
   0% { transform: translate(0); }
   20% { transform: translate(-2px, 2px); }
@@ -305,7 +327,8 @@ nav ul li a:hover {
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6); /* oscurece para legibilidad */
+  background-color: rgba(0, 0, 0, 0.6);
+  /* oscurece para legibilidad */
   z-index: -1;
 }
 
@@ -332,10 +355,12 @@ nav ul li a:hover {
     transform: translateY(100vh) scale(1);
     opacity: 1;
   }
+
   50% {
     transform: translateY(30vh) scale(1.03);
     opacity: 1;
   }
+
   100% {
     transform: translateY(-20vh) scale(1);
     opacity: 0.05;
@@ -344,7 +369,10 @@ nav ul li a:hover {
 
 #bsod-fake {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: #0000aa;
   color: #ffffff;
   font-family: 'Fira Code', monospace;
@@ -385,19 +413,53 @@ nav ul li a:hover {
 }
 
 @keyframes glitchTop {
-  0% { clip: rect(0, 9999px, 0, 0); transform: translate(-2px, -2px); }
-  5% { clip: rect(5px, 9999px, 20px, 0); }
-  10% { clip: rect(10px, 9999px, 30px, 0); transform: translate(2px, -1px); }
-  15% { clip: rect(15px, 9999px, 35px, 0); transform: translate(-1px, 1px); }
-  100% { clip: rect(0, 9999px, 0, 0); }
+  0% {
+    clip: rect(0, 9999px, 0, 0);
+    transform: translate(-2px, -2px);
+  }
+
+  5% {
+    clip: rect(5px, 9999px, 20px, 0);
+  }
+
+  10% {
+    clip: rect(10px, 9999px, 30px, 0);
+    transform: translate(2px, -1px);
+  }
+
+  15% {
+    clip: rect(15px, 9999px, 35px, 0);
+    transform: translate(-1px, 1px);
+  }
+
+  100% {
+    clip: rect(0, 9999px, 0, 0);
+  }
 }
 
 @keyframes glitchBottom {
-  0% { clip: rect(0, 9999px, 0, 0); transform: translate(2px, 2px); }
-  5% { clip: rect(30px, 9999px, 45px, 0); }
-  10% { clip: rect(40px, 9999px, 55px, 0); transform: translate(-2px, 1px); }
-  15% { clip: rect(45px, 9999px, 60px, 0); transform: translate(1px, -1px); }
-  100% { clip: rect(0, 9999px, 0, 0); }
+  0% {
+    clip: rect(0, 9999px, 0, 0);
+    transform: translate(2px, 2px);
+  }
+
+  5% {
+    clip: rect(30px, 9999px, 45px, 0);
+  }
+
+  10% {
+    clip: rect(40px, 9999px, 55px, 0);
+    transform: translate(-2px, 1px);
+  }
+
+  15% {
+    clip: rect(45px, 9999px, 60px, 0);
+    transform: translate(1px, -1px);
+  }
+
+  100% {
+    clip: rect(0, 9999px, 0, 0);
+  }
 }
 
 .filter-btn {
@@ -422,10 +484,14 @@ nav ul li a:hover {
 /* Estética coherente para página proyecto/blog */
 .proyecto {
   padding: 2rem;
-  background-color: #000; /* Asegura fondo oscuro uniforme */
+  background-color: #000;
+  /* Asegura fondo oscuro uniforme */
 }
 
-.proyecto h1, .proyecto h2, .proyecto h3, .proyecto h4 {
+.proyecto h1,
+.proyecto h2,
+.proyecto h3,
+.proyecto h4 {
   color: var(--magenta);
   text-shadow: 2px 2px #000;
   margin-top: 1.5rem;
@@ -519,7 +585,8 @@ table {
   box-shadow: 0 0 10px #00ffdd;
 }
 
-table th, table td {
+table th,
+table td {
   padding: 0.75rem;
   border: 1px solid #00ffff;
   text-align: left;
@@ -537,10 +604,13 @@ table tr:nth-child(even) {
 
 /* Animación flicker tipo terminal glitch */
 @keyframes flicker {
-  0% { opacity: 1; text-shadow: 0 0 5px #0f0, 0 0 10px #0f0; }
-  100% { opacity: 0.8; text-shadow: 0 0 2px #0f0, 0 0 5px #0f0; }
+  0% {
+    opacity: 1;
+    text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+  }
+
+  100% {
+    opacity: 0.8;
+    text-shadow: 0 0 2px #0f0, 0 0 5px #0f0;
+  }
 }
-
-
-
-
