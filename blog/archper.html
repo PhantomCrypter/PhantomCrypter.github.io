@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto | Instalación y configuración de Arch Linux (con entorno GNOME y VMware)</title>
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../blog.html">← Volver al blog</a>
+        <h1></h1>
+        <h1>Personalización de entorno Arch Linux</h1>
+
+        <!-- Imagen principal (reemplaza la ruta por la tuya) -->
+        <div class="img-placeholder">
+          <img src="../assets/img/placeholder.png" alt="Instalación Arch Linux - placeholder">
+          <!-- Reemplaza ../assets/images/arch-instalacion-main.png por tu imagen real -->
+        </div>
+        <p>Es hora de personalizar tu propio entorno en Arch Linux</p>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Instalación y configuración de BSPWM === -->
+          <section id="configuración-bspwm">
+            <h2>Configuración de entorno bspwm</h2>
+            <br>
+            <h3>Instalación de paquetes base</h3>
+            <p>
+              Primero vamos instalar los paquetes base para que nuestro entorno funcione correctamente:
+            </p>
+            <pre><code class="language-bash">$ sudo pacman -S bspwm sxhkd</code></pre>
+            <p>Estos paquetes son esenciales para el funcionamiento de bspwm y la gestión de atajos de teclado.</p>
+            <br>
+            <ul>
+                <li>bspwm → el gestor de ventanas</li>
+                <li>sxhkd → demonio de atajos de teclado (indispensable)</li>
+            </ul>
+            <br>
+            <p>Cuando ya tengamos todos los archivos listos procedemos con la configuración de todos los archivos. Para esto vamos a:</p>
+            <ul>
+                <li>Crear el directorio bspwm y sxhkd</li>
+                <li>Copiar los archivos de configuración de ejemplo dentro de los dorectorios creados</li>
+                <li>Finalizamos asignándole permisos de ejecución al archivo bspwmrc</li>
+            </ul>
+            <pre><code class="language-bash">$ mkdir -p ~/.config/bspwm
+$ mkdir -p ~/.config/sxhkd
+$ cp /usr/share/doc/bspwm/examples/bspwmrc ~/.config/bspwm/
+$ cp /usr/share/doc/bspwm/examples/sxhkdrc ~/.config/sxhkdrc
+$ chmod +x ~/.config/bspwm/bspwmrc</code></pre>
+            <br>
+             <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs1.png" alt="configuración bspwm - placeholder">
+             </div>
+             <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs2.png" alt="configuración bspwm - placeholder">
+             </div>
+                <br>
+            <p>Ahora tenemos que hacer una rápida configuración en el sxhkdrc para que cuando ingresemos a nuestro nuevo entorno se nos pueda abrir una terminal</p>
+            <pre><code class="language-bash">$ nano ~/.config/sxhkd/sxhkdrc</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs3.png" alt="configuración bspwm - placeholder">
+             </div>
+            <p>Dentro del archivo vamos a buscar la siguiente línea y vamos a colocar la terminal que nosotros vamos a utilizar, en mi caso kitty:</p>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs4.png" alt="configuración bspwm - placeholder">
+             </div>
+            <p>Una vez instalados esos archivos vamos a proceder con la descarga de las mejoras de entorno gráfico</p>
+            <p>Estas herramientas nos van a permitir mejorar la estéetica del entorno</p>
+            <pre><code class="language-bash">$ sudo pacman -S rofi polybar picom feh</code></pre>
+           <p>En caso de que el Firefox no se encuentre instalado, lo podemos descargar de esta forma:</p>
+              <pre><code class="language-bash">$ sudo pacman -S firefox</code></pre>
+            <p>Luego vamos a salir del login para dar click en logo de configuración para seleccionar la opción de bspwm y asi poder ingresar con el nuevo entorno</p>
+            <br>
+            <h3>Configuración de entorno</h3>
+            <p>En caso de volver a tener problemas con el teclado lo podemos volver a solucionar de esta forma</p>
+            <pre><code class="language-bash">$ setxkbmap latam #En mi caso es latam pero tambien puede ser "es"</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs5.png" alt="configuración bspwm - placeholder">
+             </div>
+            <p>Una vez tengamos el teclado configurrado vamos a proceder a ingresar al sxhkdrc para así poder agregar un shortcut a firefox y además hacer configuraciones de gestión de ventanas</p>
+            <pre><code class="language-bash">$ nano ~/.config/sxhkd/sxhkdrc</code></pre>
+            <p>Cuando estemos dentro vamos a buscar las siguientes configuraciones las cuales van a estar conguradas con letras (h,j,k,l)  y no con flechas (Left,Down,Up,Right) y al estar virtualizando podría generar conflicto</p>
+            <p>Por ejemplo una de las configuraciones provocaba que bloqueara la pantalla de mi windows...</p>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs6.png" alt="configuración bspwm - placeholder">
+             </div>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs7.png" alt="configuración bspwm - placeholder">
+             </div>
+            <p>Ahora vamos a configurar el shortcut de firefox</p>
+            <p>Para esto lo mejor es agregar una sección <strong>#Custom</strong> al final del documento</p>
+
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs8.png" alt="configuración bspwm - placeholder">
+             </div>
+             <br>
+             <h3>Configurrración de picom</h3>
+             <p>Para iniciar con la configuración de picom, primero vamos a proceder a crear sus directorios de configuración para luego copiar los archivos de ejemplo dentro de la nueva carpeta picom</p>
+             <pre><code class="language-bash">$ mkdir -p ~/.config/picom
+$ cp /usr/share/doc/picom/examples/picom.conf ~/.config/picom/</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs9.png" alt="configuración bspwm - placeholder">
+             </div>
+            <p>En este apartado vamos a confirmar que se esté haciendo uso de xreder para evitar errores gráficos.</p>
+            <p>En caso de que se esté usando un entorno físico, es decir, un entorno no virtualizado, se puede hacer uso de glx sin ningún problema</p>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/bs10.png" alt="configuración bspwm - placeholder">
+             </div>
+             <br>
+             <p>Ahora, vamos arrancar picom de la siguiente forma: </p>
+             <pre><code class="language-bash">$ picom --backend xrender --no-vsync --no-use-damage &</code></pre>
+             <p>el script depende de las configuraciones que escogimos en  el archivo de configuración por ejemplo el backend y vsync</p>
+          </section>
+          <br>
+
+           <!-- === Segunda SECCIÓN: configuración de Kitty === -->
+          <section id="configuración-bspwm">
+            <h2>Configuración de Kitty:</h2>
+            <p>Para poder iniciar con la configuración de la terminal, debemos de ingrresar al directorio <strong>/.config/kitty/</strong></p> y ahí dentro crear un archivo llamado <strong>kitty.conf</strong>
+            <p>Dentro de ese archvio vamos a colocar las siguientes líneas:</p>
+            <pre><code class="language-bash">font_size 12.0
+cursor_shape beam
+window_padding_width 8
+background_opacity 0.9
+            </code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/kt1.png" alt="configuración kitty - placeholder">
+             </div>
+             <br>
+             <p>Además de esto a mi me gusta agregar las siguientes líneas</p>
+             <pre><code class="language-bash">enable_audio_bell no
+include color.ini #Si da problemas al agregar temas se elimina
+font_family Cartograph CF Italic
+font_size 11
+disable_ligatures never
+url_color #fff
+url_style curly
+shell zsh
+            </code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/kt2.png" alt="configuración kitty - placeholder">
+              </div>
+             <p>Con esto ya tendremos una configuración básica de kitty, pero si queremos agregarle más personalización podemos descargar temas de la siguiente forma:</p>
+          </section>
+           <!-- === Tercer SECCIÓN: configuración de Kitty === -->
+          <section id="configuración-bspwm">
+            <h2>Instalación y configuración de la zsh:</h2>
+            <p>La instalción de la zsh es muy simple, para eso solo debemos de usar el siguiente comando</p>
+            <pre><code class="language-bash">$ sudo pacman -S zsh</code></pre>
+            <p>Una vez instalada procedemos a cambiar la shell por defecto a zsh como usuario root:</p>
+            <pre><code class="language-bash"># Se debe de ejecutar como root
+$ usermod --shell /bin/zsh kallrize</code></pre>
+            <p>Ahora, si cerramos la terminal y la abrimos nuevamente deberíamos de ver el cambio a zsh con el comando <strong>echo $SHELL</strong></p>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/zsh1.png" alt="configuración zsh - placeholder">
+             </div>
+             <br>
+            <h3>Descarga de Plugins:</h3>
+            <p>En zsh podemos descargar una gran cantidad de plugins para poder mejorar ya sea la estética o funcionalidad de la Shell, en este caso a mí me gusta usar  estas 2:</p>
+            <ul>
+              <il>zsh-syntax-hightlighting</il>
+              <il>zsh-autosuggestions</il>
+            </ul>
+            <pre><code class="language-bash">$ paru -S zsh-syntax-hightlighting zsh-autosuggestions</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/zsh2.png" alt="configuración zsh - placeholder">
+             </div>
+             <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/zsh3.png" alt="configuración zsh - placeholder">
+             </div>
+             <br>
+             <p>Para lo siguiente, vamos a necesitar instalar locate para poder ubicar los 2 plugins que acabamos de instalar</p>
+             <pre><code class="language-bash">$ sudo pacman -S mlocate</code></pre>
+             <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/zsh4.png" alt="configuración zsh - placeholder">
+              </div>
+              <br>
+              <p>Ahora procedemos a actualizar la base de datos de locate</p>
+              <pre><code class="language-bash">$ sudo updatedb</code></pre>
+              <div class="img-placeholder"> 
+                 <img src="../assets/img/post/persarch/zsh5.png" alt="configuración zsh - placeholder"> 
+              </div>
+              <br>
+              <p>Ahora si procedemos a buscar las rutas de los plugins</p>
+              <pre><code class="language-bash">$ locate zsh-syntax-highlighting
+$ locate zsh-autosuggestions</code></pre> 
+              <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/zsh6.png" alt="configuración zsh - placeholder">
+              </div>
+              <br>
+
+
+              <p>Con las rutas ya ubicadas procedemos a abrir el archivo <strong>.zshrc</strong> para agregar los plugins</p>
+              <pre><code class="language-bash">$ nano ~/.zshrc</code></pre>
+             
+              <p>Dentro del archivo vamos a agregar las siguientes líneas al final del documento:</p>
+              <pre><code class="language-bash">source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh</code></pre>
+               <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/zsh7.png" alt="configuración zsh - placeholder">
+               </div>
+               <br>
+          </section>
+
+          <!-- ===Cuarta SECCIÓN: lsd bat === -->
+           <section id="configuración-lsd-bat">
+            <h2>Instalación y configuración de lsd y bat:</h2>
+            <p>Para instalar lsd y bat usamos el siguiente comando:</p>
+            <pre><code class="language-bash">$ pacman -S lsd bat</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/lsd1.png" alt="configuración lsd y bat - placeholder">
+             </div>
+             <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/lsd2.png" alt="configuración lsd y bat - placeholder">
+             </div>
+             <br>
+             <p>Ahora procedemos a abrir el archivo .zshrc para agregar los alias de lsd y bat</p>
+              <pre><code class="language-bash">$ nano ~/.zshrc</code></pre>
+              <p>Dentro del archivo vamos a agregar las siguientes líneas al final del documento:</p>
+              <pre><code class="language-bash">alias ls='lsd'</code></pre>
+              <p>Yo el bat no me gusta agregarlo como <strong>alias</strong> ya que a mi me gusta alternar entre cat y bat para la lectura de archivos</p>
+           </section>
+            <br>
+
+          <!-- ===Cuarta SECCIÓN: lsd bat === -->
+           <section id="Fuentes-para-la-Kitty">
+            <h2>Fuentes para la Kitty:</h2>
+            <p>Para esto vamos a dirigirnos a descargar las fuentes a la página de <a href="https://www.nerdfonts.com/font-downloads">Nerd Fonts</a> y descargar las fuentes que más les gusten, en mi caso uso <strong>Hack Nerd Font</strong></p>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/font1.png" alt="configuración fuentes kitty - placeholder">
+             </div>
+             <br>
+             <p>Una vez descargadas las fuentes procedemos a descomprimir el archivo .zip y copiar las fuentes a la carpeta de fuentes de nuestro sistema:</p>
+             <pre><code class="language-bash">$ cd  /usr/share/fonts
+$ mv  ~/Descargas/HackNerdFont-* . </code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font2.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <p>Finalmente, descomprimimos el archivo y eliminamos el zip</p>
+              <pre><code class="language-bash">$ unzip HackNerdFont-*.zip
+$ rm HackNerdFont-*.zip</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font3.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <h3>Edición de fuente en Kitty</h3>
+              <p>Ahora que ya tenemos las fuentes instaladas procedemos a editar el archivo <strong>kitty.conf</strong> para cambiar la fuente por la que acabamos de instalar</p>
+              <pre><code class="language-bash">$ nano ~/.config/kitty/kitty.conf</code></pre>
+              <p>Dentro del archivo vamos a cambiar la línea de <strong>font_family</strong> por la fuente que acabamos de instalar</p>
+              <pre><code class="language-bash">font_family HackNerdFonts</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font4.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <p>Para mi gusto la letra es muy pequeña, asi que he decidico cambiar el tamaño</p>
+              <pre><code class="language-bash">font_size 13</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font5.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <h3>Establecer el mapeo de las terminales</h3>
+              <p>En caso de que queramos configurar el mapeo de terminales para que con control y las flechas nos movamos de un lado a otro vamos a hacerlo con la siguiente configuración en la kitty</p>
+              <pre><code class="language-bash">map ctrl+left neighboring_window left
+map ctrl+right neighboring_window right
+map ctrl+up neighboring_window up
+map ctrl+down neighboring_window down</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font6.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <p>Ahora con esto cada vez que abramos una nueva terminal con ctrl + shift + enter podemos navegar entre terminales sin usar el mouse para seleccionar la terminal:</p>
+              <p>Y con supr + shift L podemos cambiar la orientación de las ventanas</p>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font7.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <h3>Opcional: Clipboard extra</h3>
+              <p>En caso de que queramos tener un clipboard extra para copiar y pegar entre terminales podemos agregar la siguiente configuración en kitty</p>
+              <pre><code class="language-bash">map f1 copy_to_buffer a # Copiar al buffer 'a' con F1
+map f2 paste_from_buffer a # Pegar desde el buffer 'a' con F2</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font8.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <p>Con esto al hacer ctrl C copias y ctrl V pegas</p>
+              <p>Pero al usar f1 copias y f2 pegas y asi se manejan diferentes clipboards</p>
+              <br>
+              <h3>Configuración de cursor</h3>
+              <p>Para cambiar la configuración del cursor podemos agregar las siguientes líneas en kitty.conf</p>
+              <pre><code class="language-bash">cursor_shape beam
+cursor_beam_thickness 1.8</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font9.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>
+              <p>Esto es parra que el cursos de  la terminal se vea más delgado</p>   
+              <br>
+              <h3>Mapeo de terminales con <strong>CTRL+SHIFT+Enter o T</strong></h3>
+              <p>Para abrir nuevas terminales con ctrl + shift + enter o ctrl + shift + t podemos agregar las siguientes líneas en kitty.conf</p>
+              <pre><code class="language-bash">map ctrl+shift+enter new_window_with_cwd
+map ctrl+shift+t new_window_with_cwd</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/font10.png" alt="configuración fuentes kitty - placeholder">
+              </div>
+              <br>         
+           </section>
+
+           <!-- ===Quinta SECCIÓN: Instalación y configuración de la powerlevel10K === -->
+            <section id="configuración-powerlevel10k">
+            <h2>Instalación y configuración de la powerlevel10k:</h2
+            <p>Para instalar la powerlevel10k seguimos las instrucciones del readme de <a href="https://github.com/romkatv/powerlevel10k#manual">github:</a></p>
+            <pre><code class="language-bash">$ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+$ echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/post/persarch/p10k1.png" alt="configuración powerlevel10k - placeholder">
+             </div>
+             <br>
+             <p>Ahora una vez todo está listo, si hacemos zsh va a entrar en un modo de configuración en el cual va preguntando sobre la edición de la terminal:</p>
+             <p>Esta parte es personal por lo que no hay instrucción guiada, solo hay que responder lo que nos preguntan</p>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/p10k2.png" alt="configuración powerlevel10k - placeholder">
+              </div>
+              <br>
+              <p>Al Finalizar veriamos un resultado así en mi caso:</p>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/p10k3.png" alt="configuración powerlevel10k - placeholder">
+              </div>
+              <br>
+              <p>A mi la información que se muestra a la derecha no me importa y más bien me quita espacio por lo que siempre decido quitarla</p>
+              <p>Para esto abrimos el archivo <strong>.p10k.zsh</strong> y buscamos la sección de <strong>RIGHT_PROMPT_ELEMENTS</strong> y comentamos todas las líneas que estén dentro de esa sección</p>
+              <pre><code class="language-bash">$ nano ~/.p10k.zsh</code></pre>
+              <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/p10k4.png" alt="configuración powerlevel10k - placeholder">
+              </div>
+              <br>
+              <p>En caso de querer tener esta misma configuración en root, debemos de repetir el proceso de instalación de powerlevel10k pero esta vez como usuario root</p>
+
+            </section>
+            <br>
+          <!-- ===Sexta SECCIÓN: configuración de bindkeys en zsh === -->
+          <section id="configuración-bindkeys-zsh">
+            <h2>Configuración de bindkeys en zsh:</h2>
+            <p>Para mejorar la experiencia en la terminal podemos agregar los siguientes bindkeys en el archivo .zshrc</p>
+            <pre><code class="language-bash">$ nano ~/.zshrc</code></pre>
+            <p>Dentro del archivo vamos a agregar las siguientes líneas al final del documento:</p>
+            <pre><code class="language-bash">#Bindkeys
+bindkey "^[[H" beginning-of-line # Inicio de línea
+bindkey "^[[F" end-of-line       # Fin de línea 
+bindkey "^[[3~" delete-char      # Suprimir
+bindkey "^[[1;3C" forward-word   # Ctrl + Flecha derecha
+bindkey "^[[1;3D" backward-word  # Ctrl + Flecha izquierda</code></pre>
+            <div class="img-placeholder">
+                  <img src="../assets/img/post/persarch/bk1.png" alt="configuración bindkeys zsh - placeholder">
+              </div>
+              <br>
+              <p>Con esto ya tendremos los bindkeys configurados para una mejor experiencia en la terminal</p>
+
+          </section>
+          <br>
+
+          <!-- === SÉPTIMA SECCIÓN: Notas, trucos y cierre === -->
+          <section id="Final">
+            <h2>Notas finales, trucos y conclusión</h2>
+
+            
+            <p> - Recuerda actualizar tu sistema regularmente con <code>sudo pacman -Syu</code></p>
+            <p> - Instalación de mdcat para interpretar archivos md en la terminal: <code>sudo pacman -S mdcat</code></p>
+            <p> - Proximamente voy a subir mis modulos de Polybar para que lo puedan usar</p>
+            <p> - Pueden usar Pywal para generar paletas de colores automáticamente basadas en el fondo de pantalla</p>   
+            <br>
+            <p class="center neon-text">C:\> Arch Presonalizado correctamente ⚡</p>
+            <p class="center neon-text">C:\> No se olviden de compartir</p>
+          </section>
+
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
