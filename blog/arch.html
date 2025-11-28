@@ -342,7 +342,7 @@ $ mkfs.ext4 /dev/sda2</code></pre>
               <li>Luego hacemos <strong>swapon</strong> para aplicar los cambios</li>
             </ul>
             <pre><code class="language-bash">$ mkswap /dev/sda3
-$ swapon /dev/sda3</code></pre>
+$ swapon</code></pre>
             <div class="img-placeholder">
               <img src="../assets/img/post/arch/vfat3.png" alt="Formateo - placeholder">
             </div>
@@ -408,10 +408,9 @@ $ passwd
 # Crear usuario y añadir a wheel
 $ useradd -m kallrize
 $ passwd kallrize
-$ usermod -aG wheel kallrize
 
-# Instalar sudo y editores
-$ pacman -S sudo vim nano</code></pre>
+# Instalar editores
+$ pacman -S vim nano</code></pre>
               <p>Al final podemos comprobar que tenemos un home para nuestro usuario</p>
 
             <div class="img-placeholder">
@@ -473,7 +472,7 @@ $ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
 $ nano /etc/hosts
 # agregar:
 127.0.0.1    localhost
-127.0.1.1    atlas.localdomain atlas
+127.0.0.1    atlas.localdomain atlas
 </code></pre>
 
             <div class="img-placeholder">
@@ -595,7 +594,7 @@ $ sudo systemctl start gdm.service</code></pre>
             <br>
             <h3>Corrección de proporciones y VMware Tools</h3>
             <p>Para ajustar el redimensionamiento de pantalla e integración con VMware:</p>
-            <pre><code class="language-bash">$ sudo pacman -S gtkmm open-vm-tools xf86-video-vmware xf86-input-vmmouse
+            <pre><code class="language-bash">$ sudo pacman -S gtkmm open-vm-tools xf86-video-vmware xf86-input-vmmouse #Si alguno da errores de que el paquete no existe pero si se escribió mal, se puede ignorar y  seguir
 $ sudo systemctl enable vmtoolsd
 $ sudo reboot now</code></pre>
 
@@ -636,7 +635,7 @@ $ sudo reboot now</code></pre>
             </p>
 
             <p class="center neon-text">C:\> Arch instalado correctamente ⚡</p>
-            <p class="center neon-text">C:\> Próximamente capítulo de personaliazción</p>
+            <p class="center neon-text">C:\> Próxima meta <a href="https://phantomcrypter.github.io/blog/archper.html">capítulo de personaliazción</a></p>
           </section>
 
         </article>
@@ -645,4 +644,5 @@ $ sudo reboot now</code></pre>
   </main>
 </body>
 </html>
+
 
