@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <header style="text-align: center;">
+    <h1 class="glitch" data-text="Blog">Publicaciones</h1>
+    <p>Explora artículos técnicos y consejos de hacking, redes y Linux.</p>
+  </header>
+
+  <!-- Filtros -->
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <button class="filter-btn" data-category="all">Todos</button>
+    <button class="filter-btn" data-category="Hacking">Hacking</button>
+    <button class="filter-btn" data-category="Redes">Redes</button>
+    <button class="filter-btn" data-category="Linux">Linux</button>
+  </div>
+
+  <section class="projects-container">
+
+    <!-- Artículo 1 -->
+    <div class="project-card" data-category="Redes" style="background-image: url('/assets/img/notes/snmp/banner.png');">
+      <div class="project-content">
+        <h2>Protocolo SNMP</h2>
+        <p>¿Qué es el protocolo SNMP y cómo se utiliza en redes?</p>
+        <a class="project-link" href="notes/snmp.html">Leer más →</a>
+      </div>
+    </div>
+
+  </section>
+
+  </section>
+
+  <script>
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.category;
+
+        cards.forEach(card => {
+          const match = category === 'all' || card.dataset.category === category;
+          card.style.display = match ? 'flex' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
