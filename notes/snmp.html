@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocolo SNMP</title>
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../notes.html">← Volver a las Notas</a>
+        <h1></h1>
+        <h1>¿Qué es el protocolo SNMP?</h1>
+
+        
+        <div class="img-placeholder">
+          <img src="../assets/img/notes/snmp/banner.png" alt="SNMP - placeholder">
+        </div>
+        <br>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Instalación y configuración de BSPWM === -->
+          <section id="Conceptos-basicos-snmp">
+            <h2>Simple Network Management Protocol</h2>
+            <br>  
+            <p>
+              Es un protocolo UDP el cual permite a los administradores de red gestionar y supervisar dispositivos dentro de una red:
+            </p>
+            <ul>
+                <li>Routers</li>
+                <li>Switches</li>
+                <li>Servidores</li>
+                <li>Impresoras</li>
+            </ul>
+            <br>
+            <p>Recompila información de forma estandarizada usando un modelo de consulta, respuesta y notificaciones mediante agentes SNMP y una base de gestión de información <strong>MIB</strong> estructurada de <strong>OIDs</strong>.</p>
+            
+            <p>Estos paquetes son esenciales para el funcionamiento de bspwm y la gestión de atajos de teclado.</p>
+            <br>
+            <ul>
+                <li>Get → Consultas</li>
+                <li>Set → Configuración</li>
+                <li>Trap → Notificaciones</li>
+            </ul>
+            <br>
+            <h3>Versiones:</h3>
+            <ul>
+                <li>SNMPv1: Versión original, básica y limitada en seguridad.</li>
+                <li>SNMPv2c: Mejora el rendimiento y la capacidad, pero mantiene la seguridad básica.</li>
+                <li>SNMPv3: Añade seguridad avanzada con autenticación y cifrado.</li>
+            </ul>
+            <br>
+            <h3>Componentes principales:</h3>
+            <ul>
+                <li><strong>Agente SNMP:</strong> Es el software que reside en el dispositivo de red y recompila datos para luego responder a las solicitudes del software de gestión</li>
+                <br>
+                <li><strong>Gestor SNMP:</strong> Es un software que monitoriza los dispositivos, enviando solicitudes y recibiendo datos</li>
+                <br>
+                <li><strong>Base de Información de Gestión (MIB):</strong> Es una base de datos jerárquica que define los objetos gestionados en la red, cada uno identificado por un <strong>OID</strong> para acceder a datos específicos</li>
+                <br>
+                <li><strong>Community Strings:</strong> Cadenas de texto que se usan como contraseñas para autenticación básica (p. ej., "public"), en caso de que se intente ingresar con una community string inválida, los dispositivos van a ignorar la comunicación. Se usa en versiones viejas como SNMPv1 y SNMPv2c.</li>
+                <br>
+                <li><strong>Traps:</strong> Son notificaciones asincrónicas enviadas por los agentes SNMP a los gestores SNMP cuando ocurren eventos específicos. Son enviados sin ser solicitados por el gestor SNMP. Ejemplo: notificaciones de fallos o reinicios, CPU alta o licencia vencida</li>
+            </ul>
+            <br>
+            <h3>Cómo funciona:</h3>
+            <ul>
+                <ol>1. El gestor SNMP solicita información (GET) o intenta cambiar una configuración (SET) a un agente mediante un OID específico</ol>
+                <ol>2. El agente SNMP responde con los datos solicitados o confirma el cambio realizado</ol>
+                <ol>3. El agente puede enviar traps al gestor para notificar eventos importantes</ol>
+            </ul>
+             <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp.png" alt="explicación SNMP - placeholder">
+             </div>
+            <br>
+
+            <h3>Usos comunes:</h3>
+            <ul>
+                <li>Monitorización de rendimiento de red</li>
+                <li>Detección y diagnóstico de fallos</li>
+                <li>Gestión de configuración de dispositivos</li>
+                <li>Generación de informes y análisis de tendencias</li>
+            </ul>
+            <br>
+            <h3>Seguridad:</h3>
+            <p>SNMP tiene varias vulnerabilidades de seguridad, especialmente en versiones antiguas como SNMPv1 y SNMPv2c:</p>
+            <ul>
+                <li><strong>SNMPv1 y SNMPv2c:</strong> Utilizan community strings como contraseñas, que son transmitidas en texto plano. Esto hace que sean vulnerables a ataques de escucha.</li>
+                <li><strong>SNMPv3:</strong> Introduce autenticación y cifrado, mejorando significativamente la seguridad. Se recomienda usar esta versión cuando sea posible.</li>
+            </ul>
+            <br>
+            <h3>Herramientas comunes:</h3>
+            <ul>
+                <li><strong>snmpwalk:</strong> Herramienta de línea de comandos para recorrer la MIB y obtener información de dispositivos SNMP.</li>
+                <li><strong>snmpget:</strong> Utilizada para obtener valores específicos de OIDs.</li>
+                <li><strong>snmpset:</strong> Permite cambiar configuraciones en dispositivos SNMP.</li>
+                <li><strong>Wireshark:</strong> Herramienta de análisis de red que puede capturar y analizar tráfico SNMP.</li>
+            </ul>
+            <br>
+            <h3>Perspectiva de hacker</h3>
+            <p>Desde la perspectiva de un hacker, SNMP puede ser un objetivo atractivo debido a sus vulnerabilidades inherentes, especialmente en versiones antiguas. Un atacante podría explotar SNMP para recopilar información sensible sobre la red, como configuraciones de dispositivos, estadísticas de rendimiento y detalles de la infraestructura.</p>
+            <p>Además, si un atacante logra obtener acceso a un dispositivo SNMP mal configurado, podría potencialmente modificar configuraciones críticas, lo que podría llevar a interrupciones del servicio o incluso a la toma de control del dispositivo.</p>
+            <h3>Laboratorio</h3>
+
+            <p>Para realizar este laboratorio vamos a necesitar tener instalado snmp en nuestra máquina, en mi caso estoy utilizando Ubuntu Server así que la instalación la voy a hacer de la siguiente forma:</p>
+            <br>
+            <pre><code class="language-bash">$ sudo apt install snmpd snmp libsnmp-dev</code></pre>
+            <br>
+            <p>Una vez instalados los paquetes, vamos a movernos al directorio de configuración y confirmar que los archivos se encuentren dentro:</p>
+            <pre><code class="language-bash">$ cd /etc/snmp</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp1.png" alt="configuración SNMP - placeholder">
+             </div>
+             <br>
+            <p>Ahora vamos a proceder a hacer una copia del archivo snmpd.conf</p>
+            <pre><code class="language-bash">$ sudo cp snmpd.conf snmpd.conf.bak</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp2.png" alt="configuración SNMP - placeholder">
+             </div>
+             <br>
+             <p>Una vez creado el respaldo, vamos a proceder con la configuración del archivo snmpd.conf:</p>
+            <pre><code class="language-bash">$ sudo nano snmpd.conf</code></pre>
+            <br>
+            <p>Antes de modificar cualquier valor, hice pruebas con las configuraciones por defecto para estudiar su funcionamiento.</p>
+            <p>Para esto primero vamos a reiniciar el servicio y luego confirmar si está en funcionamiento:</p>
+            <pre><code class="language-bash">$ sudo systemctl restart snmpd
+$ ss -tulnp | grep 161</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp3.png" alt="configuración SNMP - placeholder">
+             </div>
+             <br
+            <p>Ahora vamos a proceder a hacer una consulta básica para obtener información del sistema</p>
+            <p>Al utilizar snmpwalk con la dirección IP del servidor obtengo un error de conexión:</p>
+            <pre><code class="language-bash">$ snmpwalk -v1 -c public 192.168.70.156</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp4.png" alt="configuración SNMP - placeholder">
+             </div>
+             <br>
+            <p>Esto se debe a que en la configuración por defecto el acceso está limitado a localhost</p>
+            <p>Esto lo podemos confirmar al ejecutar la misma tarea desde localhost:</p>
+            <pre><code class="language-bash">$ snmpwalk -v1 -c public localhost</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp5.png" alt="configuración SNMP - placeholder">
+             </div>
+             <br>
+            <p>Ahora vamos a proceder a modificar el archivo snmpd.conf para permitir el acceso desde cualquier IP</p>
+            <p>Para esto vamos a buscar la siguiente línea:</p>
+            <p>Como se puede observar, he comentado la línea de arriba para no generar conflicto (en caso de que lo haya) y agregué una nueva línea la cual contiene la dirección localhost y la ip local de la máquina</p>
+             <pre><code class="language-bash">agentAddress udp:127.0.0.1:161,udp:192.168.70.156:161</code></pre>
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp6.png" alt="configuración SNMP - placeholder">
+                </div>
+            <br>
+            <p>Ahora vamos a proceder a salvar el archivo y reiniciar el servicio para confirmar que esté en funcionamiento</p>
+            <pre><code class="language-bash">$ sudo systemctl restart snmpd
+$ ss -tulnp | grep 161</code></pre>
+            <br>
+            <p>Ahora vamos a proceder a hacer la misma consulta desde una máquina remota</p>
+            <pre><code class="language-bash">$ snmpwalk -v1 -c public 192.168.70.156</code></pre>  
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/snmp/snmp7.png" alt="configuración SNMP - placeholder">
+             </div>
+             <br>
+             <p>Como se puede observar, ahora si podemos obtener la información del sistema de forma remota</p>
+             <h3>¿Más Labs?</h3>
+                <p>Existen muchas más configuraciones que se le pueden hacer a SNMP, pero actualmente no he podido investigar a mayor profundidad para hacer laboratorios más a profundidad</p>
+                <p>Espero más adelante poder profundizar en este tema y traer laboratorios más avanzados</p>
+                <br>
+            <h3>¿Donde practicar?</h3>
+            <p>En caso de querer aprender a comprometer estos recursos actualmente estas las máquinas virtuales disponibles que puede utilizar:</p>
+            <ul>
+                <li><a href="https://app.hackthebox.com/machines/Antique?tab=machine_info">Antique - Hack The Box</a></li>
+                <li><a href="https://app.hackthebox.com/machines/Pandora?tab=machine_info">Pandora - Hack The Box</a></li>
+            </ul>
+
+            </section>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
