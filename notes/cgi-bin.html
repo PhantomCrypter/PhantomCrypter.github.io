@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CGI-BIN</title>
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../notes.html">← Volver a las Notas</a>
+        <h1></h1>
+        <h1>¿Qué es y cómo funciona cgi-bin?</h1>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Instalación y configuración de BSPWM === -->
+          <section id="Conceptos de cgi-bin">
+            <br>  
+            <p>
+              CGI (Common Gateway Interface) es un estándar que permite la comunicación entre scripts y servidores web de alojamiento.
+            </p>
+            <p>Se trata de una tecnología pionera que surgió antes de los frameworks modernos y de JavaScript, diseñada para añadir funcionalidades dinámicas a las páginas web estáticas.</p>
+            <br>
+            <h2>¿Cómo funciona?</h2>
+            <p>CGI utiliza un directorio especial llamado <strong style="color: aqua;">/cgi-bin/</strong>, ubicado en la raíz del servidor web. Dentro de esta carpeta se almacenan y ejecutan los scripts CGI, que pueden estar escritos en diversos lenguajes como Perl, Python, C, o incluso shell scripts.</p>
+            <br>
+            <h3>Aplicaciones comunes:</h3>
+            <ul>
+                <li>Genera contenido dinámico en páginas web</li>
+                <li>Procesar formularios enviados por usuarios</li>
+                <li>Interactuar con bases de datos</li>
+                <li>Ejecutar operaciones del lado del servidor</li>
+            </ul>
+            <br>
+            <p>Ees importante notar que para que los scripts CGI funcionen correctamente, deben tener permisos de ejecución adecuados y estar configurados correctamente en el servidor web. (0755)</p>
+            <br>
+            <h3>Estructura de cgi-bin:</h3>
+            <div class="img-placeholder">
+                 <img src="../assets/img/notes/cgi-bin/cgi-bin.png" alt="configuración cgi-bin - placeholder">
+             </div>
+             <br>
+             <h3>Línea de vida de cgi-bin:</h3>
+             
+             <div class="img-placeholder">
+                 <img src="../assets/img/notes/cgi-bin/life-cycle.png" alt="línea de vida cgi-bin - placeholder">
+                </div>
+                <br>
+             <p>C:\ Este video me ha ayudado a entender de una manera más visual sobre el uso de cgi-bin: <a href="https://www.youtube.com/watch?v=iyN1upBxbMw" target="_blank">cgi-bin, ftw (part 1)</a></p>
+             <P>C:\ Máquinas las cuales se puede explotar este servicio:</P>
+                <ul>
+                    <li>Shocker (Hack The Box)</li>
+            </section>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
