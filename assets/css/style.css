@@ -615,4 +615,68 @@ table tr:nth-child(even) {
     opacity: 0.8;
     text-shadow: 0 0 2px #0f0, 0 0 5px #0f0;
   }
+
+}
+
+/* Footer del post */
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 3rem; /* +1rem más espacio */
+  border-top: 1px solid #333;
+  text-align: center;
+}
+
+.post-date {
+  display: block;
+  color: #555;
+  font-family: var(--font-code);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.post-date::before {
+  content: "// ";
+  color: var(--magenta);
+}
+
+.post-date time {
+  color: #f8f8f2; /* blanco */
+}
+
+.post-social {
+  margin-top: 1rem;
+}
+
+.post-social p {
+  color: var(--cyan); /* [ CONTACT ] en cyan */
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.post-social a {
+  display: inline-block;
+  margin: 0 0.5rem;
+  color: var(--green); /* links en verde */
+  font-family: var(--font-code);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+  transition: all 0.2s ease;
+  border: none;
+  padding: 0;
+}
+
+.post-social a::before {
+  content: "~$ ";
+  color: var(--magenta);
+}
+
+.post-social a:hover {
+  color: var(--cyan);
+  background: none;
+  box-shadow: none;
 }
