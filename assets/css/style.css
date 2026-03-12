@@ -1,13 +1,9 @@
 body {
   background-image: url("/assets/img/grafiti-style.png");
   background-size: cover;
-  /* Ajusta la imagen para cubrir toda la pantalla */
   background-position: center;
-  /* Centra la imagen */
   background-repeat: no-repeat;
-  /* Evita repeticiones */
   background-attachment: fixed;
-  /* Fija el fondo al hacer scroll */
   margin: 0;
   padding: 0;
   font-family: 'Fira Code', monospace;
@@ -224,19 +220,29 @@ nav ul li a:hover {
   position: relative;
   background-size: cover;
   background-position: center;
-  height: 250px;
+  /* ↓ CAMBIO: min-height en lugar de height fija, así el texto nunca queda cortado */
+  min-height: 320px;
+  width: 100%;
   border: 2px solid #ff5555;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 0 15px #ff00ff44;
   transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
-  align-items: end;
+  align-items: flex-end;
+  cursor: pointer;
 }
 
 .project-card:hover {
   transform: scale(1.03);
   box-shadow: 0 0 20px #ff00ffaa, 0 0 30px #00ffcc88;
+}
+
+/* Enlace invisible que cubre toda la card */
+.card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
 }
 
 .project-content {
@@ -245,6 +251,8 @@ nav ul li a:hover {
   color: #f8f8f2;
   font-family: 'Fira Code', monospace;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .project-content h2 {
@@ -257,11 +265,14 @@ nav ul li a:hover {
   margin-bottom: 0.5rem;
 }
 
+/* "Leer más" encima del card-link */
 .project-link {
   color: #50fa7b;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.2s;
+  position: relative;
+  z-index: 3;
 }
 
 .project-link:hover {
@@ -269,32 +280,12 @@ nav ul li a:hover {
 }
 
 
-/* Efecto Glitch básico */
-
-/* 
-
-CHANGELOG:
-
-- Removed glitch animation causing issues with viewport rendering.
-
-*/
-
-/* @keyframes glitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0); }
-} */
-
 .glitch {
   animation: glitch 0.4s infinite;
   color: #ff0066;
   text-shadow: 2px 0 #00ffff, -2px 0 #ccff00;
 }
 
-/* Paleta definida en root para fácil uso futuro */
 :root {
   --bg: #000;
   --text: #fff;
@@ -330,7 +321,6 @@ CHANGELOG:
   position: absolute;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  /* oscurece para legibilidad */
   z-index: -1;
 }
 
@@ -481,13 +471,9 @@ CHANGELOG:
   box-shadow: 0 0 8px var(--cyan);
 }
 
-/* publicaciones de blog*/
-
-/* Estética coherente para página proyecto/blog */
 .proyecto {
   padding: 2rem;
   background-color: #000;
-  /* Asegura fondo oscuro uniforme */
 }
 
 .proyecto h1,
@@ -521,7 +507,6 @@ CHANGELOG:
   margin-bottom: 1rem;
 }
 
-/* Imágenes dentro del artículo */
 .proyecto img {
   max-width: 100%;
   height: auto;
@@ -542,15 +527,12 @@ CHANGELOG:
   border-radius: 4px;
 }
 
-
-/* Contenedor de blog */
 .contenido-blog {
   max-width: 900px;
   margin: auto;
   padding: 1rem;
 }
 
-/* Bloques de código */
 pre code {
   font-size: 0.9rem;
   line-height: 1.5;
@@ -573,8 +555,6 @@ pre code {
   box-shadow: 0 0 10px #00ff00;
   max-width: 1300px;
 }
-
-/* tablas*/
 
 table {
   width: auto;
@@ -603,8 +583,6 @@ table tr:nth-child(even) {
   background-color: #1a1a1a;
 }
 
-
-/* Animación flicker tipo terminal glitch */
 @keyframes flicker {
   0% {
     opacity: 1;
@@ -615,13 +593,11 @@ table tr:nth-child(even) {
     opacity: 0.8;
     text-shadow: 0 0 2px #0f0, 0 0 5px #0f0;
   }
-
 }
 
-/* Footer del post */
 .post-footer {
   margin-top: 3rem;
-  padding-top: 3rem; /* +1rem más espacio */
+  padding-top: 3rem;
   border-top: 1px solid #333;
   text-align: center;
 }
@@ -641,7 +617,7 @@ table tr:nth-child(even) {
 }
 
 .post-date time {
-  color: #f8f8f2; /* blanco */
+  color: #f8f8f2;
 }
 
 .post-social {
@@ -649,7 +625,7 @@ table tr:nth-child(even) {
 }
 
 .post-social p {
-  color: var(--cyan); /* [ CONTACT ] en cyan */
+  color: var(--cyan);
   font-family: var(--font-code);
   font-size: 0.85rem;
   margin-bottom: 1rem;
@@ -660,7 +636,7 @@ table tr:nth-child(even) {
 .post-social a {
   display: inline-block;
   margin: 0 0.5rem;
-  color: var(--green); /* links en verde */
+  color: var(--green);
   font-family: var(--font-code);
   font-size: 0.9rem;
   letter-spacing: 1px;
