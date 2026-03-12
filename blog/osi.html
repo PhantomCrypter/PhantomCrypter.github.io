@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSI vs TCP/IP</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="terminal-box glitch-bg">
+    <a href="../blog.html" class="back-link">&larr; Volver al blog</a>
+    <article class="blog-post">
+    <h1></h1>
+      <h1 class="post-title">Cómo funciona el Modelo OSI</h1>
+
+      <p>La mayoría de las personas enseñan o aprenden OSI  como una lista para memorizar. 7 capas - sus nombres</p>
+      <p>Esto no es de mucha utilidad ya que esto no te dice por qué existe esa capa o cual problema resuelve.</p>
+      <p>Entonces, ya entendiendo esto sabemos que las preguntas correctas no son ¿Cuáles son las capas? Sino ¿Qué problema tenía la red que obligó a inventar cada capa?</p>
+      <br>
+      <h2>¿Por qué existen las capas?</h2>
+      <p>Imaginemos que queremos enviar  un mensaje a alguien en otra ciudad. Si pone atención podrá observar  que hay  varios problemas independientes que resolver:</p>
+      <br>
+      <ol>
+        <li>¿Cómo convierto mi  idea en bits? <a style="color:yellow"> -></a>  <strong style="color:#ff00ff">Aplicación y presentación</strong></li>
+        <li>¿Cómo mantengo la conversación organizada? <a style="color:yellow"> -></a>  <strong style="color:#ff00ff">Sesión</strong></li>
+        <li>¿Cómo se asegura que el mensaje llegue completo y en orden? <a style="color:yellow"> -></a>  <strong style="color:#ff00ff">Transporte</strong></li>
+        <li>¿Cómo sé a qué dirección enviarlo si hay  miles de caminos posibles? <a style="color:yellow"> -></a>  <strong style="color:#ff00ff">Red</strong></li>
+        <li>¿Cómo lo mando físicamente al siguiente dispositivo? <a style="color:yellow"> -></a>  <strong style="color:#ff00ff">Enlace</strong></li>
+        <li>¿Cómo lo convierto en señal eléctrica, luz o radio? <a style="color:yellow"> -></a>  <strong style="color:#ff00ff">Física</strong></li>
+      </ol>
+      <br></br>
+      <p>Como se puede observar, cada capa resuelve un problema distinto e independiente</p>
+      <p>Esto es importante ya que significa que se puede atacar cada problema por separado, y esto es justo lo que hace un atacante</p>
+      <br>
+      <h2>OSI vs TCP/IP</h2>
+      <p>OSI es el modelo teórico mientras que TCP/IP es lo que existe en  la realidad. En la práctica no  se hablan de 7 capas sino que se hablan de 4</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>TCP/IP</th><th>OSI</th><th>Qué hace?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Aplicación</th><td>Capas 5, 6 y 7</td><td>HTTP, DNS,SSH - Lo que ve el usuario</td>
+          </tr>
+          <tr>
+            <th>Transporte</th><td>Capa 4</td><td>TCP, UDP - Cómo se mueven los datos</td>
+          </tr>
+          <tr>
+            <th>Internet</th><td>Capa 3</td><td>IP - Cómo se enrutan los datos | Hacia donde van</td>
+          </tr>
+          <tr>
+            <th>Acceso a la red</th><td>Capas 1 y 2</td><td>Ethernet, Wi-Fi - Cómo llegan/se envían los datos físicamente</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p><strong>Nota:</strong> Wifi como medio de transmisión opera en capas 1 y 2. Lo que a veces se confunde como "Wifi en capa 3" es  el protocolo IP corriendo sobre Wifi, pero IP y Wifi son cosas distintas. Esto importa en ofensiva porque un ataque de deautenticación Wifi opera en capa 2, sin necesidad de IP</p>
+      <br>
+      <p>De igual forma si desean ver las capas de OSI por separado:</p>
+      <table>
+        <tbody>
+            <tr>
+                <th>7 - Aplicación</th><td>HTTP,FTP,IRC,SSH,DNS</td><td>Data</td>
+            </tr>
+            <tr>
+                <th>6 - Presentación</th><td>SSL, TLS, MPEG, JPEG</td><td>Data</td>
+            </tr>
+            <tr>
+                <th>5 - Sesión</th><td>API, WinSock, Sockets</td><td>Data</td>
+            </tr>
+            <tr>
+                <th>4 - Transporte</th><td>TCP, UDP</td><td>Segmentos</td>
+            </tr>
+            <tr>
+                <th>3 - Red</th><td>IP, ICMP, IPSec, IGMP</td><td>Paquetes</td>
+            </tr>
+            <tr>
+                <th>2 - Enlace</th><td>Ethernet, PPP, ATM</td><td>Frames</td>
+            </tr>
+            <tr>
+                <th>1 - Física</th><td>Coax, Ethernet, Wireless, USB</td><td>Bits</td>
+            </tr>
+        </tbody>
+      </table>
+      <br>
+      <p>Cuando se está hackeando, la mayoría del tiempo operas en capa 3 y 4. Cuando haces ARP spoofing, operas en capa 2. Cuando explotas una aplicación web, operas en capa 7 pero el ataque viaja por todas las demás</p>
+      <br>
+      <h2>Qué pasa cuando escribes google.com?</h2>
+      <p>Estos son ejercicios mentales que ayudan  o le obligan a entender todas las  capas en un contexto real:</p>
+      <br>
+      <ol>
+        <li>Su navegador es capa 7. Genera un HTTP request: GET / HTTP/1.1</li>
+        <li>Necesita saber la IP de google.com, asi que hace una consulta DNS, que también es capa 7 pero usa UDP en capa 4</li>
+        <li>Una vez ya tiene la IP, en capa 4 inicia el handshake con esa IP para establecer la conexión antes de mandar cualquier dato</li>
+        <li>La IP en capa 3 decide por qué camino mandar cada paquete. Esta capa no sabe nada de TCP ni de HTTP, solo sabe o se enfoca en direcciones</li>
+        <li>Ethernet en capa 2 toma ese paquete y lo manda al siguiente dispositivo físico, que normalmente es un router. Al ser capa 2 hay que recordar que se hace uso de direcciones MAC no de IPs</li>
+        <li>Su router recibe la trama en capa 2, sube a capa 3 para leer la IP de destino, decide donde mandarlo y vuelve a bajar a capa 2 para mandarlo al siguiente salto</li>
+      </ol>
+      <p>Ese proceso de subir y bajar capas se repite en cada dispositivo(nodo) del camino hasta llegar a Google</p>
+      <br>
+      <h2>Cómo se ve esto en la ofensiva?</h2>
+      <p>Con todo lo anterior visto podemos entender que cada capa es una superficie de ataque independiente:</p>
+      <ul>
+        <li><a style="color:#ff00ff">Capa 7:</a> Cualquier vulnerabilidad de aplicación - <a style="color: aqua;">SQL injections o XSS</a></li>
+        <li><a style="color:#ff00ff">Capa 4:</a> Abusa el hecho de como TCP maneja las conexiones - <a style="color: aqua;">SYN flood, port scanning, session hijacking</a></li>
+        <li><a style="color:#ff00ff">Capa  3:</a> Manipula hacia dónde van los paquetes</li>
+        <li><a style="color:#ff00ff">Capa 2:</a> Uno se coloca entre 2 dispositivos - <a style="color:aqua;">MAC flooding</a></li>
+      </ul>
+      <br>
+      <h3>Puesto en Gráfico</h3>
+      <table>
+        <thead>
+            <tr>
+                <th>Capa</th><th>Tipo de ataque</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <th>7 - Aplicación</th><td>Exploit</td>
+            </tr>
+            <tr>
+              <th>4 - Transporte</th><td>Reconociminento y DDOs</td>
+            </tr>
+            <tr>
+                <th>3 - Red</th><td>Man In The Middle</td>
+            </tr>
+            <tr>
+                <th>2 - Enlace</th><td>Spoofing</td>
+            </tr>
+            <tr>
+                <th>1 - Física</th><td>Sniffing</td>
+            </tr>
+        </tbody>        
+      </table>
+      <br>
+      <h2>Objetivo Práctico</h2>
+      <p>Cuando uno está aprendiendo este tipo de cosas lo mejor que se puede hacer es llevar la teoría a la práctica para entender como realmente funcionan las cosas</p>
+      <p>En wireshark nos vamos a dedicar a crear una captura de red a un sitio HTTP para analizarla de una manera más detenida. Dentro de esta captura vamos a buscar:</p>
+      <ol>
+        <li>Una trama de Ethernet: Consiste en buscar las  direcciones MAC tanto de origen como destino</li>
+        <li>Un paquete IP: Buscar ahora la IP de origen y destino</li>
+        <li>Un segmento TCP: Buscar información como puerto origen, destino y sus flags</li>
+        <li>El HTTP request - texto plano del GET</li>
+      </ol>
+      <br>
+<footer class="post-footer">
+  <span class="post-date"><time datetime="2026-03-12">2026-03-12</time></span>
+  <div class="post-social">
+    <p>[ contact ]</p>
+    <a href="https://www.twitch.tv/kallrize" target="_blank">twitch</a>
+    <a href="https://www.youtube.com/@kallrizeklr5364" target="_blank">Youtube</a>
+    <a href="https://www.linkedin.com/in/gabrielp%C3%A9rez-959645213" target="_blank">linkedin</a>
+  </div>
+</footer>
+     
+    </article>
+  </main>
+</body>
+</html>
