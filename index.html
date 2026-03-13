@@ -3,9 +3,216 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Inicio</title>
+  <title>Inicio | La Madriguera</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    /* ── Hero terminal ── */
+    .hero {
+      max-width: 850px;
+      margin: 0 auto 2rem;
+      padding: 2rem;
+      background-color: #000;
+      border: 2px solid #00ff00;
+      border-radius: 8px;
+      box-shadow: 0 0 24px rgba(0, 255, 0, 0.2), inset 0 0 40px rgba(0,0,0,0.8);
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Barra de título estilo terminal */
+    .hero-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .hero-titlebar span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red   { background: #ff5f57; }
+    .dot-yellow{ background: #febc2e; }
+    .dot-green { background: #28c840; }
+    .hero-titlebar-label {
+      margin-left: auto;
+      font-size: 0.75rem;
+      color: #444;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Líneas del terminal */
+    .hero-line {
+      color: #555;
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.6;
+    }
+    .hero-line .prompt {
+      color: #00ff00;
+    }
+    .hero-line .cmd {
+      color: #f8f8f2;
+    }
+    .hero-line .output {
+      color: #00ffff;
+      padding-left: 0;
+    }
+
+    /* Línea activa con typewriter */
+    .hero-active {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+    }
+    .hero-active .prompt {
+      color: #00ff00;
+      white-space: nowrap;
+    }
+    .hero-active .prompt .host {
+      color: #ff5555;
+    }
+    #typewriter {
+      color: #f8f8f2;
+      min-width: 2ch;
+    }
+    .cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1.1em;
+      background: #00ff00;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* ── Info section ── */
+    .intro-index {
+      max-width: 850px;
+      margin: 0 auto 2rem;
+      padding: 2rem;
+      line-height: 1.7;
+      background-color: rgba(0, 0, 0, 0.85);
+      border: 2px solid var(--magenta);
+      box-shadow: 0 0 20px rgba(0, 174, 255, 0.15);
+      font-family: var(--font-code);
+    }
+
+    .intro-index h2 {
+      color: var(--cyan);
+      font-family: var(--font-glitch);
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px #000;
+      font-size: 1rem;
+    }
+
+    .intro-index p {
+      color: #ccc;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      color: var(--green);
+      border: 2px solid var(--cyan);
+      padding: 0.6rem 1.2rem;
+      font-weight: bold;
+      background-color: #000;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+      text-shadow: 1px 1px #000;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: var(--cyan);
+      color: #000;
+      box-shadow: 0 0 14px var(--cyan);
+      border-color: var(--cyan);
+      text-shadow: none;
+    }
+
+    /* ── Quick access cards ── */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 850px;
+      margin: 0 auto 3rem;
+      padding: 0 0 1rem;
+    }
+
+    .quick-card {
+      background-color: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 6px;
+      padding: 1.25rem 1.25rem 1rem;
+      font-family: 'Fira Code', monospace;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+    .quick-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-accent, var(--magenta));
+      box-shadow: 0 0 8px var(--card-accent, var(--magenta));
+    }
+    .quick-card:hover {
+      border-color: var(--card-accent, var(--magenta));
+      box-shadow: 0 0 16px rgba(255,0,102,0.2);
+      transform: translateY(-3px);
+    }
+
+    .quick-card .card-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--magenta));
+      margin-bottom: 0.5rem;
+    }
+    .quick-card .card-label::before { content: '// '; }
+
+    .quick-card h3 {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #f8f8f2;
+      margin: 0 0 0.5rem;
+      text-shadow: none;
+    }
+    .quick-card p {
+      font-size: 0.8rem;
+      color: #666;
+      margin: 0 0 0.75rem;
+      line-height: 1.5;
+    }
+    .quick-card .card-cta {
+      font-size: 0.8rem;
+      color: var(--card-accent, var(--magenta));
+    }
+
+    /* Colores por card */
+    .quick-card.blog  { --card-accent: #ff5555; }
+    .quick-card.proj  { --card-accent: #00ffff; }
+    .quick-card.write { --card-accent: #ccff00; }
+
+    @media (max-width: 700px) {
+      .quick-grid { grid-template-columns: 1fr; }
+      .hero, .intro-index { margin: 0 1rem 1.5rem; }
+    }
+  </style>
 </head>
 <body>
   <nav>
@@ -15,43 +222,135 @@
       <li><a href="blog.html">Blog</a></li>
       <li><a href="notes.html">Notas</a></li>
       <li><a href="writeups.html">Writeups</a></li>
-      <li><a href="about.html">Sobre mi</a></li>
+      <li><a href="about.html">Sobre mí</a></li>
       <li><a href="contact.html">Contacto</a></li>
     </ul>
   </nav>
-  <section class="intro-index">
-    <pre class="terminal-box">
-          _____   ______  _____      _______  ______            __  __
-          |  __ \ |  ____||  __ \   |__   __||  ____|    /\    |  \/  |
-          | |__) || |__   | |  | |     | |   | |__      /  \   | \  / |
-          |  _  / |  __|  | |  | |     | |   |  __|    / /\ \  | |\/| |
-          | | \ \ | |____ | |__| |     | |   | |____  / ____ \ | |  | |
-          |_|  \_\|______||_____/      |_|   |______|/_/    \_\|_|  |_|
-  </pre>
+
+  <!-- Hero: terminal animado -->
+  <section class="hero">
+    <div class="hero-titlebar">
+      <span class="dot-red"></span>
+      <span class="dot-yellow"></span>
+      <span class="dot-green"></span>
+      <span class="hero-titlebar-label">bash — 80×24</span>
+    </div>
+
+    <div class="hero-line">
+      <span class="prompt">root@madriguera:~$</span>
+      <span class="cmd"> uname -a</span>
+    </div>
+    <div class="hero-line">
+      <span class="output">Linux madriguera 6.1.0 #1 SMP x86_64 GNU/Linux</span>
+    </div>
+
+    <div class="hero-line" style="margin-top:0.6rem;">
+      <span class="prompt">root@madriguera:~$</span>
+      <span class="cmd"> cat /etc/motd</span>
+    </div>
+    <div class="hero-line">
+      <span class="output" style="color:#ff5555;">[ La Madriguera — break. learn. repeat. ]</span>
+    </div>
+
+    <div class="hero-line" style="margin-top:0.6rem;">
+      <span class="prompt">root@madriguera:~$</span>
+      <span class="cmd"> whoami</span>
+    </div>
+
+    <!-- Línea activa con typewriter -->
+    <div class="hero-active">
+      <span class="prompt"><span class="host">root</span>@madriguera:~$ </span>
+      <span id="typewriter"></span><span class="cursor"></span>
+    </div>
   </section>
-  <br>
+
+  <!-- Presentación -->
   <section class="intro-index">
-  
-  <h2>👋 ¡Bienvenido a <span style="color:var(--cyan);">La Madriguera</span>!</h2>
-  <p>
-    Soy un entusiasta autodidacta de la ciberseguridad con enfoque ofensivo: hacking ético, Linux, redes y metodologías de Red Team.
-    Este sitio es mi bitácora de aprendizaje, donde comparto herramientas, proyectos técnicos y análisis con visión crítica y práctica.
-  </p>
-  <a href="projects.html" class="btn" style="color: var(--green); font-weight: bold;">→ Ver mis proyectos</a>
-  <h1></h1>
+    <h2>👋 ¡Bienvenido a <span style="color:var(--cyan);">La Madriguera</span>!</h2>
+    <p>
+      Soy un entusiasta autodidacta de la ciberseguridad con enfoque ofensivo: hacking ético, Linux, redes y metodologías de Red Team.
+      Este sitio es mi bitácora de aprendizaje, donde comparto herramientas, proyectos técnicos y análisis con visión crítica y práctica.
+    </p>
+    <a href="projects.html" class="btn">→ Ver mis proyectos</a>
 
-  <h2>💻 ¿Por qué comparto todo esto?</h2>
-  <p>
-    Porque escribir es parte del aprendizaje. Registrar lo que aprendo me permite entender, mejorar y recordar.  
-    Cada artículo o proyecto publicado refleja una exploración real, un error corregido, una idea concretada.
-    <br><br>
-    No busco ser un "experto", sino documentar el camino real de alguien que **rompe cosas para entenderlas**, y reconstruye conceptos para compartirlos.
-    <br><br>
-    Si algo aquí te sirve, entonces el tiempo invertido valió la pena.
-  </p>
-</section>
+    <hr style="border-color:#1a1a1a; margin: 1.75rem 0;">
+
+    <h2>💻 ¿Por qué comparto todo esto?</h2>
+    <p>
+      Porque escribir es parte del aprendizaje. Registrar lo que aprendo me permite entender, mejorar y recordar.
+      Cada artículo o proyecto publicado refleja una exploración real, un error corregido, una idea concretada.
+    </p>
+    <p>
+      No busco ser un "experto", sino documentar el camino real de alguien que <span style="color:var(--magenta); font-weight:bold;">rompe cosas para entenderlas</span>,
+      y reconstruye conceptos para compartirlos.
+      Si algo aquí te sirve, entonces el tiempo invertido valió la pena.
+    </p>
+  </section>
+
+  <!-- Accesos rápidos -->
+  <div class="quick-grid">
+    <a href="blog.html" class="quick-card blog">
+      <div class="card-label">Blog</div>
+      <h3>Últimas publicaciones</h3>
+      <p>Artículos sobre hacking, redes y Linux.</p>
+      <span class="card-cta">Leer artículos →</span>
+    </a>
+    <a href="projects.html" class="quick-card proj">
+      <div class="card-label">Proyectos</div>
+      <h3>Herramientas y código</h3>
+      <p>Proyectos técnicos documentados.</p>
+      <span class="card-cta">Ver proyectos →</span>
+    </a>
+    <a href="writeups.html" class="quick-card write">
+      <div class="card-label">Writeups</div>
+      <h3>CTF & Labs</h3>
+      <p>Resolución de retos y máquinas.</p>
+      <span class="card-cta">Ver writeups →</span>
+    </a>
+  </div>
+
+  <script>
+    // Typewriter ciclando entre aliases
+    const aliases = ['Kallrize', 'atlas', 'phantomCrypter'];
+    const el = document.getElementById('typewriter');
+    let aliasIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    const TYPE_SPEED  = 100;
+    const DELETE_SPEED = 60;
+    const PAUSE_END   = 1800;
+    const PAUSE_START = 400;
+
+    function tick() {
+      const current = aliases[aliasIndex];
+
+      if (!deleting) {
+        // Escribir
+        charIndex++;
+        el.textContent = current.slice(0, charIndex);
+        if (charIndex === current.length) {
+          // Pausa al terminar de escribir
+          deleting = true;
+          setTimeout(tick, PAUSE_END);
+          return;
+        }
+      } else {
+        // Borrar
+        charIndex--;
+        el.textContent = current.slice(0, charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          aliasIndex = (aliasIndex + 1) % aliases.length;
+          setTimeout(tick, PAUSE_START);
+          return;
+        }
+      }
+
+      setTimeout(tick, deleting ? DELETE_SPEED : TYPE_SPEED);
+    }
+
+    // Pequeño delay inicial
+    setTimeout(tick, 800);
+  </script>
 </body>
-<br>
-<br>
 </html>
-
