@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://phantomcrypter.github.io/sitemap.xml
