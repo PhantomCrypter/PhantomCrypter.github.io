@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto | Crawler</title>
+
+  <meta name="description" content="Desarrollo de un crawler en Python con Beautiful Soup para extraer información de páginas web estáticas." />
+  <meta property="og:title" content="Proyecto | Crawler" />
+  <meta property="og:description" content="Desarrollo de un crawler en Python con Beautiful Soup para extraer información de páginas web estáticas." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://phantomcrypter.github.io/projects/crawler-estatico.html" />
+  <meta property="og:image" content="https://phantomcrypter.github.io/assets/img/og-default.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../projects.html" class="back-link">&larr; Volver a los proyectos</a>
+        <h1 class="post-title">Crawler en Página Estática</h1>
+        <img src="../assets/img/spider.webp" alt="Logo de Crawler" class="post-image">
+        <article>
+            <br>
+            <p>
+                En este proyecto, me aventuré en el fascinante mundo del <strong>web scraping</strong> utilizando <strong>Python</strong> y 
+                <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup</a>. El objetivo principal fue extraer 
+                información de una página web estática de manera automatizada, lo que me permitió recopilar datos relevantes para su posterior análisis o uso.
+            </p>
+
+            <p>
+                Al emplear Python como lenguaje de programación principal y Beautiful Soup como biblioteca de análisis HTML, pude desarrollar un crawler eficiente y poderoso. 
+                El proceso implicaba navegar por el código HTML de la página objetivo, identificar y extraer los elementos deseados, como texto, enlaces o imágenes, y luego 
+                procesar esa información según mis necesidades específicas.
+            </p>
+
+            <p>
+                Este proyecto no solo me proporcionó una sólida comprensión de la manipulación de datos web con Python, sino que también me permitió explorar conceptos como la 
+                estructura del documento HTML, la selección de elementos mediante selectores y la gestión de datos extraídos.
+            </p>
+
+            <p>
+                A lo largo de esta breve introducción, compartiré mi experiencia, los desafíos enfrentados y las soluciones implementadas durante el desarrollo de este emocionante 
+                proyecto de crawler en Python.
+            </p>
+            <br>
+
+            <h2>🧠 ¿Qué es un Crawler?</h2>
+            <p>
+                Un <strong>crawler</strong>, también conocido como "rastreador web" o "araña web", es un programa de software que navega por la web de manera automatizada, siguiendo enlaces de 
+                una página a otra. Su objetivo principal es <strong>indexar</strong> y  <strong>recopilar</strong> información de diversas páginas web para su posterior análisis o indexación en motores de 
+                búsqueda. Los crawlers son fundamentales para la indexación y la recuperación de información en la web, ya que facilitan la recopilación de datos de manera eficiente 
+                y sistemática.
+            </p>
+            <br>
+
+            <h2>⚠️ Desventajas de los crawlers</h2>
+
+            <p>
+                Los crawlers enfrentan algunas desventajas al tratar con páginas que no son estáticas:
+            </p>
+            <br>
+            <ul>
+                <li><strong>Dificultad para rastrear cambios dinámicos:</strong></li>
+                    <p>
+                        Los crawlers pueden tener dificultades para detectar cambios en el contenido de las páginas dinámicas, ya que estas se generan mediante scripts o consultas a bases de datos en tiempo 
+                        real. Esto significa que los cambios en el contenido pueden no ser capturados de manera oportuna o precisa.
+                    </p>
+                <li><strong>Posibilidad de rastrear información irrelevante o duplicada:</strong></li>
+                    <p>
+                        Debido a la naturaleza dinámica del contenido, los crawlers pueden encontrarse con dificultades para distinguir entre contenido relevante y contenido redundante o irrelevante que se 
+                        genera dinámicamente. Esto puede resultar en la indexación de información duplicada o poco útil.
+                    </p>
+                <li><strong>Necesidad de actualización constante:</strong></li>
+                    <p>
+                        Los crawlers deben adaptarse continuamente a los cambios en la estructura y el comportamiento de las páginas dinámicas para garantizar un rastreo efectivo. Esto puede requerir una 
+                        inversión adicional en desarrollo y mantenimiento de software para mantener el crawler actualizado.
+                    </p>
+            </ul>
+<br>
+            <p>
+                Por esta razón, para este proyecto he decidido utilizar una página web estática para así asegurar que este proyecto sea 100% funcional y que pueda servir de base para 
+                otros futuros proyectos.
+            </p>
+            <br>
+
+            <h2>Reconocimiento</h2>
+
+            <h3>Paso 1:</h3>
+
+            <p>
+                Antes de empezar con nuestro Crawler, primero tenemos que escoger la página objetivo. Yo usé la página de [Real Python](https://realpython.com), usando el siguiente 
+                link: <a href="https://realpython.github.io/fake-jobs/">https://realpython.github.io/fake-jobs/</a>
+            </p>
+
+            <p>
+                En este ejemplo usé esta página ya que a como se muestra en los entrenamientos de <a href="https://realpython.com">Real Python</a>, esta es la mejor forma de aprender ya que la 
+                página es 100% estática por lo que no va a haber ningún cambio futuro que afecte el desempeño del Crawler.
+            </p>
+<br>
+<br>
+            <h3>Paso 2:</h3>
+            <p>
+                Una vez dentro se debe de identificar la información en la cual estamos interesados:
+            </p>
+            <br>
+            <img src="../assets/img/p2.webp" alt="Foto paso 2">
+<br>
+<br>
+            <h3>Paso 3:</h3>
+
+            <p>
+                Cuando ya tenemos nuestros objetivos identificados, se procede a buscarlos en el HTML haciendo uso de la secuencia de teclas <strong>CTRL + SHIFT + I</strong>.
+            </p>
+<br>
+<br>
+            <h3>Paso 4:</h3>
+
+            <p>
+                Explorando las Herramientas para el Desarrollador podemos notar que la información que necesitamos se encuentra en las etiquetas de encabezado <em>&lt;h2&gt;, &lt;h3&gt; y &lt;p&gt;.</em>
+            </p>
+            <br>
+                <img src="../assets/img/p3.webp" alt="Foto pas 4">
+            
+            <p></p>
+<br>
+<br>
+            <h2>🧪Desarrollo</h2>
+
+            <h3>Paso 1:</h3>
+            <p>
+                Primero, se deben de importar las paqueterías esenciales para este proyecto:
+            </p>
+            <br>
+            <pre><code class="language-python">
+
+                pip install requests beautifulsoup4
+                ...
+
+            </code></pre>
+<br>
+<br>
+            <h3>Paso 2:</h3>
+
+            <p>
+            Una vez importadas las bibliotecas necesarias, se procede a trabajar en el código: 
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                import requests
+                from bs4 import BeautifulSoup
+
+            </code></pre>
+<br>
+            <p>
+                Después de importar los módulos, lo primero que se debe hacer es definir la `URL` de la página que se va 
+                a analizar. Luego, se realiza una solicitud `HTTP` a la página web y se almacena su contenido en una variable.
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                URL = "https://realpython.github.io/fake-jobs/"
+                page = requests.get(URL)
+
+            </code></pre>
+<br>
+<br>
+            <h3>Paso 3:</h3>
+            <p>
+                Se crea un objeto "BeautifulSoup" para analizar el contenido "HTML" de la página. A continuación, se busca el elemento en la página con el ID <strong>ResultsContainer</strong>.
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                soup = BeautifulSoup(page.content, "html.parser")
+                results = soup.find(id="ResultsContainer")
+
+            </code></pre>
+<br>
+<br>
+            <h3>Paso 4:</h3>
+
+            <p>
+            En este caso, el crawler consulta al usuario sobre el puesto de trabajo en el que está interesado. Se crea la variable "tema" para realizar esta consulta y luego la variable "minus" 
+            convierte el tema ingresado a minúsculas para una comparación que no distingue entre mayúsculas y minúsculas:  
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                tema = input("En cuál trabajo se encuentra interesado?:  ")
+                minus = tema.lower()
+
+            </code></pre>
+<br>
+<br>
+            <h3>Paso 5:</h3>
+            <p>
+                Ahora indicamos al programa que debe encontrar todos los elementos &lt;h2&gt; que contienen el "tema" ingresado, junto con sus elementos padres:
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                Request_jobs = results.find_all("h2", string=lambda text: minus in text.lower())
+                Request_job_elements = [h2_element.parent.parent.parent for h2_element in Request_jobs]
+
+            </code></pre>
+<br>
+            <p>
+                En caso de que desee que el programa busque los resultados de forma predeterminada en lugar de ingresarlos manualmente, simplemente debe <strong>comentar</strong> 
+                las variables "tema" y "minus". Luego, en la línea de "Request_jobs", cambie `minus` por el término que desee que el programa busque. Por ejemplo:
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                Request_jobs = results.find_all("h2", string=lambda text: "energy" in text.lower())
+
+            </code></pre>
+<br>
+            <p>
+                <strong>Nota:</strong> El valor agregado debe de ser escrito simpre en minúscula.
+            </p>
+<br>
+<br>
+            <h3>Paso 6:</h3>
+
+            <p>
+            Finalmente, vamos a iterar sobre los elementos de trabajo encontrados y mostrar la información relevante 
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                for job_element in Request_job_elements:
+                    title_element = job_element.find("h2", class_="title")
+                    company_element = job_element.find("h3", class_="company")
+                    location_element = job_element.find("p", class_="location")
+                    print(title_element.text.strip())
+                    print(company_element.text.strip())
+                    print(location_element.text.strip())
+                    link_url = job_element.find_all("a")[1]["href"]
+                    print(f"Apply here: {link_url}\n")
+                    print()
+
+            </code></pre>
+<br>
+            <p>
+                <strong>Nota:</strong> La línea "link_url = job_element.find_all("a")[1]["href"]"" se encarga de obtener el enlace del trabajo, lo que nos permite aplicar al trabajo en caso de que lo deseemos.
+            </p>
+            <br>
+            <br>
+            <h2>Conclusión:</h2>
+
+            <p>
+                Para finalizar con este código vamos a agrgegarlas cosas estéticas para darle un poco más de cuerpo al programa.
+            </p>
+
+            <p>
+                En este caso, he agregado una variable llamada "titulo" que se encargará de imprimir los trabajos en los que estoy interesado. Además, en el comando "print", he añadido separadores <strong>'-'</strong> para 
+                que el título parezca estar subrayado y se ajuste a lo largo de nuestro título dependiendo del número de caracteres:
+            </p>
+<br>
+            <pre><code class="language-python">
+
+                python:
+
+                titulo = "Trabajos en " + tema
+                print("\n" + titulo + "\n" + "-" * len(titulo) + "\n")
+
+            </code></pre>
+<br>
+            <p>
+                <strong>Nota:</strong> Recuerde que si ha comentado la variable "tema" para ejecutar una búsqueda de trabajos predeterminada, también debe hacer el cambio en la variable "titulo" y colocar los trabajos 
+                predeterminados seleccionados para que no afecte a la estética.
+            </p>
+
+            <p>
+                Por último, me gustó la idea de agregar un comando "print" que me muestre cuántos trabajos relacionados a la búsqueda ha encontrado:
+            </p>
+            <br>
+
+            <pre><code class="language-python">
+
+                python:
+
+                print("[*] Búsquedas relacionadas " + str(len(Request_jobs)) + "\n")python
+
+                print("[*] Búsquedas relacionadas " + str(len(Request_jobs)) + "\n")
+
+            </code></pre>
+<br>
+            <h2>Código final</h2>
+
+            <pre><code class="language-python">
+
+                python:
+
+                import requests
+                from bs4 import BeautifulSoup
+
+
+                URL = "https://realpython.github.io/fake-jobs/"
+                page = requests.get(URL)
+
+                soup = BeautifulSoup(page.content, "html.parser")
+                results = soup.find(id="ResultsContainer")
+
+                tema = input("En cual trabajo se enceuntra interesado?:  ")
+                titulo = "Trabajos en " + tema
+                minus = tema.lower()
+
+                print("\n" + titulo + "\n" + "-" * len(titulo) + "\n")
+                Request_jobs = results.find_all(
+                    "h2", string=lambda text: minus in text.lower()
+                )
+                Request_job_elements = [
+                    h2_element.parent.parent.parent for h2_element in Request_jobs
+                ]
+
+                print("[*] Búsquedas relacionadas " + str(len(Request_jobs)) + "\n")
+                for job_element in Request_job_elements:
+                    title_element = job_element.find("h2", class_="title")
+                    company_element = job_element.find("h3", class_="company")
+                    location_element = job_element.find("p", class_="location")
+                    print(title_element.text.strip())
+                    print(company_element.text.strip())
+                    print(location_element.text.strip())
+                    link_url = job_element.find_all("a")[1]["href"]
+                    print(f"Apply here: {link_url}\n")
+                    print()
+
+            </code></pre>
+            <br>
+            <h3>🧾 Resultado del programa</h3>
+
+            <img src="/assets/img/re.webp" alt="Resultado Final">
+<br>
+            <h2>Código Documentado</h2>
+
+            <pre><code class="language-python">
+
+                #!/usr/bin/python3
+
+                # Importación de módulos necesarios
+                import requests
+                from bs4 import BeautifulSoup
+
+                # Definición de la URL de la página web a analizar
+                URL = "https://realpython.github.io/fake-jobs/"
+
+                # Realizar una solicitud HTTP a la página web y almacenar el contenido de la página en una variable
+                page = requests.get(URL)
+
+                # Crear un objeto BeautifulSoup para analizar el contenido HTML de la página
+                soup = BeautifulSoup(page.content, "html.parser")
+
+                # Encontrar el elemento en la página con el ID "ResultsContainer"
+                results = soup.find(id="ResultsContainer")
+
+                # Solicitar al usuario que ingrese el tema de trabajo de interés
+                tema = input("En cuál trabajo se encuentra interesado?:  ")
+
+                # Construir el título para mostrar en la salida
+                titulo = "Trabajos en " + tema
+
+                # Convertir el tema ingresado a minúsculas para una comparación insensible a mayúsculas y minúsculas
+                minus = tema.lower()
+
+                # Imprimir el título con líneas separadoras
+                print("\n" + titulo + "\n" + "-" * len(titulo) + "\n")
+
+                # Encontrar todos los elementos &lt;h2&gt; que contienen el tema ingresado y sus elementos padres
+                Request_jobs = results.find_all("h2", string=lambda text: minus in text.lower())
+                Request_job_elements = [h2_element.parent.parent.parent for h2_element in Request_jobs]
+
+                # Imprimir el número de trabajos relacionados encontrados
+                print("[*] Búsquedas relacionadas " + str(len(Request_jobs)) + "\n")
+
+                # Iterar sobre los elementos de trabajo encontrados y mostrar la información relevante
+                for job_element in Request_job_elements:
+                    title_element = job_element.find("h2", class_="title")
+                    company_element = job_element.find("h3", class_="company")
+                    location_element = job_element.find("p", class_="location")
+                    print(title_element.text.strip())
+                    print(company_element.text.strip())
+                    print(location_element.text.strip())
+                    
+                    # Obtener el enlace para aplicar al trabajo
+                    link_url = job_element.find_all("a")[1]["href"]
+                    print(f"Apply here: {link_url}\n")
+                    print()
+
+            </code></pre>
+<br>
+<br>
+            <p>🧩 Este código realiza lo siguiente:</p>
+
+            <ul>
+                <li>Realiza una solicitud HTTP a una página web.</li>
+                <li>Utiliza BeautifulSoup para analizar el contenido HTML de la página.</li>
+                <li>Encuentra elementos específicos en la página web.</li>
+                <li>Interactúa con el usuario para obtener información sobre el trabajo de interés.</li>
+                <li>Filtra los trabajos que coinciden con el tema de interés.</li>
+                <li>Muestra información relevante sobre los trabajos encontrados, incluidos títulos, empresas, ubicaciones y enlaces para aplicar.</li>
+            </ul>
+            <br>
+            <p>
+                Este proyecto fue una excelente forma de aplicar conocimientos prácticos sobre scraping y procesamiento de datos web. El enfoque modular y controlado sobre una página estática lo hace ideal como punto de partida para proyectos más avanzados en ciberinteligencia.
+            </p>
+      </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
