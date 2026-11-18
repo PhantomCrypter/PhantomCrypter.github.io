@@ -1,0 +1,133 @@
+/* ==========================================================================
+   ACHIEVEMENTS (se carga solo en achievements.html)
+   ========================================================================== */
+.achievements-intro {
+  text-align: center;
+  margin: 2rem 1rem;
+}
+
+.achievements-count {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--cyan);
+  font-family: var(--font-code);
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
+
+.achievements-section {
+  max-width: 1000px;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 20px rgba(0, 174, 255, 0.15);
+}
+
+.achievements-section h2 {
+  color: var(--cyan);
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--gray-border);
+}
+
+.achievements-section h2 .count {
+  color: var(--green);
+  font-family: var(--font-code);
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.achievement-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.25rem 1.25rem 1rem;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 6px;
+  font-family: 'Fira Code', monospace;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.achievement-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+.achievement-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 16px rgba(204, 255, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+.achievement-badge {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--gray-border);
+  border-radius: 4px;
+  background: #000;
+}
+
+.achievement-card h3 {
+  margin: 0;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #f8f8f2;
+  text-shadow: none;
+}
+
+.achievement-issuer {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--cyan);
+}
+
+.achievement-date {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.achievement-date::before {
+  content: '// ';
+  color: var(--magenta);
+}
+
+.achievement-desc {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #aaa;
+}
+
+.achievement-link {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--green);
+}
+
+.achievement-link:hover {
+  color: var(--cyan);
+}
+
+@media (max-width: 700px) {
+  .achievements-section { margin: 0 1rem 1.5rem; padding: 1rem; }
+}
