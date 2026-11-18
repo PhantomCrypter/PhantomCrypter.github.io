@@ -1,0 +1,58 @@
+---
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Achievements | PhantomCrypter</title>
+
+  <meta name="description" content="Certificaciones, módulos de HTB Academy, cursos de Cisco y certificados de CTF obtenidos durante mi camino en ciberseguridad ofensiva." />
+  <meta property="og:title" content="Achievements | PhantomCrypter" />
+  <meta property="og:description" content="Certificaciones, módulos de HTB Academy, cursos de Cisco y certificados de CTF obtenidos durante mi camino en ciberseguridad ofensiva." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://phantomcrypter.github.io/achievements.html" />
+  <meta property="og:image" content="https://phantomcrypter.github.io/assets/img/og-default.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/achievements.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+  {% include nav.html %}
+
+  <main>
+    {% assign total = 0 %}
+    {% for cat in site.data.achievements %}
+      {% assign total = total | plus: cat.items.size %}
+    {% endfor %}
+
+    <section class="achievements-intro">
+      <h1 class="glitch">Achievements</h1>
+      <p>Certificaciones, módulos completados y certificados de CTF que he ido consiguiendo en el camino.</p>
+      <span class="achievements-count">[ {{ total }} logros ]</span>
+    </section>
+
+    {% for cat in site.data.achievements %}
+      {% if cat.items.size > 0 %}
+      <section class="achievements-section" id="{{ cat.id }}">
+        <h2>{{ cat.title | escape }}<span class="count">({{ cat.items.size }})</span></h2>
+        <div class="achievements-grid">
+          {% for item in cat.items %}
+          <article class="achievement-card">
+            {% if item.image %}<img class="achievement-badge" src="{{ item.image }}" alt="Insignia de {{ item.title | escape }}" loading="lazy" />{% endif %}
+            <h3>{{ item.title | escape }}</h3>
+            {% if item.issuer %}<p class="achievement-issuer">{{ item.issuer | escape }}</p>{% endif %}
+            {% if item.date %}<span class="achievement-date">{{ item.date | escape }}</span>{% endif %}
+            {% if item.description %}<p class="achievement-desc">{{ item.description | escape }}</p>{% endif %}
+            {% if item.url %}<a class="achievement-link" href="{{ item.url }}" target="_blank" rel="noopener noreferrer">Verificar →</a>{% endif %}
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    {% endfor %}
+  </main>
+</body>
+</html>
