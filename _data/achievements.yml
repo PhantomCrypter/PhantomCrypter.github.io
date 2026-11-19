@@ -1,69 +1,86 @@
 # ============================================================================
 # ACHIEVEMENTS — aquí se agregan los logros; la página se genera sola.
-# Una lista vacía muestra la tarjeta "Próximamente".
 # ============================================================================
 
 # ----------------------------------------------------------------------------
 # BADGES Y CERTIFICACIONES
-#   title:  nombre (obligatorio)
-#   issuer: quién lo emite (Cisco Networking Academy, INE, HTB...)
-#   date:   texto libre, ej. "2026-03"   (opcional)
-#   url:    link de verificación, ej. Credly (opcional; si lo pones la tarjeta es clicable)
-#   icon:   emoji de la tarjeta (opcional; por defecto 🏅)
+#   title:         nombre (obligatorio)
+#   issuer:        quién lo emite
+#   date:          texto libre, ej. "Mayo 2024"
+#   credential_id: ID de la credencial (opcional)
+#   icon:          emoji de la tarjeta (opcional; por defecto 🏅)
+#   url:           link externo de verificación -> la tarjeta abre ese link
+#   image:         imagen del certificado alojada en el blog -> la tarjeta la
+#                  muestra en un visor dentro de la misma página
+#                  Ej.: /assets/img/achievements/deloitte.webp
+#   (si tiene url y image, manda url; sin ninguno de los dos no es clicable)
 # ----------------------------------------------------------------------------
 badges:
   - title: eJPT
     issuer: INE Security
     icon: "🎓"
+    url: "https://certs.ine.com/f33683e4-f6f3-41a8-a3c1-c8cae9f2d868#acc.eSGBjFzR"
+
   - title: Hawks Academy
     issuer: Hawks Academy
     icon: "🎓"
-  # Ejemplo:
-  # - title: Introduction to Cybersecurity
-  #   issuer: Cisco Networking Academy
-  #   url: https://www.credly.com/badges/...
-  #   icon: "🌐"
+    url: "https://credsverse.com/credentials/cae0d91b-08d5-4f6a-9dfb-094545a990ef?preview=1"
+
+  - title: Certified Ethical Hacker (EC-Council)
+    issuer: Universidad CENFOTEC
+    icon: "🛡️"
+    url: "https://www.credly.com/badges/c99a7e11-1e00-4fca-9a4c-4c8f2190f5f2"
+
+  - title: Linux Unhatched
+    issuer: Cisco
+    icon: "🐧"
+    url: "https://www.credly.com/badges/3e406d34-0b3c-4abd-99d5-309dea2063f1"
+
+  - title: Introduction to Cybersecurity
+    issuer: Cisco
+    icon: "🌐"
+    url: "https://www.credly.com/badges/d7af1dfe-1e95-4b76-9f2c-801186026fa3"
+
+  # Estos dos son solo imagen: cuando subas el archivo, quita el "#" de "image"
+  - title: Máster online en Ciberseguridad
+    issuer: Deloitte
+    credential_id: DCH 101
+    icon: "📜"
+    # image: /assets/img/achievements/deloitte.webp
+
+  - title: Gestión ágil de Proyectos con SCRUM
+    issuer: Universidad de Costa Rica (UCR)
+    date: Mayo 2024
+    icon: "📜"
+    # image: /assets/img/achievements/ucr-scrum.webp
 
 # ----------------------------------------------------------------------------
 # HACKTHEBOX
-#   name:       nombre (obligatorio)
-#   os:         linux | windows | freebsd  (solo máquinas; elige el emoji)
-#   icon:       emoji propio (opcional; sustituye al de "os")
-#   difficulty: Easy | Medium | Hard | Insane  (opcional)
-#   writeup:    ruta a tu writeup, ej. /writeups/lame.html (opcional)
-#   url:        link externo, ej. certificado o módulo (opcional)
+#   name:  nombre (obligatorio)
+#   url:   link externo (logro de Academy, etc.)
+#   image: certificado alojado en el blog (se abre en el visor)
 # ----------------------------------------------------------------------------
 htb:
-  machines:
-    - name: Lame
-      os: linux
-      difficulty: Easy
-      writeup: /writeups/lame.html
-    - name: Nibbles
-      os: linux
-      difficulty: Easy
-      writeup: /writeups/nibbles.html
-    - name: Shocker
-      os: linux
-      difficulty: Easy
-      writeup: /writeups/shocker.html
-    - name: Devvortex
-      os: linux
-      difficulty: Easy
-      writeup: /writeups/devvortex.html
-    - name: Jerry
-      os: windows
-      difficulty: Easy
-      writeup: /writeups/jerry.html
-    - name: Poison
-      os: freebsd
-      difficulty: Medium
-      writeup: /writeups/poison.html
-  challenges: []
-  starting_point: []
-  sherlocks: []
-  academy: []
-  # Ejemplo de módulo de Academy:
-  # - name: Introduction to Web Applications
-  #   difficulty: Fundamental
-  #   url: https://academy.hackthebox.com/...
+  academy:
+    - name: Linux Fundamentals
+      url: https://academy.hackthebox.com/achievement/323884/18
+    - name: Network Enumeration with Nmap
+      url: https://academy.hackthebox.com/achievement/323884/19
+    - name: Introduction to Networking
+      url: https://academy.hackthebox.com/achievement/323884/34
+    - name: Web Requests
+      url: https://academy.hackthebox.com/achievement/323884/35
+    - name: JavaScript Deobfuscation
+      url: https://academy.hackthebox.com/achievement/323884/41
+    - name: Windows Fundamentals
+      url: https://academy.hackthebox.com/achievement/323884/49
+    - name: Introduction to Web Applications
+      url: https://academy.hackthebox.com/achievement/323884/75
+    - name: Bug Bounty Hunting Process
+      url: https://academy.hackthebox.com/achievement/323884/161
+
+  ctf:
+    - name: Cyber Apocalypse CTF
+      # image: /assets/img/achievements/cyber-apocalypse.webp
+    - name: Holmes CTF 2025
+      # image: /assets/img/achievements/holmes-ctf-2025.webp

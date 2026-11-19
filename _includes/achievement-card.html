@@ -1,12 +1,12 @@
-<div class="machine-card {{ include.item.difficulty | downcase }}">
+<div class="machine-card">
   <div class="machine-header">
     <span class="machine-os">{% if include.item.icon %}{{ include.item.icon }}{% else %}{{ include.icon }}{% endif %}</span>
     <span class="machine-name">{{ include.item.name | escape }}</span>
   </div>
   <div class="machine-meta">
-    {% if include.item.difficulty %}<span class="diff-badge {{ include.item.difficulty | downcase }}">{{ include.item.difficulty | escape }}</span>{% endif %}
     <span class="machine-platform">{{ include.label }}</span>
   </div>
-  {% if include.item.url %}<a href="{{ include.item.url }}" class="machine-link" target="_blank" rel="noopener noreferrer">ver →</a>
-  {% elsif include.item.writeup %}<a href="{{ include.item.writeup }}" class="machine-link">ver writeup →</a>{% endif %}
+  {% if include.item.url %}<a href="{{ include.item.url }}" class="machine-link" target="_blank" rel="noopener noreferrer">{% if include.cta %}{{ include.cta }}{% else %}ver →{% endif %}</a>
+  {% elsif include.item.image %}<button type="button" class="machine-link" data-image="{{ include.item.image }}" data-title="{{ include.item.name | escape }}">{% if include.cta %}{{ include.cta }}{% else %}ver →{% endif %}</button>
+  {% elsif include.pending %}<span class="machine-link disabled">{{ include.pending }}</span>{% endif %}
 </div>
