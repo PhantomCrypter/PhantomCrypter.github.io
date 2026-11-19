@@ -1,0 +1,12 @@
+<div class="machine-card {{ include.item.difficulty | downcase }}">
+  <div class="machine-header">
+    <span class="machine-os">{% if include.item.icon %}{{ include.item.icon }}{% else %}{{ include.icon }}{% endif %}</span>
+    <span class="machine-name">{{ include.item.name | escape }}</span>
+  </div>
+  <div class="machine-meta">
+    {% if include.item.difficulty %}<span class="diff-badge {{ include.item.difficulty | downcase }}">{{ include.item.difficulty | escape }}</span>{% endif %}
+    <span class="machine-platform">{{ include.label }}</span>
+  </div>
+  {% if include.item.url %}<a href="{{ include.item.url }}" class="machine-link" target="_blank" rel="noopener noreferrer">ver →</a>
+  {% elsif include.item.writeup %}<a href="{{ include.item.writeup }}" class="machine-link">ver writeup →</a>{% endif %}
+</div>
