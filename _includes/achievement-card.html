@@ -6,6 +6,7 @@
   <div class="machine-meta">
     <span class="machine-platform">{{ include.label }}</span>
   </div>
+  {% if include.item.detail %}<p class="machine-detail">{{ include.item.detail | escape }}</p>{% endif %}
   {% if include.item.url %}<a href="{{ include.item.url }}" class="machine-link" target="_blank" rel="noopener noreferrer">{% if include.cta %}{{ include.cta }}{% else %}ver →{% endif %}</a>
   {% elsif include.item.image %}<button type="button" class="machine-link" data-image="{{ include.item.image }}" data-title="{{ include.item.name | escape }}">{% if include.cta %}{{ include.cta }}{% else %}ver →{% endif %}</button>
   {% elsif include.pending %}<span class="machine-link disabled">{{ include.pending }}</span>{% endif %}

@@ -41,7 +41,8 @@ badges:
     icon: "🌐"
     url: "https://www.credly.com/badges/d7af1dfe-1e95-4b76-9f2c-801186026fa3"
 
-  # Estos dos son solo imagen: cuando subas el archivo, quita el "#" de "image"
+  # Deloitte y UCR son solo imagen: se abren en el visor del blog.
+  # Deloitte: cuando tengas el archivo, quita el "#" de "image" y súbelo a esa ruta.
   - title: Máster online en Ciberseguridad
     issuer: Deloitte
     credential_id: DCH 101
@@ -52,13 +53,14 @@ badges:
     issuer: Universidad de Costa Rica (UCR)
     date: Mayo 2024
     icon: "📜"
-    # image: /assets/img/achievements/ucr-scrum.webp
+    image: /assets/img/achievements/ucr-scrum.webp
 
 # ----------------------------------------------------------------------------
 # HACKTHEBOX
 #   name:  nombre (obligatorio)
 #   url:   link externo (logro de Academy, etc.)
 #   image: certificado alojado en el blog (se abre en el visor)
+#   detail: línea de resultado bajo el nombre (opcional)
 # ----------------------------------------------------------------------------
 htb:
   academy:
@@ -80,7 +82,9 @@ htb:
       url: https://academy.hackthebox.com/achievement/323884/161
 
   ctf:
-    - name: Cyber Apocalypse CTF
-      # image: /assets/img/achievements/cyber-apocalypse.webp
+    - name: Cyber Apocalypse CTF 2026
+      detail: "Julio 2026 · 231.º de 6744 equipos · 109/136 retos"
+      image: /assets/img/achievements/cyber-apocalypse-2026.webp
     - name: Holmes CTF 2025
-      # image: /assets/img/achievements/holmes-ctf-2025.webp
+      detail: "Septiembre 2025 · 802.º de 7085 equipos · 44/65 retos"
+      image: /assets/img/achievements/holmes-ctf-2025.webp

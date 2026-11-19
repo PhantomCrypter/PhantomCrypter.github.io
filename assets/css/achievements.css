@@ -313,3 +313,10 @@ button.machine-link {
   object-fit: contain;
   background: #fff;
 }
+
+.machine-detail {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #aaa;
+}
