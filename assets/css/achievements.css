@@ -241,3 +241,75 @@ a.badge-card:hover {
   .ach-section { margin: 0 1rem 1.5rem; padding: 1rem; }
   .htb-panel { grid-template-columns: 1fr; }
 }
+
+/* ---------- tarjetas que son <button> (abren el visor) ---------- */
+button.badge-card {
+  width: 100%;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+button.badge-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 16px rgba(204, 255, 0, 0.2);
+  transform: translateY(-3px);
+}
+
+button.machine-link {
+  padding: 0;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ---------- visor de certificados ---------- */
+.cert-dialog {
+  width: min(900px, 95vw);
+  max-height: 92vh;
+  padding: 0;
+  color: #f8f8f2;
+  background: #000;
+  border: 2px solid var(--magenta);
+  box-shadow: 0 0 30px rgba(255, 0, 102, 0.4);
+}
+
+.cert-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.cert-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--gray-border);
+  font-family: var(--font-code);
+  font-size: 1.2rem;
+  color: var(--cyan);
+}
+
+.cert-close {
+  background: none;
+  color: var(--magenta);
+  border: 2px solid var(--magenta);
+  padding: 0.1rem 0.6rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.cert-close:hover {
+  background: var(--magenta);
+  color: #000;
+}
+
+.cert-dialog img {
+  display: block;
+  width: 100%;
+  max-height: calc(92vh - 4rem);
+  object-fit: contain;
+  background: #fff;
+}
