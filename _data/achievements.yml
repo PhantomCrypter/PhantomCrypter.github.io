@@ -1,0 +1,69 @@
+# ============================================================================
+# ACHIEVEMENTS — aquí se agregan los logros; la página se genera sola.
+# Una lista vacía muestra la tarjeta "Próximamente".
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# BADGES Y CERTIFICACIONES
+#   title:  nombre (obligatorio)
+#   issuer: quién lo emite (Cisco Networking Academy, INE, HTB...)
+#   date:   texto libre, ej. "2026-03"   (opcional)
+#   url:    link de verificación, ej. Credly (opcional; si lo pones la tarjeta es clicable)
+#   icon:   emoji de la tarjeta (opcional; por defecto 🏅)
+# ----------------------------------------------------------------------------
+badges:
+  - title: eJPT
+    issuer: INE Security
+    icon: "🎓"
+  - title: Hawks Academy
+    issuer: Hawks Academy
+    icon: "🎓"
+  # Ejemplo:
+  # - title: Introduction to Cybersecurity
+  #   issuer: Cisco Networking Academy
+  #   url: https://www.credly.com/badges/...
+  #   icon: "🌐"
+
+# ----------------------------------------------------------------------------
+# HACKTHEBOX
+#   name:       nombre (obligatorio)
+#   os:         linux | windows | freebsd  (solo máquinas; elige el emoji)
+#   icon:       emoji propio (opcional; sustituye al de "os")
+#   difficulty: Easy | Medium | Hard | Insane  (opcional)
+#   writeup:    ruta a tu writeup, ej. /writeups/lame.html (opcional)
+#   url:        link externo, ej. certificado o módulo (opcional)
+# ----------------------------------------------------------------------------
+htb:
+  machines:
+    - name: Lame
+      os: linux
+      difficulty: Easy
+      writeup: /writeups/lame.html
+    - name: Nibbles
+      os: linux
+      difficulty: Easy
+      writeup: /writeups/nibbles.html
+    - name: Shocker
+      os: linux
+      difficulty: Easy
+      writeup: /writeups/shocker.html
+    - name: Devvortex
+      os: linux
+      difficulty: Easy
+      writeup: /writeups/devvortex.html
+    - name: Jerry
+      os: windows
+      difficulty: Easy
+      writeup: /writeups/jerry.html
+    - name: Poison
+      os: freebsd
+      difficulty: Medium
+      writeup: /writeups/poison.html
+  challenges: []
+  starting_point: []
+  sherlocks: []
+  academy: []
+  # Ejemplo de módulo de Academy:
+  # - name: Introduction to Web Applications
+  #   difficulty: Fundamental
+  #   url: https://academy.hackthebox.com/...
