@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Achievements | PhantomCrypter</title>
 
-  <meta name="description" content="Certificaciones, módulos de HTB Academy, cursos de Cisco y certificados de CTF obtenidos durante mi camino en ciberseguridad ofensiva." />
+  <meta name="description" content="Badges, certificaciones y máquinas de HackTheBox resueltas durante mi camino en ciberseguridad ofensiva." />
   <meta property="og:title" content="Achievements | PhantomCrypter" />
-  <meta property="og:description" content="Certificaciones, módulos de HTB Academy, cursos de Cisco y certificados de CTF obtenidos durante mi camino en ciberseguridad ofensiva." />
+  <meta property="og:description" content="Badges, certificaciones y máquinas de HackTheBox resueltas durante mi camino en ciberseguridad ofensiva." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://phantomcrypter.github.io/achievements.html" />
   <meta property="og:image" content="https://phantomcrypter.github.io/assets/img/og-default.png" />
@@ -22,37 +22,145 @@
 <body>
   {% include nav.html %}
 
-  <main>
-    {% assign total = 0 %}
-    {% for cat in site.data.achievements %}
-      {% assign total = total | plus: cat.items.size %}
-    {% endfor %}
+  {% assign badges = site.data.achievements.badges %}
+  {% assign htb = site.data.achievements.htb %}
+  {% assign n_badges = badges | size %}
+  {% assign n_machines = htb.machines | size %}
+  {% assign n_challenges = htb.challenges | size %}
+  {% assign n_starting = htb.starting_point | size %}
+  {% assign n_sherlocks = htb.sherlocks | size %}
+  {% assign n_academy = htb.academy | size %}
 
-    <section class="achievements-intro">
-      <h1 class="glitch">Achievements</h1>
-      <p>Certificaciones, módulos completados y certificados de CTF que he ido consiguiendo en el camino.</p>
-      <span class="achievements-count">[ {{ total }} logros ]</span>
+  <header class="page-header">
+    <h1>// achievements</h1>
+    <p>Badges, certificaciones y máquinas. Todo lo conseguido en el camino.</p>
+  </header>
+
+  <main>
+    <!-- ══════════ BADGES ══════════ -->
+    <section class="ach-section" id="badges">
+      <div class="ach-section-header">
+        <h2>// badges</h2>
+        <span class="ach-count">{% if n_badges < 10 %}0{% endif %}{{ n_badges }} obtenidos</span>
+      </div>
+
+      <div class="badges-grid">
+        {% for b in badges %}
+          {% if b.url %}{% assign tag = 'a' %}{% else %}{% assign tag = 'div' %}{% endif %}
+          <{{ tag }} class="badge-card"{% if b.url %} href="{{ b.url }}" target="_blank" rel="noopener noreferrer"{% endif %}>
+            <div class="badge-icon">{% if b.icon %}{{ b.icon }}{% else %}🏅{% endif %}</div>
+            <span class="badge-name">{{ b.title | escape }}</span>
+            {% if b.issuer %}<span class="badge-source">{{ b.issuer | escape }}</span>{% endif %}
+            {% if b.date %}<span class="badge-date">{{ b.date | escape }}</span>{% endif %}
+          </{{ tag }}>
+        {% endfor %}
+
+        <div class="badge-card placeholder">
+          <div class="badge-icon">＋</div>
+          <span class="badge-name">Próximamente</span>
+          <span class="badge-source">—</span>
+        </div>
+      </div>
     </section>
 
-    {% for cat in site.data.achievements %}
-      {% if cat.items.size > 0 %}
-      <section class="achievements-section" id="{{ cat.id }}">
-        <h2>{{ cat.title | escape }}<span class="count">({{ cat.items.size }})</span></h2>
-        <div class="achievements-grid">
-          {% for item in cat.items %}
-          <article class="achievement-card">
-            {% if item.image %}<img class="achievement-badge" src="{{ item.image }}" alt="Insignia de {{ item.title | escape }}" loading="lazy" />{% endif %}
-            <h3>{{ item.title | escape }}</h3>
-            {% if item.issuer %}<p class="achievement-issuer">{{ item.issuer | escape }}</p>{% endif %}
-            {% if item.date %}<span class="achievement-date">{{ item.date | escape }}</span>{% endif %}
-            {% if item.description %}<p class="achievement-desc">{{ item.description | escape }}</p>{% endif %}
-            {% if item.url %}<a class="achievement-link" href="{{ item.url }}" target="_blank" rel="noopener noreferrer">Verificar →</a>{% endif %}
-          </article>
-          {% endfor %}
+    <!-- ══════════ HACKTHEBOX ══════════ -->
+    <section class="ach-section" id="htb">
+      <div class="ach-section-header">
+        <h2>// HackTheBox</h2>
+        <span class="ach-count">
+          {% if n_machines < 10 %}0{% endif %}{{ n_machines }} {% if n_machines == 1 %}máquina{% else %}máquinas{% endif %} ·
+          {% if n_challenges < 10 %}0{% endif %}{{ n_challenges }} challenges ·
+          {% if n_starting < 10 %}0{% endif %}{{ n_starting }} starting point ·
+          {% if n_sherlocks < 10 %}0{% endif %}{{ n_sherlocks }} sherlocks ·
+          {% if n_academy < 10 %}0{% endif %}{{ n_academy }} academy
+        </span>
+      </div>
+
+      <div class="htb-tabs" role="tablist">
+        <button class="htb-tab active" role="tab" aria-selected="true" data-panel="machines">Machines</button>
+        <button class="htb-tab" role="tab" aria-selected="false" data-panel="challenges">Challenges</button>
+        <button class="htb-tab" role="tab" aria-selected="false" data-panel="starting">Starting Point</button>
+        <button class="htb-tab" role="tab" aria-selected="false" data-panel="sherlocks">Sherlocks</button>
+        <button class="htb-tab" role="tab" aria-selected="false" data-panel="academy">Academy</button>
+      </div>
+
+      <!-- Máquinas -->
+      <div class="htb-panel active" id="panel-machines" role="tabpanel">
+        {% for m in htb.machines %}
+          <div class="machine-card {{ m.difficulty | downcase }}">
+            <div class="machine-header">
+              <span class="machine-os">{% if m.icon %}{{ m.icon }}{% else %}{% case m.os %}{% when 'linux' %}🐧{% when 'windows' %}🪟{% when 'freebsd' %}😈{% else %}💻{% endcase %}{% endif %}</span>
+              <span class="machine-name">{{ m.name | escape }}</span>
+            </div>
+            <div class="machine-meta">
+              {% if m.difficulty %}<span class="diff-badge {{ m.difficulty | downcase }}">{{ m.difficulty | escape }}</span>{% endif %}
+              <span class="machine-platform">HackTheBox</span>
+            </div>
+            {% if m.writeup %}<a href="{{ m.writeup }}" class="machine-link">ver writeup →</a>
+            {% else %}<span class="machine-link disabled">writeup próximamente</span>{% endif %}
+          </div>
+        {% endfor %}
+        <div class="machine-card placeholder">
+          <div class="machine-header"><span class="machine-os">？</span><span class="machine-name">Siguiente máquina</span></div>
+          <div class="machine-meta"><span class="diff-badge">—</span></div>
         </div>
-      </section>
-      {% endif %}
-    {% endfor %}
+      </div>
+
+      <!-- Challenges -->
+      <div class="htb-panel" id="panel-challenges" role="tabpanel">
+        {% for m in htb.challenges %}
+          {% include achievement-card.html item=m icon="🚩" label="HackTheBox · Challenge" %}
+        {% endfor %}
+        {% if n_challenges == 0 %}
+        <div class="machine-card placeholder"><div class="machine-header"><span class="machine-os">🚩</span><span class="machine-name">Próximamente</span></div><div class="machine-meta"><span class="machine-platform">HackTheBox</span></div></div>
+        {% endif %}
+      </div>
+
+      <!-- Starting Point -->
+      <div class="htb-panel" id="panel-starting" role="tabpanel">
+        {% for m in htb.starting_point %}
+          {% include achievement-card.html item=m icon="⭐" label="HackTheBox · Starting Point" %}
+        {% endfor %}
+        {% if n_starting == 0 %}
+        <div class="machine-card placeholder"><div class="machine-header"><span class="machine-os">⭐</span><span class="machine-name">Próximamente</span></div><div class="machine-meta"><span class="machine-platform">HackTheBox</span></div></div>
+        {% endif %}
+      </div>
+
+      <!-- Sherlocks -->
+      <div class="htb-panel" id="panel-sherlocks" role="tabpanel">
+        {% for m in htb.sherlocks %}
+          {% include achievement-card.html item=m icon="🔍" label="HackTheBox · Sherlock" %}
+        {% endfor %}
+        {% if n_sherlocks == 0 %}
+        <div class="machine-card placeholder"><div class="machine-header"><span class="machine-os">🔍</span><span class="machine-name">Próximamente</span></div><div class="machine-meta"><span class="machine-platform">HackTheBox · Sherlocks</span></div></div>
+        {% endif %}
+      </div>
+
+      <!-- Academy -->
+      <div class="htb-panel" id="panel-academy" role="tabpanel">
+        {% for m in htb.academy %}
+          {% include achievement-card.html item=m icon="📚" label="HTB Academy" %}
+        {% endfor %}
+        {% if n_academy == 0 %}
+        <div class="machine-card placeholder"><div class="machine-header"><span class="machine-os">📚</span><span class="machine-name">Próximamente</span></div><div class="machine-meta"><span class="machine-platform">HTB Academy</span></div></div>
+        {% endif %}
+      </div>
+    </section>
   </main>
+
+  <script>
+    // Pestañas de HTB
+    const tabs = document.querySelectorAll('.htb-tab');
+    const panels = document.querySelectorAll('.htb-panel');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
