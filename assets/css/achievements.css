@@ -1,21 +1,26 @@
 /* ==========================================================================
    ACHIEVEMENTS (se carga solo en achievements.html)
    ========================================================================== */
-.achievements-intro {
+.page-header {
   text-align: center;
   margin: 2rem 1rem;
 }
 
-.achievements-count {
-  display: inline-block;
-  margin-top: 0.5rem;
-  color: var(--cyan);
-  font-family: var(--font-code);
-  font-size: 1.2rem;
-  letter-spacing: 1px;
+.page-header h1 {
+  color: var(--magenta);
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
 }
 
-.achievements-section {
+.page-header p {
+  color: #ccc;
+  font-family: var(--font-code);
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+/* ---------- secciones ---------- */
+.ach-section {
   max-width: 1000px;
   margin: 0 auto 2rem;
   padding: 1.5rem;
@@ -24,42 +29,55 @@
   box-shadow: 0 0 20px rgba(0, 174, 255, 0.15);
 }
 
-.achievements-section h2 {
-  color: var(--cyan);
-  font-size: 1rem;
+.ach-section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
   margin-bottom: 1.25rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--gray-border);
 }
 
-.achievements-section h2 .count {
+.ach-section-header h2 {
+  margin: 0;
+  color: var(--cyan);
+  font-size: 1rem;
+}
+
+.ach-count {
   color: var(--green);
   font-family: var(--font-code);
-  font-size: 1rem;
-  margin-left: 0.5rem;
+  font-size: 1.05rem;
+  letter-spacing: 1px;
 }
 
-.achievements-grid {
+/* ---------- badges ---------- */
+.badges-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
 }
 
-.achievement-card {
+.badge-card {
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.4rem;
-  padding: 1.25rem 1.25rem 1rem;
+  padding: 1.25rem 1rem;
+  text-align: center;
   background-color: #0a0a0a;
   border: 1px solid #222;
   border-radius: 6px;
   font-family: 'Fira Code', monospace;
   overflow: hidden;
+  text-decoration: none;
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-.achievement-card::before {
+.badge-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -68,66 +86,158 @@
   box-shadow: 0 0 8px var(--green);
 }
 
-.achievement-card:hover {
+a.badge-card:hover {
   border-color: var(--green);
   box-shadow: 0 0 16px rgba(204, 255, 0, 0.2);
   transform: translateY(-3px);
 }
 
-.achievement-badge {
-  width: 100%;
-  height: auto;
-  max-height: 180px;
-  object-fit: contain;
-  margin-bottom: 0.5rem;
-  border: 1px solid var(--gray-border);
-  border-radius: 4px;
-  background: #000;
+.badge-icon {
+  font-size: 2.4rem;
+  line-height: 1.2;
 }
 
-.achievement-card h3 {
-  margin: 0;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.95rem;
-  line-height: 1.4;
+.badge-name {
   color: #f8f8f2;
-  text-shadow: none;
+  font-size: 0.85rem;
+  font-weight: bold;
+  line-height: 1.4;
 }
 
-.achievement-issuer {
-  margin: 0;
-  font-size: 0.8rem;
+.badge-source {
   color: var(--cyan);
+  font-size: 0.72rem;
 }
 
-.achievement-date {
+.badge-date {
+  color: #888;
+  font-size: 0.7rem;
+}
+
+.badge-card.placeholder,
+.machine-card.placeholder {
+  opacity: 0.3;
+  pointer-events: none;
+  border-style: dashed;
+}
+
+/* ---------- HackTheBox: pestañas ---------- */
+.htb-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.htb-tab {
+  background-color: #111;
+  color: var(--cyan);
+  border: 2px solid var(--magenta);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-code);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.htb-tab:hover,
+.htb-tab.active {
+  background-color: var(--magenta);
+  color: #000;
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.htb-panel {
+  display: none;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.htb-panel.active {
+  display: grid;
+}
+
+/* ---------- HackTheBox: tarjetas ---------- */
+.machine-card {
+  --accent: var(--cyan);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.1rem 1.1rem 0.9rem;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  font-family: 'Fira Code', monospace;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.machine-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.15);
+  transform: translateY(-3px);
+}
+
+.machine-card.easy   { --accent: #50fa7b; }
+.machine-card.medium { --accent: #ffb86c; }
+.machine-card.hard   { --accent: #ff5555; }
+.machine-card.insane { --accent: var(--purple); }
+
+.machine-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.machine-os {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.machine-name {
+  color: #f8f8f2;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.machine-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
   font-size: 0.75rem;
+}
+
+.machine-platform {
   color: #888;
 }
 
-.achievement-date::before {
-  content: '// ';
-  color: var(--magenta);
+.diff-badge {
+  padding: 0.1rem 0.5rem;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.achievement-desc {
-  margin: 0.25rem 0 0;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  color: #aaa;
-}
-
-.achievement-link {
+.machine-link {
   margin-top: auto;
-  padding-top: 0.5rem;
   font-size: 0.8rem;
   color: var(--green);
 }
 
-.achievement-link:hover {
+.machine-link:hover {
   color: var(--cyan);
 }
 
+.machine-link.disabled {
+  color: #555;
+  pointer-events: none;
+}
+
 @media (max-width: 700px) {
-  .achievements-section { margin: 0 1rem 1.5rem; padding: 1rem; }
+  .ach-section { margin: 0 1rem 1.5rem; padding: 1rem; }
+  .htb-panel { grid-template-columns: 1fr; }
 }
