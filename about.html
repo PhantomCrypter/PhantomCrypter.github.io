@@ -19,90 +19,200 @@
   <!-- Fuente estilo terminal -->
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="page-about">
 
   <!-- Barra de navegación -->
   {% include nav.html %}
 
   <main>
-    <!-- Sección principal -->
-    <section class="about">
-      <h1>Sobre mí</h1>
+    <div class="about-wrap">
 
-      <p>
-        👋 Hola, soy entusiasta autodidacta de la ciberseguridad con enfoque en <strong>Red Team</strong>.
-        Aplico un enfoque analítico para entender a fondo cada técnica ofensiva que estudio.
-      </p>
+      <!-- Panel HackTheBox -->
+      <aside class="htb-side">
+        <div class="htb-panel">
+          <div class="htb-title">// HackTheBox</div>
 
-      <p>
-        Actualmente estoy profundizando en temas como:
-      </p>
-      <ul>
-        <li>⚙️ Post-explotación en Linux y escalada de privilegios</li>
-        <li>🌐 Ataques de red, pivoting y enumeración</li>
-        <li>🔍 Vulnerabilidades en aplicaciones web y técnicas de reconocimiento para bug bounty</li>
-        <li>🎯 Simulación de adversarios y desarrollo de metodología ofensiva</li>
-        <li>🕵️ OSINT: técnicas de recolección de información como Google Dorking, búsqueda inversa de imágenes, análisis de metadatos, rastreo de identidades y correlación de alias en distintas plataformas.</li>
-      </ul>
-      <br>
+          <img class="htb-rank" src="assets/img/htb-rank.webp" alt="Insignia de rango Master en Hack The Box">
+          <div class="htb-rank-name">Master</div>
 
-      <h2>Herramientas que uso</h2>
-      <p>Estas son algunas de las herramientas y entornos con los que trabajo a diario:</p>
-      <ul>
-        <li>🖥️ Parrot OS (con gestor de ventanas bspwm), tmux + neovim</li>
-        <li>🧰 Nmap, Burp Suite, Hashcat, BloodHound, impacket</li>
-        <li>🐍 Python, Bash, algo de JavaScript</li>
-        <li>☁️ Cloud e Infraestructuras: Azure (VMs, networking, backups), SSH, RDP</li>
-        <li>🧠 Plataformas como TryHackMe, Hack The Box, CTFs y laboratorios propios</li>
-      </ul>
-      <br>
+          <div class="htb-level">
+            <div class="htb-row"><span>Nivel 68</span><span>1876/2290 XP</span></div>
+            <div class="bar"><i style="width:82%"></i></div>
+          </div>
 
-      <h2>Mi camino</h2>
-      <p>
-        Estoy construyendo mi aprendizaje con base en principios japoneses como <em>Kaizen</em> y <em>Shu-Ha-Ri</em>, enfocado en la mejora continua, la disciplina y el registro diario del progreso.  
-        Considero mi proceso como un dojo personal, donde cada día es una oportunidad para afilar habilidades.
-      </p>
-      <br>
+          <ul class="htb-list">
+            <li>
+              <div class="htb-row"><span>Machines</span><strong>90<small>/563</small></strong></div>
+              <div class="bar sm"><i style="width:16%"></i></div>
+            </li>
+            <li>
+              <div class="htb-row"><span>Challenges</span><strong>37<small>/864</small></strong></div>
+              <div class="bar sm"><i style="width:4%"></i></div>
+            </li>
+            <li>
+              <div class="htb-row"><span>Sherlocks</span><strong>4<small>/330</small></strong></div>
+              <div class="bar sm"><i style="width:1.5%"></i></div>
+            </li>
+          </ul>
 
-     <h2>Plataformas que recomiendo</h2>
+          <details class="htb-seasons">
+            <summary>Historial de seasons</summary>
+            <ul>
+              <li class="live">
+                <span>S12</span><em>en curso</em>
+              </li>
+              <li>
+                <span>S11</span><b class="tier silver">Silver</b><span>#4911</span>
+                <small>participación parcial</small>
+              </li>
+              <li class="best">
+                <span>S10</span><b class="tier holo">Holo</b><span>#1128</span>
+              </li>
+            </ul>
+          </details>
+
+          <a class="htb-link" href="TU_URL_DE_PERFIL_HTB" target="_blank" rel="noopener">Ver perfil ↗</a>
+          <p class="htb-updated">Actualizado: nov 2026</p>
+        </div>
+      </aside>
+
+      <!-- Sección principal -->
+      <section class="about">
+
+        <!-- Tarjeta de identidad -->
+        <header class="about-id">
+          <img src="assets/img/htb-avatar.webp" alt="Avatar de PhantomCrypter" width="96" height="96">
+          <div class="about-id-text">
+            <p class="whoami"><span class="typing">$ whoami</span></p>
+            <h1>PhantomCrypter</h1>
+            <p class="about-role">Red Team · Hacking ético · Costa Rica</p>
+            <div class="chips">
+              <span class="chip">Master HTB</span>
+              <span class="chip">Nivel 68</span>
+            </div>
+          </div>
+        </header>
+
         <p>
-        A lo largo de mi camino como estudiante de ciberseguridad, estas plataformas han sido claves para fortalecer mis conocimientos en Linux, redes, hacking web y más. Las recomiendo por su enfoque práctico y la profundidad de su contenido.
+          👋 Hola, soy entusiasta autodidacta de la ciberseguridad con enfoque en <strong>Red Team</strong>.
+          Aplico un enfoque analítico para entender a fondo cada técnica ofensiva que estudio.
         </p>
-        <br>
 
-        <ul class="recomendaciones">
-        <li>
-        <strong>🛰️ Hackers Arise</strong> — Esta plataforma me ha ayudado a construir bases sólidas en el uso de Linux y el entendimiento de redes. Además, ofrece contenido extenso sobre técnicas ofensivas, ingeniería inversa y escenarios de ciberinteligencia.  
-        <br>
-        <br>👉 <a href="https://hackers-arise.com/welcome-to-hackers-arise/" target="_blank">hackers-arise.com</a>
-        </li>
-
-        <li>
-            <strong>🌐 PortSwigger Web Security Academy</strong> — Ideal para comprender la lógica detrás de las vulnerabilidades web. Gracias a esta academia, logré identificar, explotar y corregir fallos comunes de forma más sistemática.  
-            <br>
-            <br>👉 <a href="https://portswigger.net" target="_blank">portswigger.net</a>
-        </li>
-
-        <li>
-            <strong>🧠 Cisco Networking Academy</strong> — Si aún no estás seguro de si la ciberseguridad es para ti, o no sabes qué rama seguir, esta plataforma es ideal. Ofrece cursos introductorios gratuitos de alta calidad para empezar a experimentar.
-            <br>
-            <br>👉 <a href="https://www.netacad.com" target="_blank">https://www.netacad.com</a>
-        </li>
-
-        <li>
-            <strong>💻 Hack The Box Academy</strong> — Recomendado si ya tienes cierta experiencia y deseas reforzar tus habilidades o aprender nuevas herramientas. Su enfoque práctico y progresivo lo convierte en una de las mejores opciones para avanzar.
-            <br>
-            <br>👉 <a href="https://academy.hackthebox.com" target="_blank">https://academy.hackthebox.com/</a> 
-        </li>
-
+        <p>
+          Actualmente estoy profundizando en temas como:
+        </p>
+        <ul>
+          <li>⚙️ Post-explotación en Linux y escalada de privilegios</li>
+          <li>🌐 Ataques de red, pivoting y enumeración</li>
+          <li>🔍 Vulnerabilidades en aplicaciones web y técnicas de reconocimiento para bug bounty</li>
+          <li>🎯 Simulación de adversarios y desarrollo de metodología ofensiva</li>
+          <li>🕵️ OSINT: técnicas de recolección de información como Google Dorking, búsqueda inversa de imágenes, análisis de metadatos, rastreo de identidades y correlación de alias en distintas plataformas.</li>
         </ul>
 
-    </section>
-<br>
-<br>
+        <div class="blk">
+          <h2>herramientas</h2>
+          <p>Estas son algunas de las herramientas y entornos con los que trabajo a diario:</p>
 
+          <div class="tool-groups">
+            <div class="tool-group">
+              <span class="tool-label">🖥️ Entorno</span>
+              <span class="tool">Parrot OS</span>
+              <span class="tool">bspwm</span>
+              <span class="tool">tmux</span>
+              <span class="tool">neovim</span>
+            </div>
+            <div class="tool-group">
+              <span class="tool-label">🧰 Ofensiva</span>
+              <span class="tool">Nmap</span>
+              <span class="tool">Burp Suite</span>
+              <span class="tool">Hashcat</span>
+              <span class="tool">BloodHound</span>
+              <span class="tool">impacket</span>
+            </div>
+            <div class="tool-group">
+              <span class="tool-label">🐍 Lenguajes</span>
+              <span class="tool">Python</span>
+              <span class="tool">Bash</span>
+              <span class="tool">JavaScript (algo)</span>
+            </div>
+            <div class="tool-group">
+              <span class="tool-label">☁️ Cloud e infraestructura</span>
+              <span class="tool">Azure: VMs, networking, backups</span>
+              <span class="tool">SSH</span>
+              <span class="tool">RDP</span>
+            </div>
+            <div class="tool-group">
+              <span class="tool-label">🧠 Plataformas</span>
+              <span class="tool">TryHackMe</span>
+              <span class="tool">Hack The Box</span>
+              <span class="tool">CTFs</span>
+              <span class="tool">Laboratorios propios</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="blk">
+          <h2>mi_camino</h2>
+          <p>
+            Estoy construyendo mi aprendizaje con base en principios japoneses como <em>Kaizen</em> y <em>Shu-Ha-Ri</em>, enfocado en la mejora continua, la disciplina y el registro diario del progreso.
+            Considero mi proceso como un dojo personal, donde cada día es una oportunidad para afilar habilidades.
+          </p>
+
+          <div class="sh-steps">
+            <div class="sh-step">
+              <span class="kanji">守</span>
+              <strong>Shu</strong>
+              <small>Aprender las bases tal como son</small>
+            </div>
+            <div class="sh-step actual">
+              <span class="kanji">破</span>
+              <strong>Ha</strong>
+              <small>Romper, adaptar y cuestionar</small>
+              <em class="here">estoy aquí</em>
+            </div>
+            <div class="sh-step">
+              <span class="kanji">離</span>
+              <strong>Ri</strong>
+              <small>Crear mi propio método</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="blk">
+          <h2>plataformas_recomendadas</h2>
+          <p>
+            A lo largo de mi camino como estudiante de ciberseguridad, estas plataformas han sido claves para fortalecer mis conocimientos en Linux, redes, hacking web y más. Las recomiendo por su enfoque práctico y la profundidad de su contenido.
+          </p>
+
+          <ul class="recomendaciones">
+            <li>
+              <strong>🛰️ Hackers Arise</strong>
+              <p>Me ayudó a construir bases sólidas en Linux y redes. Ofrece contenido extenso sobre técnicas ofensivas, ingeniería inversa y escenarios de ciberinteligencia.</p>
+              <a class="rec-link" href="https://hackers-arise.com/welcome-to-hackers-arise/" target="_blank" rel="noopener">hackers-arise.com ↗</a>
+            </li>
+            <li>
+              <strong>🌐 PortSwigger Academy</strong>
+              <p>Ideal para entender la lógica detrás de las vulnerabilidades web. Con ella aprendí a identificar, explotar y corregir fallos comunes de forma más sistemática.</p>
+              <a class="rec-link" href="https://portswigger.net" target="_blank" rel="noopener">portswigger.net ↗</a>
+            </li>
+            <li>
+              <strong>🧠 Cisco Networking Academy</strong>
+              <p>Si aún no sabes si la ciberseguridad es para ti o qué rama seguir, ofrece cursos introductorios gratuitos de alta calidad para empezar a experimentar.</p>
+              <a class="rec-link" href="https://www.netacad.com" target="_blank" rel="noopener">netacad.com ↗</a>
+            </li>
+            <li>
+              <strong>💻 Hack The Box Academy</strong>
+              <p>Recomendado si ya tienes cierta experiencia y quieres reforzar habilidades o aprender herramientas nuevas. Su enfoque práctico y progresivo lo hace una de las mejores opciones.</p>
+              <a class="rec-link" href="https://academy.hackthebox.com" target="_blank" rel="noopener">academy.hackthebox.com ↗</a>
+            </li>
+          </ul>
+        </div>
+
+      </section>
+      <br>
+      <br>
+    </div>
   </main>
 </body>
 
 </html>
-
