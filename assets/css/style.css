@@ -1,6 +1,6 @@
 body {
   background-color: #000;
-  background-image: url("/assets/img/grafiti-style.png");
+  background-image: url("/assets/img/grafiti-style.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -303,7 +303,7 @@ nav ul li a:hover {
 
 
 .contacto {
-  background-image: url('../img/c1.png');
+  background-image: url('../img/c1.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
